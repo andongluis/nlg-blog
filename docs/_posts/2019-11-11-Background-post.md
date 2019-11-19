@@ -198,10 +198,51 @@ These context vectors are fed into later layers of the decoder in order to event
 
 ### Transformers
 
-One recent major breakthourgh in natural language processing is the **transformer network**. This is a deep neural network model that can be used as a way to understand sequential data without RNN's and instead uses only the attention mechanisms. This was first introduced by a team of researchers at Google in 2017 [1], and they use what is called the **self-attention mechanism**.
+One recent major breakthourgh in natural language processing is the **transformer network**. This is a deep neural network model that can be used as a way to understand sequential data without RNN's and instead uses only attention mechanisms in its architecture. This was first introduced by a team of researchers at Google in 2017 [1], and they use what is called the **self-attention mechanism** instead of RNNNs to keep track of associations and correlations in the input.
 
+These networks were originally developed to solve the problem of **sequence transduction**, which is transforming one input type to another. Often, this is done for tasks in machine translation or converting text to speech. Overall, this model does a good job at this task, so let's dive into some more specifics.
+
+#### Architecture
+
+As described in the original paper, the architecture of a transformer network follows the same encoder-decoder structure, with layers in each.
+
+[**INSERT PICTURE OF THE ARCHITECTURE AT A HIGH LEVEL (ENCODERS-DECODERS)**]
+
+Each encoder layer consists of a self-attention layer and a feed forward network.
+
+[**INSERT PICTURE OF ENCODER AT HIGH LEVEL**]
+
+The decoder layers are very similar. They again have the self-attention layer and a feed forward network, but also have an additional attention layer in between to aid in the decoding process.
+
+[**INSERT PICTURE OF DECODER AT HIGH LEVEL**]
+
+#### Self-Attention
+
+Self-attention is a technique that tries to produce a new representation of an input sequence by relating different positions in the sequence with other positions. This provides a way to encode correlations between words in a sentence, and allow the network to incorporate these relations into its processing. For example, as previously discussed, recurrent units in RNNs provide are one way to do this. This has previously been used in conjunction with LSTMs to improve the processing of sequential data in natural language understanding tasks [3].
+
+#### Scaled-Dot Product Attention
+
+One of the key features of the transformer network introduced by Vaswani et al. was a new attention mechanism: **Scaled-Dot Product Attention**. This is very similar to dot-product attention, but they add a scale factor that is the dimension of the source hidden state. This effectively normalizes the value and helps prevent cases where the softmax function is pushed into spaces with small gradients, i.e. alleviating the <a href="https://en.wikipedia.org/wiki/Vanishing_gradient_problem">vanishing gradient problem</a>.
+
+[**INSERT EQUATION OF SCALED DOT-PRODUCT ATTENTION FUNCTION**]
+
+The inputs here are the query, key, and value vectors *(note: In the paper, multiple queries, keys, and values are processed simulataneously and are thus packed into matrices)*. We start with a word in the input sequence and calculate a word embedding for it, producing a vector representation of the word. Then, there is a separate transformation matrix that is used to convert these word embeddings to the proper space of queries, keys, and values. These weights/values in these transformation matrices are found during the training process.
+
+#### Multi-Head Attention
+
+Additionally, they use **multi-head attention** in order to allow the transformer model to "attend to information from different representation subspaces at different positions." This is also done as an optimization for the model, as it allows for the attention function to be computed mutliple times in parallel.
+
+[**INSERT PICTURE OF MULTI-HEAD ATTENTION DIAGRAM FROM VASWANI 2017**]
+
+
+#### Further Reading on Transformers
+
+For more a more in-depth discussion of the specifics of how transformers work, we recommend the following blog post by Jay Allamar: <a href="http://jalammar.github.io/illustrated-transformer/">[The Illustrated Transformer]</a>
+
+For those who are interested in digging into the details of how to implement one of these transformer networks, <a href="https://nlp.seas.harvard.edu/2018/04/03/attention.html">this excellent article</a> from Harvard's NLP group provides a walkthrough of a fully functioning Python implementation.
 
 
 ## References
 1. Vaswani, Ashish, et al. "Attention is all you need." Advances in neural information processing systems. 2017.
 2. Bahdanau, Dzmitry, Kyunghyun Cho, and Yoshua Bengio. "Neural machine translation by jointly learning to align and translate." arXiv preprint arXiv:1409.0473 (2014).
+3. Cheng, Jianpeng, Li Dong, and Mirella Lapata. "Long short-term memory-networks for machine reading." arXiv preprint arXiv:1601.06733 (2016).
