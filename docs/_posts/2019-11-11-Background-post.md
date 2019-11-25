@@ -41,6 +41,8 @@ $$p(w_1=did, w_2=nothing, w_3=wrong | w_0=Thanos)$$
 Given that sentences can be quite long (Gabriel García Márquez famously wrote a two-page long sentence in *One Hundred Years of Solitude*), it is often useful to just look at a subset of that sequence. To that end, we use n-grams which basically ask the question: given the previous *n-1* words, what is the probability of the *n*-th word? In probability terms, this looks like
 
 $$p(w_n | w_1, w_2, ..., w_{n-1}) $$
+
+
 [**NEED REFERENCE FOR N GRAM**]
 
 ### Skip-grams
