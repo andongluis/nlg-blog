@@ -88,7 +88,7 @@ Recall that in our definition of summaries, we said that summarization involves 
 
 The hardest part of evaluating factual accuracy is that we would need to have an automatic way of comparing factual accuracy between two texts. The simplest way of checking for factual correctnes is by manually having humans look at the facts from the original sentence and seeing if the summary reflects the same (Cao et al. 2018). Though effective, this method seems to be hard to scale up.
 
-Recently, there has been some work in trying to automate this process. One of the more recent works has trained a model to be able to extract facts from text (Goodrich et al. 2019). By taking this approach, they are able to extract facts from the original and the summary text, and compare these two with simple precision and recall metrics.
+Recently, there has been some work in trying to automate this process. One of the more recent works has trained a model to be able to extract facts from text (Goodrich et al. 2019). By taking this approach, they are able to extract facts from the original and the summary text, and compare these two with simple precision and recall metrics. (The repo for the model and the data should be available in the future <a href="https://github.com/tensorflow/tensor2tensor/tree/master/tensor2tensor/data_generators/wikifact" target="_blank">here</a>>)
 
 # Methods
 
@@ -130,7 +130,7 @@ Though this paper's approach is quite interesting, having to construct a matrix 
 
 ### Reinforcement Learning
 
-Another approach that has been taken to optimize the selection of sentences is to use a reinforcement learning set up (Narayan, Cohen, and Lapata 2018). In this work, they show that a reinforcement learning setup can lead to more informative summaries as oppposed to usual classifier settings.
+Another approach that has been taken to optimize the selection of sentences is to use a reinforcement learning set up (Narayan, Cohen, and Lapata 2018) (repo <a href="https://github.com/EdinburghNLP/Refresh" target="_blank">here</a>>. In this work, they show that a reinforcement learning setup can lead to more informative summaries as oppposed to usual classifier settings.
 
 The model itself is a mix of a sentnece encoder (using CNN's), a document encoder (using LSTM's) and a sentence extractor (again with LSTM's). The sentence extractor chooses which sentence to select based on the sentence encoding, the document encoding, and the sentences selected so far.
 
@@ -142,13 +142,15 @@ The dataset they used were the One Billion Word Benchmark to pre-train word embe
 
 (**INSERT PIC OF ACCURACY TABLE**)
 
+Despite these gains, it is worth noting that in order to properly train this algorithm, we would need a dataset that has a label for each sentence that states if the sentence is relevant to the summary or not. Furthermore, in its document encoder, they process the document backwards to ensure that the first sentences of the document are the ones with highest impact in the document encoding. This is based on the news article structure assumption, which might not hold for other sources.
+
 ## Abstractive Methods
 
 As mentioned in the introduction, abstractive methods aim to rephrase the source material in a shorter way. Given that we are no longer just selecting sentence sfrom the original text, a lot of non-deep learning methods are no longer applicable. Furthermore, in order to train the models, the learning setup is often different from the classifier approach. Rather than identifying which sentences to select, often the aim is to learn a language model that can predict the next word based on the context and the previous words.
 
 ### Attention-Based methods
 
-Attention models have been successfully used for datasets where there are long sequences and we want to capture information from all throughout the sequence (Cohan et al. 2018). One of the methods that has captured the attention (lol) of many is (Rush, Chopra, and Weston 2015), with it being one of the first instances of effective neural-based summarization. In this paper, they set out to teach a model how to summarize individual sentences, i.e. how to rephrase and condense a sentence. 
+Attention models have been successfully used for datasets where there are long sequences and we want to capture information from all throughout the sequence (Cohan et al. 2018). One of the methods that has captured the attention (lol) of many is (Rush, Chopra, and Weston 2015) (repo <a href="https://github.com/facebookarchive/NAMAS" target="_blank">here</a>>), with it being one of the first instances of effective neural-based summarization. In this paper, they set out to teach a model how to summarize individual sentences, i.e. how to rephrase and condense a sentence. 
 
 The model seeks out to maximize the probability of a word given the original text and the previous word (i.e. it wants to maximize the language model probabilities); consequently, during training they minimize the following negative log-likelihood equation.
 
@@ -169,61 +171,27 @@ Despite the advances of this method, it is important to highlight some limitatio
 
 ### Multi-task/ Multi-Reward
 
-(Guo, Pasunuru, and Bansal 2018)
+Given the flexibility of abstractive summarization and the multiple aspects that encompass good summarization, some methods employ more complex models that account for the multiplicity of the task. For instance, similar to the reinforcement learning in the extractive methods, (Kryscinski et al. 2018) use a combination of RL and maximum likelihood to improve the ROGUE score directly. A more intricate model uses multiple tasks to achieve its goal of good summarization (Guo, Pasunuru, and Bansal 2018). This paper ensures that relevant information is present through an adaptation of the question answering field, and ensures text cophesion through sentence inference. 
 
-Intro paragraph
-- problem they set out to solve
-- main approach that they used
+Given that the multi-task model has a larger scope, its model and setup are more intricate. The main idea of their approach is that they have trained a model to deal with three main tasks:
+- a question generation task (to identify what are the main questions the summary ought to answer), 
+- an entailment generation task (understanding how two sentences are related to each other)
+- a summary generation task
+By having a model that uses mostly the same parameters for all three tasks, the network will have learned how to answer the correct questions and how to construct a summary that has coherent flow to it. The specifics of the model involve an encoder-decoder architecture that uses bidirectional LSTM's for the encoder, LSTM's for the decoder, a pointer-generator network (more on this here) for identifying words from the source document that are useful for the summary, and a coverage loss (more on this here) that helps avoid word repetitions.
 
-Approach
-- Explanation of the method/model that they used
-	- Main model that is used
-	- A bit of details on the neural architecture (RNN/CNN/FFNN, attention/transformer?, encoder/decoder)
-	- Learning setup (optimization algorithm, loss function)
-- What makes this different from other approaches
-- Include graph of setup or some equation
+(**GRAPH OF THE SHARING OF THE NETWORK**)
 
-Experiment and Results
-- Dataset that they used
-- Metrics that they used (additional details if not already known)
-- Graph/Table of results
+The dataset used for training are the CNN/DailyMail and Gigaword datasets for summarization, the Stanford Natural Language Inference dataset (more on this here) for the entailment generation, and the SQuAD dataset (fmore on this here) for the question generation tasks. Validation testing was done on the DUC-2002 and the CNN/DailyMail datasets. in adddtion to showing the ROGUE F1 (N=1, N=2, ROGUE-L) are better than their reported baselines and that the multi-task approach improves the baselines a bit, they show that humans tend to prefer the multi-task summaries over its non-multi-task counterpart.
 
+(**TABLE OF HUMAN RESULTS HERE**)
 
-Additional comments
-- Limitations if any
-- Links, if possiblee
-
-### Unsupervised Learning
-
-(Yousefi-Azar and Hamey, 2017)
-
-Intro paragraph
-- problem they set out to solve
-- main approach that they used
-
-Approach
-- Explanation of the method/model that they used
-	- Main model that is used
-	- A bit of details on the neural architecture (RNN/CNN/FFNN, attention/transformer?, encoder/decoder)
-	- Learning setup (optimization algorithm, loss function)
-- What makes this different from other approaches
-- Include graph of setup or some equation
-
-Experiment and Results
-- Dataset that they used
-- Metrics that they used (additional details if not already known)
-- Graph/Table of results
-
-
-Additional comments
-- Limitations if any
-- Links, if possiblee
+It is worth noting that despite the gains that are made through this multi-task approach, the difference between their approach with and without the multiple tasks is not that large. This raises the question of the tradeoff between model/training complexity and the performance gains from it.
 
 ## Extractive and Abstractive Hybrid
 
 In addition to purely extractive and abstractive methods, there has also been some work done in the intersection of these (Chen and Bansal 2018). The setup for these often involves using the extraction methods in order to select what sentence or paragraph is pertinent to the summary, and then using abstractive methods to compose a new text.
 
-One paper that has gained traction in recent years is by scientists at Google Brain (Liu et al. 2018). In this project, they aim to automatically generate Wikipedia summaries at the beginning of each article. The input for the model are the article's reference sources and the Google search results when querying the article's title; and the output is the generated summary of the article. By having an extractive phase followed by an abstractive one, they manage to train a model that is able to create decent Wikipedia summaries. What distinguishes this paper from others is its use of Wikipedia as a dataset as well as its mix of extractive and abstractive methods.
+One paper that has gained traction in recent years is by scientists at Google Brain (Liu et al. 2018) (repo <a href="https://github.com/tensorflow/tensor2tensor/tree/master/tensor2tensor/data_generators/wikisum" target="_blank">here</a>>. In this project, they aim to automatically generate Wikipedia summaries at the beginning of each article. The input for the model are the article's reference sources and the Google search results when querying the article's title; and the output is the generated summary of the article. By having an extractive phase followed by an abstractive one, they manage to train a model that is able to create decent Wikipedia summaries. What distinguishes this paper from others is its use of Wikipedia as a dataset as well as its mix of extractive and abstractive methods.
 
 The first phase of the model is the extractive one, where they look at all paragraphs of all input documents and they rank them to assess how important is each paragraph. The methods that they test for extraction are all count-based, such as using *tf-idf* (more information on it <a href="https://lizrush.gitbooks.io/algorithms-for-webdevs-ebook/content/chapters/tf-idf.html" target="_blank">here</a>), bi-grams, word frequencies, and similarities. 
 
@@ -243,12 +211,9 @@ where TextRank, SumBasic, and tf-idf are different extractive methods, and T-DMC
 Something about this stuff being important because of a lot of content on the web. this no longer is just a preview of the text, in some instances summaries are all eanyone will read, so in a way its "creating" new realities if not done properly.
 there is a lot of room in this area for growth and contributions, not only from the point of view of new models, but also on new metrics, problem setups, datasets and evaluation/validaito ntechniques.
 
-
-# External links
-
+# Additional Links
 
 # References
-
 
 - Graff, David, Junbo Kong, Ke Chen, and Kazuaki Maeda. "English gigaword." *Linguistic Data Consortium*, Philadelphia 4, no. 1 (2003): 34.
 - Napoles, Courtney, Matthew Gormley, and Benjamin Van Durme. "Annotated gigaword." In *Proceedings of the Joint Workshop on Automatic Knowledge Base Construction and Web-scale Knowledge Extraction*, pp. 95-100. Association for Computational Linguistics, 2012.
@@ -265,9 +230,9 @@ there is a lot of room in this area for growth and contributions, not only from 
 - Chen, Yen-Chun, and Mohit Bansal. "Fast Abstractive Summarization with Reinforce-Selected Sentence Rewriting." In *Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics* (Volume 1: Long Papers), pp. 675-686. 2018.
 - Yin, Wenpeng, and Yulong Pei. "Optimizing sentence modeling and selection for document summarization." In *Twenty-Fourth International Joint Conference on Artificial Intelligence*. 2015.
 - Narayan, Shashi, Shay B. Cohen, and Mirella Lapata. "Ranking Sentences for Extractive Summarization with Reinforcement Learning." In *Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies*, Volume 1 (Long Papers), pp. 1747-1759. 2018.
-- Yousefi-Azar, Mahmood, and Len Hamey. "Text summarization using unsupervised deep learning." *Expert Systems with Applications 68* (2017): 93-105.
 - Allahyari, Mehdi, Seyedamin Pouriyeh, Mehdi Assefi, Saeid Safaei, Elizabeth D. Trippe, Juan B. Gutierrez, and Krys Kochut. "Text summarization techniques: a brief survey." arXiv preprint arXiv:1707.02268 (2017).
 - Liu, Peter J., Mohammad Saleh, Etienne Pot, Ben Goodrich, Ryan Sepassi, Lukasz Kaiser, and Noam Shazeer. "Generating wikipedia by summarizing long sequences." arXiv preprint arXiv:1801.10198 (2018).
-- Kryscinski, Wojciech, Nitish Shirish Keskar, Bryan McCann, Caiming Xiong, and Richard Socher. "Neural Text Summarization: A Critical Evaluation." In Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP), pp. 540-551. 2019.
 - Nallapati, Ramesh, Bowen Zhou, and Mingbo Ma. "Classify or select: Neural architectures for extractive document summarization." arXiv preprint arXiv:1611.04244 (2016).
 - Hermann, Karl Moritz, Tomas Kocisky, Edward Grefenstette, Lasse Espeholt, Will Kay, Mustafa Suleyman, and Phil Blunsom. "Teaching machines to read and comprehend." In *Advances in neural information processing systems*, pp. 1693-1701. 2015.
+- Kryściński, Wojciech, Romain Paulus, Caiming Xiong, and Richard Socher. "Improving Abstraction in Text Summarization." In *Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing*, pp. 1808-1817. 2018.
+- Guo, Han, Ramakanth Pasunuru, and Mohit Bansal. "Soft Layer-Specific Multi-Task Summarization with Entailment and Question Generation." In *Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)*, pp. 687-697. 2018.
