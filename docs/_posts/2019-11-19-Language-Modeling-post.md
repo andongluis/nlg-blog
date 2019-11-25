@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Language Modeling: Letting the AI Speak for Itself
+title: Language Modeling - Letting the AI Speak for Itself
 ---
 
 There has been a lot of media hype recently surrounding some developments in the area of natural language generation. Widely dubbed "the AI that was too dangerous to release," OpenAI's GPT-2 model was at the center of a media firestorm that launched debates about the ethics of AI research and how to responsibly publish work in this area. The possibility for using this model to generate fake news and other propaganda was the primary concern with this research. As a result, the details of its implementation and the model itself were not intially released to the public. However, that has since changed, with the full GPT-2 model being released in early November 2019. We will dive into the specifics of how GPT-2 was built, but we will first begin with a brief introduction to language modeling.
