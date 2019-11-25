@@ -147,7 +147,7 @@ Given this set up, it is easy to see how these could be used for language modeli
 
 Normal RNN's face various limitations, the most glaring being that it might be difficult to train them due to exploding/vanishing gradients [**LINK FOR GRADIENTS**] and they can have trouble remembering long sequences.
 
-Rather than using RNN's, what people end up using is often Long Short-Term Memory Cells (LSTM Cells). The details of LSTM cells are quite intricate, yet the intuition behind these is remarkably simple: LSTM's can have longer term memory by choosing waht to remember and what to forget.
+Rather than using RNN's, what people end up using is often Long Short-Term Memory Cells (LSTM Cells). The details of LSTM cells are quite intricate, yet the intuition behind these is remarkably simple: LSTM's can have longer term memory by choosing what to remember and what to forget.
 
 [**PIC OF LSTM**]
 
@@ -164,12 +164,87 @@ This reasoning motivates Bidirectional RNN's, which use both forward and backwar
 [**PIC OF BI-RNN**]
 
 
-## Attention Mechanisms
+## Encoder-Decoder Networks (seq2seq)
 
-Helps identify what part of the sequence is important. not all parts of the sequence are made equal
- There are a lot of different kinds of attention mechanisms
+These types of networks are composed of two parts: an encoder and a decoder. The encoder is a neural network that takes the input (in NLP this might be a sequence of words) and runs it through the network to produce a simpler representation in a new vector space. The decoder, also a neural network, then takes a vector from this new space, and translates it into another vector space. 
+
+For example, consider the problem of translating between languages such as converting an English sentence to Spanish. The encoder network, once trained, would be able to encode the English sentence in a new, intermediate representation that captures the semantics of the English sentence. Then, the decoder network would take this intermediate representation that contains the meaning of the original sentence, and converts it to an equivalent sentence in Spanish.
+
+
+### Attention Mechanisms
+
+Intuitively, we know that certain parts of a sentence or sequence are more important than others. As humans, we can do this fairly easily by remembering what we have previously seen. However, this can be difficult for computers that lack the complex memory and reasoning skills that are built into the human brain. This is where attention mechanisms come into play. These help identify which parts of a sequence are most important, and keep track of them as the model continues to process new information. 
+
+Furthermore, there are many words that have a different meaning depending on the context in which they are used. This phenomenon is called **polysemy**. For instance, take the sentence, "It is a mole." Depending on the context, I could mean either that "it" is a small, burrowing mammal, or that "it" is a dark blemish on the skin, or even that "it" is an undercover spy. Attention mechanisms allow for neural networks to keep track of important words that might clue it in what "it" is actually referring to.
+
+Each word in an input sequence is assigned a score based on its context, i.e. the surrounding words. This attention score can be computed in many different ways, and some prominent ways of doing so are listed in the following table:
+
+[**TABLE OF MECHANISMS from <https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html>**]
+
+For a more in-depth history of attention mechanisms, we recommend <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">this excellent blog post</a> by Lilian Weng.
+
+#### Example: Bahdanau's Attention Mechanism
+
+Attention mechanisms were introduced into a typical encoder-decoder architectures as a means of keeping track of the important parts of the input sequence. This was first done in the context of natural language processing (in this case machine translation) by Bahdanau et al [2]. They add an attention mechanism, which they call the alignment model, to the decoder.
+
+The encoder is a bidirectional LSTM that maps the input sequences to a series of annotations. An **annotation** is vector that is the result of concatenating the forward hidden states with the backwards hidden states. Put more simply, it is just a representation of the word along with some of the context surrounding it. Each annotation contains information about the whole input sequence with an emphasis on the words surrounding the i-th word as a result of the tendency of LSTMs to better capture information about more recent input.
+
+The decoder can then use these annotations to produce **context vectors**, which are a weighted sum of the annotations for words in the current sequence: [**INSERT EQ. 5 FROM BAHDANAU ET AL.**]
+
+The weights for this summation are found by [**INSERT EQ. 6 FROM BAHDANAU ET AL.**]
+
+The alignment is basically the importance of a given annotation in producing the current output word. The alignment function is itself a feedforward neural network that is trained alongside the overall encoder-decoder model.
+
+These context vectors are fed into later layers of the decoder in order to eventually predict the output sequence that is associated with the input sequence. In this way, we can use attention mechanisms for a variety of natural language processing tasks, including better predicting how to translate sentences between languages, or predicting the next word in a given sequence.
 
 
 ### Transformers
 
-This is used as a way to understand sequential data without RNN's and by only using attention mechanisms
+One recent major breakthourgh in natural language processing is the **transformer network**. This is a deep neural network model that can be used as a way to understand sequential data without RNN's and instead uses only attention mechanisms in its architecture. This was first introduced by a team of researchers at Google in 2017 [1], and they use what is called the **self-attention mechanism** instead of RNNNs to keep track of associations and correlations in the input.
+
+These networks were originally developed to solve the problem of **sequence transduction**, which is transforming one input type to another. Often, this is done for tasks in machine translation or converting text to speech. Overall, this model does a good job at this task, so let's dive into some more specifics.
+
+#### Architecture
+
+As described in the original paper, the architecture of a transformer network follows the same encoder-decoder structure, with layers in each.
+
+[**INSERT PICTURE OF THE ARCHITECTURE AT A HIGH LEVEL (ENCODERS-DECODERS)**]
+
+Each encoder layer consists of a self-attention layer and a feed forward network.
+
+[**INSERT PICTURE OF ENCODER AT HIGH LEVEL**]
+
+The decoder layers are very similar. They again have the self-attention layer and a feed forward network, but also have an additional attention layer in between to aid in the decoding process.
+
+[**INSERT PICTURE OF DECODER AT HIGH LEVEL**]
+
+#### Self-Attention
+
+Self-attention is a technique that tries to produce a new representation of an input sequence by relating different positions in the sequence with other positions. This provides a way to encode correlations between words in a sentence, and allow the network to incorporate these relations into its processing. For example, as previously discussed, recurrent units in RNNs provide are one way to do this. This has previously been used in conjunction with LSTMs to improve the processing of sequential data in natural language understanding tasks [3].
+
+#### Scaled-Dot Product Attention
+
+One of the key features of the transformer network introduced by Vaswani et al. was a new attention mechanism: **Scaled-Dot Product Attention**. This is very similar to dot-product attention, but they add a scale factor that is the dimension of the source hidden state. This effectively normalizes the value and helps prevent cases where the softmax function is pushed into spaces with small gradients, i.e. alleviating the <a href="https://en.wikipedia.org/wiki/Vanishing_gradient_problem">vanishing gradient problem</a>.
+
+[**INSERT EQUATION OF SCALED DOT-PRODUCT ATTENTION FUNCTION**]
+
+The inputs here are the query, key, and value vectors *(note: In the paper, multiple queries, keys, and values are processed simulataneously and are thus packed into matrices)*. We start with a word in the input sequence and calculate a word embedding for it, producing a vector representation of the word. Then, there is a separate transformation matrix that is used to convert these word embeddings to the proper space of queries, keys, and values. These weights/values in these transformation matrices are found during the training process.
+
+#### Multi-Head Attention
+
+Additionally, they use **multi-head attention** in order to allow the transformer model to "attend to information from different representation subspaces at different positions." This is also done as an optimization for the model, as it allows for the attention function to be computed mutliple times in parallel.
+
+[**INSERT PICTURE OF MULTI-HEAD ATTENTION DIAGRAM FROM VASWANI 2017**]
+
+
+#### Further Reading on Transformers
+
+For more a more in-depth discussion of the specifics of how transformers work, we recommend the following blog post by Jay Allamar: <a href="http://jalammar.github.io/illustrated-transformer/">[The Illustrated Transformer]</a>
+
+For those who are interested in digging into the details of how to implement one of these transformer networks, <a href="https://nlp.seas.harvard.edu/2018/04/03/attention.html">this excellent article</a> from Harvard's NLP group provides a walkthrough of a fully functioning Python implementation.
+
+
+## References
+1. Vaswani, Ashish, et al. "Attention is all you need." Advances in neural information processing systems. 2017.
+2. Bahdanau, Dzmitry, Kyunghyun Cho, and Yoshua Bengio. "Neural machine translation by jointly learning to align and translate." arXiv preprint arXiv:1409.0473 (2014).
+3. Cheng, Jianpeng, Li Dong, and Mirella Lapata. "Long short-term memory-networks for machine reading." arXiv preprint arXiv:1601.06733 (2016).
