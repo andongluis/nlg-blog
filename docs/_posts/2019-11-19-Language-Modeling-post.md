@@ -187,7 +187,7 @@ Narrative generation has a long, and storied past that spans multiples eras of a
 
 ### Planning Based Generation
 
-Prior to much of the current deep learning and statistical models used today, there was significant efforts dedicated to symbolic artificial intelligence that focused on using searching and planning algorithms to produce natural language stories. For those looking for an in-depth survey of this area of research, we recommend a survey entitled <a href="http://nil.cs.uno.edu/publications/papers/young2013plans.pdf"> Plans and Planning in Narrative Generation: A Review of Plan-Based Approaches to the Generation of Story, Discourse and Interactivity in Narratives</a> [Young et al., 2013].
+Prior to much of the current deep learning and statistical models used today, there was significant efforts dedicated to symbolic artificial intelligence that focused on using searching and planning algorithms to produce natural language stories. Work in this area dates back to the 1970s, with Tale-Spin, a system from the Yale AI Group using traditional  For those looking for an in-depth survey of this area of research, we recommend a survey entitled <a href="http://nil.cs.uno.edu/publications/papers/young2013plans.pdf"> Plans and Planning in Narrative Generation: A Review of Plan-Based Approaches to the Generation of Story, Discourse and Interactivity in Narratives</a> [Young et al., 2013].
 
 In this area of research, it is common to start by building a **domain model**. These are descriptions of a fictional world that defines the entities that exist within it, the actions they can take to alter the state of the world, the objects in the world, and the places they exist. From these domain models, traditional **planning** algorithms or **case-based reasoning** can be used to generate new stories. Planning techniques will find a path through the space of possible worlds, keep track of the entities, their actions, and the state of the world. In this way, a logical series of events can be generated that form a coherent narrative. Case-based reasoning techniques will use examples of past stories (or cases) and adapt them to fit the narrative at hand.
 
@@ -197,9 +197,21 @@ In one recent work [Li, et al., 2013], the authors present a method for automati
 
 ### Neural Network Based Generation
 
-Language models such as GPT-2 and sequence-to-sequence [Sutskever et al., 2014] architectures have recently been for generating text output, but their use in creating coherent narratives has been limited. While traditional planning algorithms have difficulty with generating language that reads nicely, they excel at producing narrative structures with high logical coherence. The reverse is true for these deep learning language models. There is much recent work to rectify this issue by breaking up the natural language generation process into two parts. The first part creates some set of events or representation of the narrative structure, which can be thought of as a sort of planning phase. The second part then translates this into natural language text and a final narrative.
+Language models such as GPT-2 and sequence-to-sequence (seq2seq) [Sutskever et al., 2014] architectures have recently been for generating text output, but their use in creating coherent narratives has been limited. While traditional planning algorithms have difficulty with generating language that reads nicely, they excel at producing narrative structures with high logical coherence. The reverse is true for these deep learning language models. There is much recent work to rectify this issue by breaking up the natural language generation process into two parts. The first part creates some set of events or representation of the narrative structure, which can be thought of as a sort of planning phase. The second part then translates this into natural language text and a final narrative.
 
-One paper [Xu, et al., 2018] proposes a method for generating a narrative story based on a short description of a scene or event. They use a reinforcement learning method to generate the skeleton (a set of the most critical phrases), and then expand the skeleton into fluent sentences. The reinforcement learning process rewards good skeletons in which all key information is contained, while other information is ignored. Bad skeletons, which contain too much detailed information or lack key information, are punished. They uses human evaluation in addition to the BLEU score, which produced higher BLEU scores than previously proposed models. Some examples of their output is as follows:
+One paper [Martin et al., 2018] uses seq2seq models for open story generation, which is defined as the “problem of automatically generating a story about any domain without a priori manual knowledge engineering." They use a two-phase approach in which they first generate events and then produce sentences based on these events. The first phase utilizes a seq2seq model to generate events. The event representation used in this work is a 5-tuple, consisting of the subject of the verb, the verb, the object of the verb, a wildcard modifier, and a genre cluster number. The training set of events to train were extracted from a corpus of movie plot summaries from Wikipedia [Bamman, et al., 2014].
+
+For the second phase, they create the event2sentence network, another seq2seq network that was trained on a corpus of stories and the events contained within. This network learns to translate back to natural language sentences from the event representations. 
+
+They also experimented with converting the events they trained on into events containing more general terms for the entities in the event using **WordNet** [Miller, 1995]. WordNet provides a way to find more general terms for a given word. For example, if the word is “hello,” then WordNet representation for it would be hello.n.01, a more abstract term would be greeting.n.01.  
+
+They use perplexity to evaluate how well this method generates coherent event sequences and natural language text. However, it seems that perplexity would be a poor metric in narrative generation since it measures the predictability of a sequence, with more predictable sequences being rated as better. However, this seems counterintuitive since people typically want some element of surprise in their stories. In addition, they use the BLEU score for evaluating both of the networks, but note that BLEU score make little sense for evaluating the event2event network, and is better suited for evaluating the event2sentence network since this can be viewed as a translation task. 
+
+An example of this paper’s output is shown below:
+
+[** INSERT PICTURE OF THE FIRST ROW OF TABLE 3 IN MARTIN ET AL. 2018]
+
+Using a similar two-phase approach, [Xu, et al., 2018] proposes a method for generating a narrative story based on a short description of a scene or event. They use a reinforcement learning method to generate the skeleton (a set of the most critical phrases), and then expand the skeleton into fluent sentences. The reinforcement learning process rewards good skeletons in which all key information is contained, while other information is ignored. Bad skeletons, which contain too much detailed information or lack key information, are punished. They uses human evaluation in addition to the BLEU score, which produced higher BLEU scores than previously proposed models. Some examples of their output is as follows:
 
 - Input 1: The park was filled with beauty.
 - Output 1: The trees were very sparse. There were also some flowers.
@@ -214,6 +226,22 @@ They created a training corpus by scraping Reddit’s /r/WritingPrompts forum wh
 Prompt: Aliens start abducting humans
 
 “It has been two weeks, and the last of my kind has gone. It is only a matter of time until there will be nothing left. I’m not sure what the hell is going on... I can’t think. I can hear a distant scream. I think of a strange, alien sound. I try to speak, but am interrupted by something, something that feels like a drum, I ca not tell. I mean I’m just a little bit older than an average human. But I can, and I can feel the vibrations . I hear the sound of a ship approaching. The ground quakes at the force of the impact, and a loud explosion shatters the silence.”
+
+Similar to Fan et al’s work, a paper by Yao et al. [Yao et al., 2019] proposes a hierarchical generation framework that combines plot planning with text generation to create a story based on a given title. They introduce two methods for planning out the plot: dynamic schema, which alternates between producing a plan for the story and generating the text in the story, and static schema, which does all of the plot planning prior to generating any of the final story text.
+
+The static schema method uses two seq2seq models: one for generating the plot and one for generating the text. The dynamic scheme method uses the method from one of their previous papers [Yao et al., 2017], which uses a seq2seq model augmented with bidirectional gated recurrent units. Additionally, they use the **ROCStories corpus** (Mostafazadeh et al., 2016), which contains 98,161 short, commonsense stories. These stories consist of five sentences that contain causal and temporal relationships in everyday situations. 
+
+Additionally, they use both objective and subjective metrics to evaluate their output. A novel objective evaluation metric is introduced that quantifies the diversity of language within and between stories that are generated, where lower scores are better. The subjective analysis tasked Amazon Mechanical Turkers to choose between the output of a baseline model and their new model based on the story fidelity, coherence, interestingness, and overall user preference. They find that the static schema method produces results that are superior to not only prior work, but also their dynamic schema method.
+
+Example Output:
+Title: The Virus
+Dynamic
+Storyline: computer → use → anywhere → house → found
+Story: I was working on my computer today. I was trying to use the computer. I couldn’t find it anywhere. I looked all over the house for it. Finally, i found it.
+
+Static 
+Storyline: work → fix → called → found → day
+Story: I had a virus on my computer. I tried to fix it but it wouldn’t work. I called the repair company. They came and found the virus. The next day, my computer was fixed.
 
 ### The Future of Narrative Generation
 
@@ -230,14 +258,21 @@ This area of research remains highly relevant and ultimate goal of creating high
 
 
 ## References
+- Bamman, David, Brendan O’Connor, and Noah A. Smith. "Learning latent personas of film characters." Proceedings of the 51st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers). 2013.
 - Brown, Peter F., et al. "An estimate of an upper bound for the entropy of English." Computational Linguistics 18.1 (1992): 31-40.
 - Fan, Angela, Mike Lewis, and Yann Dauphin. "Hierarchical neural story generation." arXiv preprint arXiv:1805.04833 (2018).
 - Gatt, Albert, and Emiel Krahmer. "Survey of the state of the art in natural language generation: Core tasks, applications and evaluation." Journal of Artificial Intelligence Research 61 (2018): 65-170.
 - Li, Boyang, et al. "Story generation with crowdsourced plot graphs." Twenty-Seventh AAAI Conference on Artificial Intelligence. 2013.
+- Martin, Lara J., et al. "Event representations for automated story generation with deep neural nets." Thirty-Second AAAI Conference on Artificial Intelligence. 2018.
+- Miller, George A. "WordNet: a lexical database for English." Communications of the ACM 38.11 (1995): 39-41.
+- Meehan, James R. "TALE-SPIN, An Interactive Program that Writes Stories." IJCAI. Vol. 77. 1977.
+- Mostafazadeh, Nasrin, et al. "A Corpus and Cloze Evaluation for Deeper Understanding of Commonsense Stories." Proceedings of NAACL-HLT. 2016.
 - Papineni, Kishore, et al. "BLEU: a method for automatic evaluation of machine translation." Proceedings of the 40th annual meeting on association for computational linguistics. Association for Computational Linguistics, 2002.
 - Radford, Alec, et al. "Improving language understanding by generative pre-training." URL https://s3-us-west-2. amazonaws. com/openai-assets/researchcovers/languageunsupervised/language understanding paper. pdf (2018).
 - Radford, Alec, et al. "Language models are unsupervised multitask learners." OpenAI Blog 1.8 (2019).
 - Sutskever, I., O. Vinyals, and Q. V. Le. "Sequence to sequence learning with neural networks." Advances in NIPS (2014).
 - Vaswani, Ashish, et al. "Attention is all you need." Advances in neural information processing systems. 2017.
 - Xu, Jingjing, et al. "A skeleton-based model for promoting coherence among sentences in narrative story generation." arXiv preprint arXiv:1808.06945 (2018).
+- Yao, Lili, et al. "Towards implicit content-introducing for generative short-text conversation systems." Proceedings of the 2017 Conference on Empirical Methods in Natural Language Processing. 2017.
+- Yao, Lili, et al. "Plan-and-write: Towards better automatic storytelling." Proceedings of the AAAI Conference on Artificial Intelligence. Vol. 33. 2019.
 - Young, R. Michael, et al. "Plans and planning in narrative generation: a review of plan-based approaches to the generation of story, discourse and interactivity in narratives." Sprache und Datenverarbeitung, Special Issue on Formal and Computational Models of Narrative 37.1-2 (2013): 41-64.
