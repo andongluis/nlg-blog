@@ -1,6 +1,10 @@
 ---
 layout: post
-title: A Short Summary of Automatic Summarization
+title: "A Short Summary of Automatic Summarization"
+author: andongmarko
+categories: [ language modeling, narrative generation ]
+image: assets/images/13.jpg
+featured: false
 ---
 
 In the past decade, neural networks have spearheaded a renewed interest in AI due to their ability to perform quite well in tasks that involve a lot of implicit knowledge such as computer vision and NLP. Within NLP (specifically generation and understanding), automatic summarization is one of the areas where a lot of advances have been made. The purpose of this post is to provide a brief introduction (one might say, a brief *summary*) to the field of automatic text summarization. Given that the field has quite some history, we will be focusing mostly on deep learning methods.

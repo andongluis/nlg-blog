@@ -1,6 +1,10 @@
 ---
 layout: post
-title: Language Modeling - Letting the AI Speak for Itself
+title:  "Language Modeling - Letting the AI Speak for Itself"
+author: andongmarko
+categories: [ language modeling, narrative generation ]
+image: assets/images/14.jpg
+featured: false
 ---
 
 There has been a lot of media hype recently surrounding some developments in the area of natural language generation. Widely dubbed "the AI that was too dangerous to release," OpenAI's GPT-2 model was at the center of a media firestorm that launched debates about the ethics of AI research and how to responsibly publish work in this area. The possibility for using this model to generate fake news and other propaganda was the primary concern with this research. As a result, the details of its implementation and the model itself were not intially released to the public. However, that has since changed, with the full GPT-2 model being released in early November 2019. We will dive into the specifics of how GPT-2 was built, but we will first begin with a brief introduction to language modeling.
@@ -97,7 +101,7 @@ With the recent successes of transformer based models, they use these methods fo
 
 In order to train Grover to effectively produce fake news, they needed to create a new corpus of data that included real news articles and their associated metadata. To this end, they created the **RealNews** dataset. This was constructed by starting with <a href=”https://commoncrawl.org/”>Common Crawl</a> data, scraping it for news articles, and then using the <a href=”https://newspaper.readthedocs.io/en/latest/”>Newspaper Python library</a> to extract their bodies and metadata. The body of articles used have a publication date range of December 2016 and March 2019, with articles from April 2019 being used as the evaluation dataset. In the end, the RealNews dataset is 120 GBs of news article bodies and their associated metadata.
 
-#### Generating Fake news
+#### Generating Fake News
 Evaluated their results against human-written articles from reputable news sources, Grover-written articles trained with only reputable news articles, human-written propaganda, and Grover-written propaganda.
 
 They then used Mechanical Turk to recruit people to evaluate the outputs based on stylistic consistency, content sensibility, and overall trustworthiness. They found that while Grover is not as good at writing propaganda as a human, it can rewrite human-written propaganda and make it seem more trustworthy. Using these input parameters into Grover: 
@@ -176,7 +180,7 @@ One way to determine how well a language model works is with **perplexity**. Per
 Perplexity can be good for automatically measuring plausibility, but it is not always useful for certain applications like narrative generation. This is because readers typically want to see a certain level of familiarity mixed with some novelty and surprising. Perplexity assigns higher scores to outputs that are more predictable. As a result, this might decent measure when determining if a sequence of words is grammatically okay or "sounds" good, but not if we use it to evaluate the events in a story where it is desirable to have unexpected events happen.
 
 ### BLEU Score
-The Bilingual Evaluation Understudy (BLEU) score [Papineni, et al. 2002] was originally designed as a means of evaluating machine translation systems by determining how well two sentences in different languages matched by using an n-gram comparison between the two. However, this metric can be adapted for use in evaluating generated language. Rather than evaluating two sentence across language, a machine generated sentence is evaluated based on its similarity to the ground truth reference sentence written by a human. In this way, higher BLEU score indicates that the machine generated sentence is more likely to have the same features as a sentence produced by a human.
+The Bilingual Evaluation Understudy (BLEU) score [Papineni, et al. 2002] was originally designed as a means of evaluating machine translation systems by determining how well two sentences in different languages matched by using an n-gram comparison between the two. However, this metric can be adapted for use in evaluating generated language. Rather than evaluating two sentences across languages, a machine generated sentence is evaluated based on its similarity to the ground truth reference sentence written by a human. In this way, a higher BLEU score indicates that the machine generated sentence is more likely to have the same features as a sentence produced by a human.
 
 ### Human Evaluation
 Automated metrics are a nice initial means for testing a model, but seeing as humans are already (ideally) masters of language, the ultimate test is putting it in front of people and letting them evaluate it. These types of evaluations are typically done less frequently due to the associated monetary costs, but they are critical for determining the believability and quality of the generated language.
