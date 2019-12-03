@@ -126,11 +126,13 @@ There are two main ideas that motivate residual connections:
 
 Arguably, the first networks that really impressed the world [**REFERENCE HERE FOR SOME IMAGENET THING**] are convolutional neural networks (CNN). The distinguishing feature of CNN's are convolutional layers, which take into account an input's neighboring values. In other words, rather than looking at each component of the input vector as "independent", they look at each component's neighborhood.
 
-**INSERT PIC OF A CONVOLUTION HERE**
+![convnet image]({{site.baseurl}}/docs/assets/images/conv-layer.png)
+*Example of a convolution layer*
+
 
 So, a CNN ends up with convolutional layers at the beginning and then some "regular" network connections at the end
 
-![convnet image]({{site.baseurl}}/images/convnet-kdnuggets.png)
+**INSERT PIC OF A CONVOLUTION HERE**
 
 Though CNN's are often associated with image inputs, they can also be used in sequential data. For instance, we could look at the window of 2 words before and after our current word.
 
