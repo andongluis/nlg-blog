@@ -66,13 +66,21 @@ Though not as useful for predicting future words, they are still useful for unde
 
 As an example, suppose we wanted to represent the sentence "The dog is the goodest of boys". One way we could do it is by using bag-of-words representations. Suppose our entire dictionary consisted of the words [the, dog, is, bad, goodest, of, boys, great]. Then, the sentence would look as follows
 
-**PIC WITH A VECTOR FOR EACH WORD**
+![goodest boy image]({{site.baseurl}}/assets/images/goodest-boys-example.png){:height="30%" width="30%"}
+{:.article-img}
+
+{:.image-caption}
+*Example of bag-of-words representation of sentence "The dog is the goodest of boys"*
 
 Here, we define a dimension for each word and the vector for a word will have a 1 if that word is present, 0 otherwise.
 
 The sentence "The dog is good" would look like
 
-**PIC WITH CORRESPONDING VECTOR**
+![good boy image]({{site.baseurl}}/assets/images/good-boy-example.png){:height="30%" width="30%"}
+{:.article-img}
+
+{:.image-caption}
+*Example of bag-of-words representation of sentence "The dog is good"*
 
 Note that since we did not include "good" in our original dictionary, this does not appear in our vector.
 
@@ -82,9 +90,13 @@ There are multiple types of word representations, such as based on clustering, o
 
 Among the many different kinds of word representations, the one that has gained the most traction over the past few years is **distributed word representations** (also called **word embeddings**). These use condense feature vectors in latent spaces that are not immediately human-understandable. This means that we can generalize to unseen words and the problem of sparsity is handled better. Deep Learning is often used with these (Turian, Ratinov, and Bengio 2010).
 
-For instance, we could run a neural network on the word "dog" and get a latent space encoding.
+For instance, we could run a neural network on the sentence "the dog is good" and get a latent space encoding.
 
-**PIC OF WORD OVER A NEURAL NETWORK THAT GIVES SOME ENCODING**
+![embeddings image]({{site.baseurl}}/assets/images/word-embeddings-example.png){:height="30%" width="30%"}
+{:.article-img}
+
+{:.image-caption}
+*Word embeddings example*
 
 Though we might not be able to easily understand what these dimensions mean in terms of human terms, they are often more useful for machine learning algorithms.
 
@@ -120,9 +132,6 @@ Arguably, the first networks that really impressed the world (LeCun and Bengio 1
 *Example of a convolution layer*
 
 So, a CNN ends up with convolutional layers at the beginning and then some "regular" network connections at the end. Though CNN's are often associated with image inputs, they can also be used in sequential data. For instance, we could look at the window of 2 words before and after our current word.
-
-**INSERT PIC OF CNN WITH WORDS**
-
 
 ## Recurrent Neural Networks
 
