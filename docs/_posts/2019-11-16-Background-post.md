@@ -26,10 +26,6 @@ Natural Language Processing (NLP for short) is a broad term used to describe Mac
 - **Natural Language Generation (NLU)**: How can we use machines to generate sensical speech and text
 - **Natural Language Understanding (NLG)**: How can we make machine understand what we mean when we communicate
 
-
-**GENERIC PIC OF NLP OR NLG**
-
-
 Note that most problem end up having overlaps between the three areas, with NLP being quite necessary for the other two. For instance, it is hard for a machine to understand language if it is not able to first process it.
 
 ## Language Models
