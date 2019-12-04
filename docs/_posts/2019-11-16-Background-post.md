@@ -98,7 +98,7 @@ Residual networks have been used quite widely for some time now (Szegedy et al. 
 
 The main idea is that we have some "skip-ahead" connections in the neural architecture.
 
-![resnet image]({{site.baseurl}}/docs/assets/images/res-layer-fig.png){:height="30%" width="30%"}
+![resnet image]({{site.baseurl}}/assets/images/res-layer-fig.png){:height="30%" width="30%"}
 {:.article-img}
 
 {:.image-caption}
@@ -113,7 +113,7 @@ There are two main ideas that motivate residual connections:
 
 Arguably, the first networks that really impressed the world (LeCun and Bengio 1995) are convolutional neural networks (CNN). The distinguishing feature of CNN's are convolutional layers, which take into account an input's neighboring values. In other words, rather than looking at each component of the input vector as "independent", they look at each component's neighborhood.
 
-![convnet image]({{site.baseurl}}/docs/assets/images/conv-layer.png){:height="30%" width="30%"}
+![convnet image]({{site.baseurl}}/assets/images/conv-layer.png){:height="30%" width="30%"}
 {:.article-img}
 
 {:.image-caption}
@@ -130,7 +130,7 @@ Recurrent Neural Networks (RNN's) deal with an important limitation of CNN's: th
 
 RNN's can deal with this by introducing a special layer called the Recurrent layer. These use cells that take as input a part of the sequence and the output of the cell with the previous input
 
-![rnn image]({{site.baseurl}}/docs/assets/images/rnn-fig.png){:height="30%" width="30%"}
+![rnn image]({{site.baseurl}}/assets/images/rnn-fig.png){:height="30%" width="30%"}
 {:.article-img}
 
 {:.image-caption}
@@ -144,7 +144,7 @@ Normal RNN's face various limitations, the most glaring being that it might be d
 
 Rather than using RNN's, what people end up using is often Long Short-Term Memory Cells (LSTM Cells). The details of LSTM cells are quite intricate (Gers, Schmidhuber, and Cummins 1999), yet the intuition behind these is remarkably simple: LSTM's can have longer term memory by choosing what to remember and what to forget.
 
-![lstm image]({{site.baseurl}}/docs/assets/images/lstm-fig.jpeg){:height="30%" width="30%"}
+![lstm image]({{site.baseurl}}/assets/images/lstm-fig.jpeg){:height="30%" width="30%"}
 {:.article-img}
 
 {:.image-caption}
@@ -159,7 +159,7 @@ The rationale behind this seems a bit unintuitive: why would you want to predict
 
 This reasoning motivates Bidirectional RNN's (Schuster and Paliwal 1997), which use both forward and backward Language Models.
 
-![bi-rnn image]({{site.baseurl}}/docs/assets/images/bi-rnn-fig.png){:height="30%" width="30%"}
+![bi-rnn image]({{site.baseurl}}/assets/images/bi-rnn-fig.png){:height="30%" width="30%"}
 {:.article-img}
 
 {:.image-caption}
