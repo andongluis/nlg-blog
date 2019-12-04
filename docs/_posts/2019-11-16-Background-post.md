@@ -3,9 +3,12 @@ layout: post
 title: "Natural Language Generation Background"
 author: andongmarko
 categories: [ language modeling, deep learning, neural networks ]
-image: assets/images/12.jpg
+image: assets/images/robot.png
 featured: true
 ---
+
+{:.image-caption}
+*Image courtesy of medium.com*
 
 These blog posts will focus on the problem of Natural Language Generation (NLG). Over various blog posts, we will explore key models that have significantly advanced the field, along with an exploration of some important problems that are trying t obe solved in NLG.
 

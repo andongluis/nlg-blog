@@ -899,3 +899,13 @@ iframe {
     opacity: 0;
     transition: opacity .25s;
 }
+
+.image-caption {
+  text-align: center;
+  font-size: .8rem;
+  color: light-grey;
+}
+
+.article-img {
+  text-align: center;
+}
