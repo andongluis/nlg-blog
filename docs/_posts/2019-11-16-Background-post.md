@@ -37,23 +37,16 @@ $$p(w_1=did, w_2=nothing, w_3=wrong)$$
 Often, we want to model word and sentence probability with added conditions. For instance, if we wanted get the likely of the phrase "Thanos did nothing wrong" given that the previous word was "Thanos", then that probability would be 
 
 $$p(w_1=did, w_2=nothing, w_3=wrong | w_0=Thanos)$$
-[**NEED REFERENCE FOR LM**]
 
 ### N-grams
 
-Given that sentences can be quite long (Gabriel García Márquez famously wrote a two-page long sentence in *One Hundred Years of Solitude*), it is often useful to just look at a subset of that sequence. To that end, we use n-grams which basically ask the question: given the previous *n-1* words, what is the probability of the *n*-th word? In probability terms, this looks like
+Given that sentences can be quite long (Gabriel García Márquez famously wrote a two-page long sentence in *One Hundred Years of Solitude*), it is often useful to just look at a subset of that sequence. To that end, we use n-grams (Cavnar and Trenkle 1994) which basically ask the question: given the previous *n-1* words, what is the probability of the *n*-th word? In probability terms, this looks like
 
 $$p(w_n | w_1, w_2, ..., w_{n-1}) $$
 
-
-[**NEED REFERENCE FOR N GRAM**]
-
 ### Skip-grams
 
-N-grams are limited by the sequential nature of the n-gram; you are using as context the *n-1* words before the *n*-th word and only those. A more flexible approach has been **skip-grams** which still will use some *n* number of words as context, but it allows you to *skip* over some words. For instance, when predicting the word following the sentence "The dog happily ate the " and we choose to have *n=2*, we might choose the words ["dog", "ate"] rather than having to focus solely on the words ["ate", "the"].
-
-[**PIC ON SKIPGRAMS**]
-[**NEED REFERENCE FOR SKIP GRAM**]
+N-grams are limited by the sequential nature of the n-gram; you are using as context the *n-1* words before the *n*-th word and only those. A more flexible approach has been **skip-grams** (Guthrie et al. 2006) which still will use some *n* number of words as context, but it allows you to *skip* over some words. For instance, when predicting the word following the sentence "The dog happily ate the " and we choose to have *n=2*, we might choose the words ["dog", "ate"] rather than having to focus solely on the words ["ate", "the"].
 
 ### Forward and Backward probabilities
 
@@ -65,21 +58,17 @@ However, we can also look at **backward probabilities**, meaning the probability
 
 $$p(w_1 | w_2, w_3, ..., w_{n}) $$
 
-Though not as useful for predicting future words, they are still useful for understanding sequences and obtaining features for the context surrounding words.
-
-[**REFERENCE FOR THIS, MAYBE IN ELMO**]
+Though not as useful for predicting future words, they are still useful for understanding sequences and obtaining features for the context surrounding words (Peters et al. 2018).
 
 ## Word Representations
 
 **Word representations** are ways of representing words in a machine-understandable way; the most common way of doing so is by representing a word as a vector. They are especially useful for ML algorithms since the vector representation allows for statistical methods to be used, especially optimization-based algorithms.
 
-As an example, suppose we wanted to represent the sentence "The dog is the goodest of boys". One way we could do it is by using one-hot vector encodings. Then, th
+As an example, suppose we wanted to represent the sentence "The dog is the goodest of boys". One way we could do it is by using bag-of-words representations. Suppose our entire dictionary consisted of the words [the, dog, is, bad, goodest, of, boys, great]. Then, the sentence would look as follows
 
 **PIC WITH A VECTOR FOR EACH WORD**
 
-Here, we define a dimension for each word and the vector for a word will have a 1 if that word is present, 0 otherwise. We could also represent an entire sentence with this word space. For instance, the sentences "The dog is the goodest of boys" will be 
-
-**PIC WITH A VECTOR OF ONES**
+Here, we define a dimension for each word and the vector for a word will have a 1 if that word is present, 0 otherwise.
 
 The sentence "The dog is good" would look like
 
@@ -91,7 +80,7 @@ Note that since we did not include "good" in our original dictionary, this does 
 
 There are multiple types of word representations, such as based on clustering, one-hot encodings, and based on co-occurrences. However, as we saw in the previous example, a big problem is the sparsity of the space (meaning that we have too many dimensions for too few data points) and that we might not handle unseen words well (i.e. we are unable to generalize).
 
-Among the many different kinds of word representations, the one that has gained the most traction over the past few years is **distributed word representations** (also called **word embeddings**. These use condense feature vectors in latent spaces that are not immediately human-understandable. This means that we can generalize to unseen words and the problem of sparsity is handled better. Deep Learning is often used with these.
+Among the many different kinds of word representations, the one that has gained the most traction over the past few years is **distributed word representations** (also called **word embeddings**). These use condense feature vectors in latent spaces that are not immediately human-understandable. This means that we can generalize to unseen words and the problem of sparsity is handled better. Deep Learning is often used with these (Turian, Ratinov, and Bengio 2010).
 
 For instance, we could run a neural network on the word "dog" and get a latent space encoding.
 
@@ -101,20 +90,19 @@ Though we might not be able to easily understand what these dimensions mean in t
 
 # Deep Learning
 
-Within Machine Learning (ML), the area that has spearheaded a lot of the performance gains has been Deep Learning (DL). DL is the area of ML that deals with neural network-based models.
+Within Machine Learning (ML), the area that has spearheaded a lot of the performance gains has been Deep Learning (DL). DL is the area of ML that deals with neural networks, which allow models to automatically learn latent features from data. In this section, we will cover some of the aspects of deep learning that have been widely used in NLP.
 
+## Residual Networks
 
-## Basics (?)
-
-
-## Residual Networks (?)
-
-
-Residual networks have been used quite widely for some time now [**INSERT REFERENCE HERE**] with a lot of recent architectures (such as ELMo and BERT) using these and with most state-of-the-art using these by default.
+Residual networks have been used quite widely for some time now (Szegedy et al. 2017) with a lot of recent architectures (such as ELMo and BERT) using these and with most state-of-the-art using these by default.
 
 The main idea is that we have some "skip-ahead" connections in the neural architecture.
 
-**INSERT PIC OF SOME RESIDUAL CONNECTION HERE**
+![resnet image]({{site.baseurl}}/docs/assets/images/res-layer-fig.png){:height="30%" width="30%"}
+{:.article-img}
+
+{:.image-caption}
+*Image from https://miro.medium.com/max/651/0*sGlmENAXIZhSqyFZ*
 
 There are two main ideas that motivate residual connections:
 - "Short-circuit" connections: A key hyperparameter in neural architectures is the number of layers, with the trend being that more is better. However, for some instances it is not necessary to have that many layers. To alleviate some of the hyperparameter tuning work, residual connections can help give the network the ability to decide to use all layers or to ignore some of them.
@@ -123,17 +111,15 @@ There are two main ideas that motivate residual connections:
 
 ## Convolutional Neural Networks
 
-Arguably, the first networks that really impressed the world [**REFERENCE HERE FOR SOME IMAGENET THING**] are convolutional neural networks (CNN). The distinguishing feature of CNN's are convolutional layers, which take into account an input's neighboring values. In other words, rather than looking at each component of the input vector as "independent", they look at each component's neighborhood.
+Arguably, the first networks that really impressed the world (LeCun and Bengio 1995) are convolutional neural networks (CNN). The distinguishing feature of CNN's are convolutional layers, which take into account an input's neighboring values. In other words, rather than looking at each component of the input vector as "independent", they look at each component's neighborhood.
 
-![convnet image]({{site.baseurl}}/docs/assets/images/conv-layer.png)
+![convnet image]({{site.baseurl}}/docs/assets/images/conv-layer.png){:height="30%" width="30%"}
+{:.article-img}
+
+{:.image-caption}
 *Example of a convolution layer*
 
-
-So, a CNN ends up with convolutional layers at the beginning and then some "regular" network connections at the end
-
-**INSERT PIC OF A CONVOLUTION HERE**
-
-Though CNN's are often associated with image inputs, they can also be used in sequential data. For instance, we could look at the window of 2 words before and after our current word.
+So, a CNN ends up with convolutional layers at the beginning and then some "regular" network connections at the end. Though CNN's are often associated with image inputs, they can also be used in sequential data. For instance, we could look at the window of 2 words before and after our current word.
 
 **INSERT PIC OF CNN WITH WORDS**
 
@@ -144,18 +130,25 @@ Recurrent Neural Networks (RNN's) deal with an important limitation of CNN's: th
 
 RNN's can deal with this by introducing a special layer called the Recurrent layer. These use cells that take as input a part of the sequence and the output of the cell with the previous input
 
-**INSERT PIC OF RECURRENT CELL**
+![rnn image]({{site.baseurl}}/docs/assets/images/rnn-fig.png){:height="30%" width="30%"}
+{:.article-img}
 
-Given this set up, it is easy to see how these could be used for language modeling since they can (theoretically) take into account as many previous words as possible.
+{:.image-caption}
+*Image from https://miro.medium.com/max/941/1*go8PHsPNbbV6qRiwpUQ5BQ.png*
 
-##$ LSTM Cells
+Given this set up, it is easy to see how these could be used for language modeling since they can (theoretically) take into account as many previous words as possible (Mikolov et al. 2010).
 
-Normal RNN's face various limitations, the most glaring being that it might be difficult to train them due to exploding/vanishing gradients [**LINK FOR GRADIENTS**] and they can have trouble remembering long sequences.
+## LSTM Cells
 
-Rather than using RNN's, what people end up using is often Long Short-Term Memory Cells (LSTM Cells). The details of LSTM cells are quite intricate, yet the intuition behind these is remarkably simple: LSTM's can have longer term memory by choosing what to remember and what to forget.
+Normal RNN's face various limitations, the most glaring being that it might be difficult to train them due to exploding/vanishing gradients and they can have trouble remembering long sequences.
 
-[**PIC OF LSTM**]
+Rather than using RNN's, what people end up using is often Long Short-Term Memory Cells (LSTM Cells). The details of LSTM cells are quite intricate (Gers, Schmidhuber, and Cummins 1999), yet the intuition behind these is remarkably simple: LSTM's can have longer term memory by choosing what to remember and what to forget.
 
+![lstm image]({{site.baseurl}}/docs/assets/images/lstm-fig.jpeg){:height="30%" width="30%"}
+{:.article-img}
+
+{:.image-caption}
+*Image from https://miro.medium.com/max/1566/1*MwU5yk8f9d6IcLybvGgNxA.jpeg*
 
 ### Bidirectional RNNs
 
@@ -164,9 +157,13 @@ RNN's are usually used for future prediction, meaning that you follow the "forwa
 
 The rationale behind this seems a bit unintuitive: why would you want to predict what has already happened? And often, you don't actually want to predict what has happened (and you can't use them to predict the future since that is not what you're learning). The main reason why you would use them is for understanding the entire sequence rather than trying to predict future incidents.
 
-This reasoning motivates Bidirectional RNN's, which use both forward and backward Language Models.
+This reasoning motivates Bidirectional RNN's (Schuster and Paliwal 1997), which use both forward and backward Language Models.
 
-[**PIC OF BI-RNN**]
+![bi-rnn image]({{site.baseurl}}/docs/assets/images/bi-rnn-fig.png){:height="30%" width="30%"}
+{:.article-img}
+
+{:.image-caption}
+*Image from https://miro.medium.com/max/1146/1*6QnPUSv_t9BY9Fv8_aLb-Q.png*
 
 
 ## Encoder-Decoder Networks (seq2seq)
@@ -253,3 +250,33 @@ For those who are interested in digging into the details of how to implement one
 1. Vaswani, Ashish, et al. "Attention is all you need." Advances in neural information processing systems. 2017.
 2. Bahdanau, Dzmitry, Kyunghyun Cho, and Yoshua Bengio. "Neural machine translation by jointly learning to align and translate." arXiv preprint arXiv:1409.0473 (2014).
 3. Cheng, Jianpeng, Li Dong, and Mirella Lapata. "Long short-term memory-networks for machine reading." arXiv preprint arXiv:1601.06733 (2016).
+
+
+- Cavnar, William B., and John M. Trenkle. "N-gram-based text categorization." In *Proceedings of SDAIR-94, 3rd annual symposium on document analysis and information retrieval*, vol. 161175. 1994.
+
+
+
+- Turian, Joseph, Lev Ratinov, and Yoshua Bengio. "Word representations: a simple and general method for semi-supervised learning." In *Proceedings of the 48th annual meeting of the association for computational linguistics*, pp. 384-394. Association for Computational Linguistics, 2010.
+
+
+- Guthrie, David, Ben Allison, Wei Liu, Louise Guthrie, and Yorick Wilks. "A closer look at skip-gram modelling." In LREC, pp. 1222-1225. 2006.
+
+
+
+- Peters, Matthew E., Mark Neumann, Mohit Iyyer, Matt Gardner, Christopher Clark, Kenton Lee, and Luke Zettlemoyer. "Deep contextualized word representations." arXiv preprint arXiv:1802.05365 (2018).
+
+
+
+- LeCun, Yann, and Yoshua Bengio. "Convolutional networks for images, speech, and time series." The handbook of brain theory and neural networks 3361, no. 10 (1995): 1995.
+
+
+- Szegedy, Christian, Sergey Ioffe, Vincent Vanhoucke, and Alexander A. Alemi. "Inception-v4, inception-resnet and the impact of residual connections on learning." In T*hirty-First AAAI Conference on Artificial Intelligence*. 2017.
+
+
+- Mikolov, Tomáš, Martin Karafiát, Lukáš Burget, Jan Černocký, and Sanjeev Khudanpur. "Recurrent neural network based language model." In *Eleventh annual conference of the international speech communication association*. 2010.
+
+
+- Gers, Felix A., Jürgen Schmidhuber, and Fred Cummins. "Learning to forget: Continual prediction with LSTM." (1999): 850-855.
+
+
+- Schuster, Mike, and Kuldip K. Paliwal. "Bidirectional recurrent neural networks." *IEEE Transactions on Signal Processing 45*, no. 11 (1997): 2673-2681.

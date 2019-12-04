@@ -21,14 +21,20 @@ There are multiple setups in which summarization occurs, such as:
 ## Extractive summarization
 There are two main approaches that exist to summarization: extractive and abstracive. **Extractive summarization** involves selecting the most important parts of the source text. We can think of it as having a machine read a textbook and highlight the most important passages of the book. This approach to automatic summarization has been how the problem has been approached historically (Udo and Mani 2000).
 
-![Extractive summarization]({{site.baseurl}}/docs/assets/images/extractive-summary-fig.jpg)
+![Extractive summarization]({{site.baseurl}}/docs/assets/images/extractive-summary-fig.jpg){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *Example of extractive summarization, source text from https://thecorrespondent.com/147/borders-dont-just-keep-people-out-they-define-their-worth/19260022320-1d1d8615*
 
 ## Abstractive summarization
 
 **Abstractive summarization** is a setup that is less restrictive than extractive, since you are no longer limited to just using sentences in the source text. If extractive is like using a highlighter on some text, abstractive involves reading the text and taking some notes about the text.
 
-![Abstractive summarization]({{site.baseurl}}/docs/assets/images/abstractive-summary-fig.jpg)
+![Abstractive summarization]({{site.baseurl}}/docs/assets/images/abstractive-summary-fig.jpg){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *Example of abstractive summarization*
 
 In some instances, allowing the model to have more control over its generated text gives it more powerful tools; for instance, it can shorten or combine sentences and it could even rephrase sentences in a clearer way. However, this freedom often makes the problem harder since it involves having to generate new sentences, adding in a more complex generative component to this problem.
@@ -76,12 +82,18 @@ Note that in addition to the original ROGUE metrics, there has been a lot of sub
 
 ROGUE-N also allows for multiple reference summaries by obtaining the n-grams between the proposed the summary and each of the reference summaries. The equation is as follows
 
-![Rogue-N equation]({{site.baseurl}}/docs/assets/images/rogue-n.PNG)
+![Rogue-N equation]({{site.baseurl}}/docs/assets/images/rogue-n.PNG){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *Rogue-N equation, from (Lin 2004) paper*
 
 where Reference Summaries are the summaries we know are correct, Count<sub>match</sub>(gram<sub>n</sub>) are the number of matching n-grams that occur in both the reference and the proposed summary, and Count(gram<sub>n</sub>) are the number of n-grams in the reference summaries.
 
-![Rogue-N example]({{site.baseurl}}/docs/assets/images/rogue-n-example.png)
+![Rogue-N example]({{site.baseurl}}/docs/assets/images/rogue-n-example.png){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *Rogue-N example, where N=2*
 
 #### ROGUE-L, ROGUE-W, and ROGUE-S
@@ -124,14 +136,20 @@ There have been multiple attempts at using classifying/selecting procedures to d
 
 The authors of the paper develop a selection algorithm that is proven to be near-optimal in maximizing sentence prestige while ensuring that redundancy is kept low. A prestige vector is calculated for each sentences by using the PageRank algorithm (more information on it <a href="https://lizrush.gitbooks.io/algorithms-for-webdevs-ebook/content/chapters/page-rank.html" target="_blank">here</a>) on a similarity matrix; the similarity matrix is also used to ensure that redundancy between sentences is low. In more mathematical terms, they aim to maximize
 
-![Yin Pei objective function]({{site.baseurl}}/docs/assets/images/yin-pei-objective.PNG)
+![Yin Pei objective function]({{site.baseurl}}/docs/assets/images/yin-pei-objective.PNG){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *Objective function of selecting algorithm*
 
 where *C* is a collection of *k* sentences (i.e. our candidate sentences), \alpha is a hyperparameter that increases the importance of sentence prestige as \alpha increases, **p**<sub>i</sub> is the prestige vector of sentence*i*, and *S*<sub>i,j</sub> is the similarity between sentences *i* and *j*. The first term of the function refers to the prestige of adding that sentence, and the second term refers to the redundancy in adding that sentence when taking into account the sentences that have already been selected.
 
 To calculate the similarity matrix, they use feature vectors obtained via a CNN network that does language modeling on a sentence to predict the next word. Then, by using the intermediate sentence representations of this task, they derive similarity measures between sentences.
 
-![Yin Pei cnn model]({{site.baseurl}}/docs/assets/images/yin-pei-convnet.PNG)
+![Yin Pei cnn model]({{site.baseurl}}/docs/assets/images/yin-pei-convnet.PNG){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *CNN for Language Modelling*
 
 The dataset that they use for training the CNN is the English Gigawords dataset along with some additional DUC data, and they run experiments on DUC-2002 and DUC-2004. They go on to show that their ROGUE-N (N=1, N=2) and ROGUE-SU4 scores are higher than other baselines.
@@ -144,14 +162,20 @@ Another approach that has been taken to optimize the selection of sentences is t
 
 The model itself is a mix of a sentence encoder (using CNN's), a document encoder (using LSTM's) and a sentence extractor (again with LSTM's). The sentence extractor chooses which sentence to select based on the sentence encoding, the document encoding, and the sentences selected so far.
 
-![Narayan model]({{site.baseurl}}/docs/assets/images/narayan-model.PNG)
+![Narayan model]({{site.baseurl}}/docs/assets/images/narayan-model.PNG){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *Reinforcement Learning model for selecting sentences*
 
 The main novelty of the authors' approach is the learning setup that they define. Rather than focusing on the cross-entropy loss to ensure that correct sentences are selected, they adapt the REINFORCE (more information on REINFORCE <a href="https://www.quora.com/What-is-the-REINFORCE-algorithm" target="_blank">here</a>) reinforcement learning algorithm to directly obtain sentences with higher ROGUE scores (average of ROGUE-1, ROGUE-2, and ROGUE-L).
 
 The dataset they used were the One Billion Word Benchmark to pre-train word embeddings, and the CNN/DailyMail dataset to train the overall model. Their results show that in addition to the ROGUE (N=1, n=2, ROGUE-L) scores being comparable to models that don't use RL, their model is more informative based on human evaluation. When they asked people to answer questions based on the summaries, people's answers were the most accurate when using the authors' model.
 
-![Narayan table]({{site.baseurl}}/docs/assets/images/narayan-table.PNG)
+![Narayan table]({{site.baseurl}}/docs/assets/images/narayan-table.PNG){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *Results for RL Model*
 
 Despite these gains, it is worth noting that in order to properly train this algorithm, we would need a dataset that has a label for each sentence that states if the sentence is relevant to the summary or not. Furthermore, in its document encoder, they process the document backwards to ensure that the first sentences of the document are the ones with highest impact in the document encoding. This is based on the news article structure assumption, which might not hold for other sources.
@@ -166,13 +190,17 @@ Attention models have been successfully used for datasets where there are long s
 
 The model seeks out to maximize the probability of a word given the original text and the previous word (i.e. it wants to maximize the language model probabilities); consequently, during training they minimize the following negative log-likelihood equation:
 
-![Rush diagram]({{site.baseurl}}/docs/assets/images/rush-nll.PNG)
+![Rush diagram]({{site.baseurl}}/docs/assets/images/rush-nll.PNG){:height="50%" width="50%"}
+{:.article-img}
 
 where **x** are the words in the original sentence, **y** are the predicted words in the summary, and **y**<sub>c</sub> is the context vector (which often involves the words that have been previously predicted for the current sentence). 
 
 Regarding the architecture, they are using a standard encoder-decoder architecture. In the encoder part, they experiment with three different word encodings: bag-of-words, convolutional encoder, and an attention-based encoder. For the decoder, they experiment with two ways of generating word sequences: a greedy algorithm that samples the most likely word, and a beam search algorithm.
 
-![Rush diagram]({{site.baseurl}}/docs/assets/images/rush-diagram.PNG)
+![Rush diagram]({{site.baseurl}}/docs/assets/images/rush-diagram.PNG){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *Attention model for abstractive summarization*
 
 The dataset that they use the Gigaword dataset and they evaluate their results on a heldout subset of the Gigaword dataset as well as the DUC-2004 dataset. The set up with these datasets has the first sentence of a news story as the input text, and the "target" summary is the title of the news story. To evaluate their results, they evalute the ROGUE-N (N=1, N=2) and ROGUE-L scores. They also show the perplexity of their generated results to check if these sentences "make sense". All of their results show that their model outperforms all of their defined baselines (which are mostly models based on linguistics and statistics) in all metrics.
@@ -190,14 +218,20 @@ Given that the multi-task model has a larger scope, its model and setup are more
 - a summary generation task
 By having a model that uses mostly the same parameters for all three tasks, the network will have learned how to answer the correct questions and how to construct a summary that has coherent flow to it. The specifics of the model involve an encoder-decoder architecture that uses bidirectional LSTM's for the encoder, LSTM's for the decoder, a pointer-generator network (more on this here) for identifying words from the source document that are useful for the summary, and a coverage loss (more on this here) that helps avoid word repetitions.
 
-![Guo diagram]({{site.baseurl}}/docs/assets/images/guo-model.PNG)
+![Guo diagram]({{site.baseurl}}/docs/assets/images/guo-model.PNG){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *Soft sharing scheme for multi-task summarization*
 
 where QG is the question generation network, SG is the summary generation one, and EG is the entailment generation one.
 
 The dataset used for training are the CNN/DailyMail and Gigaword datasets for summarization, the Stanford Natural Language Inference dataset (more on this here) for the entailment generation, and the SQuAD dataset (fmore on this here) for the question generation tasks. Validation testing was done on the DUC-2002 and the CNN/DailyMail datasets. In addition to showing the ROGUE F1 (N=1, N=2, ROGUE-L) are better than their reported baselines and that the multi-task approach improves the baselines a bit, they show that humans tend to prefer the multi-task summaries over its non-multi-task counterpart.
 
-![Guo results]({{site.baseurl}}/docs/assets/images/guo-results.PNG)
+![Guo results]({{site.baseurl}}/docs/assets/images/guo-results.PNG){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *Results for the Multi-task network*
 
 It is worth noting that despite the gains that are made through this multi-task approach, the difference between their approach with and without the multiple tasks is not that large. This raises the question of the tradeoff between model/training complexity and the performance gains from it.
@@ -210,14 +244,20 @@ One paper that has gained traction in recent years is by scientists at Google Br
 
 The first phase of the model is the extractive one, where they look at all paragraphs of all input documents and they rank them to assess how important is each paragraph. The methods that they test for extraction are all count-based, such as using *tf-idf* (more information on it <a href="https://lizrush.gitbooks.io/algorithms-for-webdevs-ebook/content/chapters/tf-idf.html" target="_blank">here</a>), bi-grams, word frequencies, and similarities. 
 
-![Liu extractive]({{site.baseurl}}/docs/assets/images/extractive-diagram.PNG)
+![Liu extractive]({{site.baseurl}}/docs/assets/images/extractive-diagram.PNG){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *Extractive model obtains relevant documents and paragraphs from those documents*
 
 After obtaining the ranking of the paragraphs, the abstractive part of the model uses these ordered paragraphs to generate the summary. To do so, they used a transformer architecture that does not use the encoder part, and they use the transformer architecture to predict the language model probabilities. They generate the words by using beam search of size 4 and a length penalty of 0.6, and they try to optimize for perplexity.
 
 To evaluate their success, they used ROGUE-L F1, perplexity, and a qualitative human evaluation where they would state their preferences and evaluate the linguistic quality of the text. In addition to showing that their model performs quite well in the measures they list, they also show that the mix of the extractive and abstractive phases significantly improves the quality of the summaries.
 
-![Liu results]({{site.baseurl}}/docs/assets/images/liu-results.PNG)
+![Liu results]({{site.baseurl}}/docs/assets/images/liu-results.PNG){:height="50%" width="50%"}
+{:.article-img}
+
+{:.image-caption}
 *Results for the extractive-abstractive model*
 
 where TextRank, SumBasic, and tf-idf are different extractive methods, and T-DMCA is the transformer architecture they used for the abstrative phase.
