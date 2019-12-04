@@ -90,7 +90,7 @@ ROGUE-N also allows for multiple reference summaries by obtaining the n-grams be
 
 where Reference Summaries are the summaries we know are correct, Count<sub>match</sub>(gram<sub>n</sub>) are the number of matching n-grams that occur in both the reference and the proposed summary, and Count(gram<sub>n</sub>) are the number of n-grams in the reference summaries.
 
-![Rogue-N example]({{site.baseurl}}/assets/images/rogue-n-example.png){:height="50%" width="50%"}
+![Rogue-N example]({{site.baseurl}}/assets/images/rouge-n-example.png){:height="50%" width="50%"}
 {:.article-img}
 
 {:.image-caption}
