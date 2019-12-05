@@ -3,7 +3,7 @@ layout: post
 title: "A Short Summary of Automatic Summarization"
 author: andongmarko
 categories: [ language modeling, narrative generation ]
-image: assets/images/13.jpg
+image: assets/images/summarization-img.png
 featured: false
 ---
 
