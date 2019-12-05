@@ -10,9 +10,16 @@ featured: false
 {:.image-caption}
 *Image courtesy of wjct.org*
 
-There has been a lot of media hype surrounding some recent developments in the area of natural language generation. Widely dubbed "the AI that was too dangerous to release," OpenAI's GPT-2 model was at the center of a media firestorm that launched debates about the ethics of AI research and how to responsibly publish work in this area. The possibility for using this and other models to generate high quality fake news and other propaganda continues to be of major concern. 
+This blog post covers the growing use of language modeling for natural language generation, particularly with deep learning models, and recent research in applying this to create narratives and stories.
 
-As a result, the details of its implementation and the model itself were not intially released to the public. However, that has since changed, with the full GPT-2 model being released in early November 2019. We will dive into the specifics of how GPT-2 and other natural language generation techniques work, but we will first begin with a brief introduction to language modeling.
+This post assumes that the reader has some background knowledge in the area of language modeling and deep learning. For those who do not, or those who would like a quick review, we have also written <a href="https://andongluis.github.io/nlg-blog/Background-post/">this handy blog post</a> describing knowledge and concepts that will help get you up to speed with prominent methods and models in this area.
+
+For an in-depth overview of developments in natural language generation prior to the current deep learning era, we highly recommend <a href="https://arxiv.org/pdf/1703.09902.pdf">this survey</a> of the area [Gatt and Krahmer, 2018]. 
+
+
+## Language Modeling and Generation with Deep Learning
+
+If you've been following popular tech news websites in the past year, you've likely heard of GPT-2. This is a model created by <a href="https://openai.com/">OpenAI</a> and is the successor to their previous model <a href="https://openai.com/blog/language-unsupervised/">GPT</a>. This development generated a lot of headlines since OpenAI opted for a <a href="https://openai.com/blog/better-language-models/">release strategy</a> where incrementally larger versions of the model were released over time. They claimed that the output of the full model was so good that it could be used to generate believable fake writings with ease, and thus posed a risk to public discourse. Ironically, there have since been papers published that claim such a release strategy is flawed, since these generative models are actually the best at automatically discriminating between fake and real news stories. We will discuss both of these recent developments and more in the coming sections, but first we'll cover a quick recap of language modeling basics.
 
 GPT-2 is an example of a **language model**. **Language modeling** is defined as the problem determining how statistically likely it is that a sequence of words exists, based on a how frequently these words appear in some set of text. In mathematical notation, this would be:
 
@@ -34,21 +41,11 @@ By doing this repeatedly, it becomes possible to generate brand new sentences. N
 - Automating business/analytics reports
 - Enabling AI to explain their behavior
 
-## Blog Post Highlights
-
-This blog post covers the growing use of language modeling for natural language generation, particularly with deep learning models.
-
-This post assumes that the reader has some background knowledge in the area of language modeling and deep learning. For those who do not, or those who would like a quick review, we have also written <a href="https://andongluis.github.io/nlg-blog/Background-post/">this handy blog post</a> describing knowledge and concepts that will help get you up to speed with prominent methods and models in this area.
-
-For an in-depth overview of developments in natural language generation prior to the current deep learning era, we highly recommend <a href="https://arxiv.org/pdf/1703.09902.pdf">this survey</a> of the area [Gatt and Krahmer, 2018]. 
-
-## Language Modeling and Generation with Deep Learning
-
-If you've been following popular tech news websites in the past year, you've likely heard of GPT-2. This is a model created by <a href="https://openai.com/">OpenAI</a> and is the successor to their previous model <a href="https://openai.com/blog/language-unsupervised/">GPT</a>. This development generated a lot of headlines since OpenAI opted for a release strategy where incrementally larger version of the model were released over time. They claimed that the output of the full model was so good that it could be used to generate believable fake writings with ease, and thus posed a risk to public discourse. Ironically, there have since been papers published that claim such a release strategy is flawed, since these generative models are actually the best at automatically discriminating between fake and real news stories. We will discuss both of these recent developments in the following sections.
-
 ### GPT-2: A Dangerous AI?
 
-This is one of the most hyped models for generating text from a prompt, and was even dubbed the "AI that was too dangeorus to release." This has proven to not be the case, since the full model has since been released to the public and chaos has not yet broken out. Nonetheless, the output and inner workings of this model are quite impressive. The primary goal of this paper was to capitalize on the idea that generalized pre-trained architectures can work well on a variety of common natural language processing tasks in a zero-shot setting. **Zero-shot learning** means that the model was trained without any explicit knowledge about the application domain, i.e. that there was no labeled set of training data to work with. 
+As previously mentioned, there has been a lot of media hype surrounding some recent developments in the area of natural language generation. Widely dubbed "the AI that was too dangerous to release," OpenAI's GPT-2 model was at the center of a media firestorm that launched debates about the ethics of AI research and how to responsibly publish work in this area. The possibility for using this and other models to generate high quality fake news and other propaganda continues to be of major concern. 
+
+Fortunately, this has not yet proven to be the case, since the full model was released to the public in early November 2019 and chaos has not broken out. Nonetheless, the output and inner workings of this model are quite impressive. The primary goal of this paper was to capitalize on the idea that generalized pre-trained architectures can work well on a variety of common natural language processing tasks in a zero-shot setting. <a href="https://medium.com/@cetinsamet/zero-shot-learning-53080995d45f">**Zero-shot learning**</a> means that the model was trained without any explicit knowledge about the application domain, i.e. that there was no labeled set of training data to work with. We will now dive into the specifics of how GPT-2 and other natural language generation techniques work.
 
 #### Transformer Based Architecture
 
@@ -81,7 +78,7 @@ Given the prompt "Once upon a time", GPT-2 gave the following output:
 
 >"Once upon a time there was a college student named Damon, and although he had trouble finding a job, he got this job. He had to turn in all his former self before he was given his first and only day off, but somehow Damon managed to redeem himself and get the job. But then the fear of the unknown dragged Damon into the crazed world of old monsters, hellspawn, zombies, etc. And it was then that the true nature of Damon turned to evil! Here he is trying to beat up the Zombie, and not even hesitating when he said, "and you can't hold your breath without me." That's right he beats up and kills a big pile of zombies with his bare hands, then show his self in front of everyone. My favorite part of this is that he tries to make friends with a couple of the zombies, but these two are very…crazy and they don't seem to like Kaioshin's guts. Since you never really know what someone's personality is like, that whole scene about them."
 
-The output here is of noticeably lower quality than the first passage. Due to the fact that this model uses only statistical co-occurence of words to generate the next word, there is no way for it to explicitly model the world in a logically consistent manner. Without this model, it is very difficult for the model to produce results that will be consistent over increasingly long text output. With a large enough model, as is the case with GPT-2, the output "sounds" pretty good when examining localized groups of words or phrases, but it starts to go off the rails fairly quickly.
+The output here is of noticeably lower quality than the first passage. Due to the fact that this model uses only statistical co-occurence of words to generate the next word, there is no way for it to explicitly model the world in a logically consistent manner. Without any explicit representation of the world, it is very difficult for the model to produce results that will be consistent over increasingly long text output. With a large enough model, as is the case with GPT-2, the output "sounds" pretty good when examining localized groups of words or phrases, but it starts to go off the rails fairly quickly.
 
 #### GPT-2 as a Creativity Support Tool?
 Since GPT-2 generates output from a given sequence of text, incorporating it into one's writing process would be quite straightforward, especially in the unfortunate event when writer's block strikes. This model's abililty to output factual output is limited, since it uses strictly statistical co-occurences when determining what words to produce next. However, for fictional or creative writing, it will always succeed in producing some path forward for your narrative. Whether this is a good path is up to the writer, and since humans are naturally good at discriminating between output they like or not, it would seem to be a natural fit. 
@@ -92,7 +89,7 @@ Since GPT-2 generates output from a given sequence of text, incorporating it int
 
 If you would like to try generating some of your own fake news, the authors have a <a href="https://grover.allenai.org/">website</a> where you can do just that (with some limitations due to potential for misuse in creating online propaganda).
 
-It was originally developed as a way to combat the increasing prevalence of fake news by approaching this from a threat modeling perspective. In contrast to OpenAI’s approach to (at least initially) locking up the model to the public, this paper argues that the best defense against what they call neural fake news (defined as “targeted propaganda that closely mimics the style of real news”) are robust models that can generate believable fake news themselves.
+Grover was originally developed as a way to combat the increasing prevalence of fake news by approaching this from a threat modeling perspective. In contrast to OpenAI’s approach to (at least initially) locking up the model to the public, this paper argues that the best defense against what they call neural fake news (defined as “targeted propaganda that closely mimics the style of real news”) are robust models that can generate believable fake news themselves.
 
 Their model allows for the controllable generation of not just the news article body, but also the title, news source, publication date, and author list. Specifying the news source causes the article to have the same style of writing that is typically present at that organization. The result is fake news articles that are typically rated as more trustworthy than fake news generated by a human. They generate a news article by sampling from the probability distribution defined by:
 
@@ -107,7 +104,7 @@ In order to train Grover to effectively produce fake news, they needed to create
 #### Generating Fake News
 They evaluated their results by comparing human-written articles from reputable news sources, Grover-written articles trained with only reputable news articles, human-written propaganda, and Grover-written propaganda.
 
-They then used **Amazon's Mechanical Turk** platform to recruit people to evaluate the outputs based on stylistic consistency, content sensibility, and overall trustworthiness. They found that while Grover is not as good at writing propaganda as a human, it can rewrite human-written propaganda and make it seem even more trustworthy. We tried this ourselves using the author's website, and put these input parameters into Grover: 
+They then used <a href="https://www.mturk.com/">Amazon's Mechanical Turk</a> platform to recruit people to evaluate the outputs based on stylistic consistency, content sensibility, and overall trustworthiness. They found that while Grover is not as good at writing propaganda as a human, it can rewrite human-written propaganda and make it seem even more trustworthy. We tried this ourselves using the author's website, and put these input parameters into Grover: 
 
 - <b>Domain</b>: nytimes.com
 - <b>Date</b>: November 6, 2019
@@ -150,7 +147,7 @@ This article is significantly more believable and includes claims that match the
 
 #### Detecting Propaganda
 
-With the ability to automatically generate relatively believable propaganda articles quickly, it becomes critical that there is a way to automatically determine what is real and what is fake. To this end, the authors of this paper examined using Grover as a discriminator and compared its discriminative capabilities against other models including BERT [Devlin et al., 2019], GPT-2, and FastText [Joulin et al., 2017].
+With the ability to automatically generate relatively believable propaganda articles quickly, it becomes critical that there is a way to automatically determine what is real and what is fake. To this end, the authors of this paper examined how to use Grover as a discriminator and compared its discriminative capabilities against other models including BERT [Devlin et al., 2019], GPT-2, and FastText [Joulin et al., 2017].
 
 They use two evaluations to determine the best model for discrimination. The first is the **unpaired setting**, in which the discriminator is given a single news article at a time, and must determine if it was written by a human or a machine. The second is the **paired setting**, in which the discriminator is given two news articles with the same metadata, one of which is written by a human and one which was written by a machine. The model must then determine which one has a higher probability of being written by a machine. The results were as follows:
 
