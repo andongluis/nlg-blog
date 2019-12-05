@@ -213,10 +213,13 @@ The decoder can then use these annotations to produce **context vectors**, which
 ![mechanisms-eq]({{site.baseurl}}/assets/images/bahdanau-eq-5.png){:height="20%" width="20%"}
 {:.article-img}
 
-The weights for this summation are found by
+where *C*<sub>i</sub> is a context vector and *h*<sub>j</sub> is an annotation. The weights of the annotations $\alpha$<sub>ij</sub> for this summation are found by
 
 ![mechanism-weights]({{site.baseurl}}/assets/images/bahdanau-eq-6.png){:height="30%" width="30%"}
 {:.article-img}
+
+where *e*<sub>ij</sub> is the alignment model, which provides a score of how well the input around position *j* and the output at position *i* match, and *s*<sub>i-1</sub> is the RNN hidden state, which provides a representation of all previous input.
+
 
 
 The alignment is basically the importance of a given annotation in producing the current output word. The alignment function is itself a feedforward neural network that is trained alongside the overall encoder-decoder model.
@@ -255,6 +258,9 @@ The decoder layers are very similar. They also have the self-attention layer and
 
 {:.image-caption}
 *High level architecture of an decoder layer in a transformer. From http://jalammar.github.io/illustrated-transformer/*
+
+The encoder-decoder attention mechanism used here is one that mimics one of the previously discussed attention mechanisms that was used in a regular encoder-decoder network, such as the one from (Bahdanau et al., 2015). This allows the decoder layer to look at all positions of the input sequence.
+
 
 #### Self-Attention Mechanism
 
