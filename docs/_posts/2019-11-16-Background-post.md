@@ -10,9 +10,9 @@ featured: true
 {:.image-caption}
 *Image courtesy of medium.com*
 
-These blog posts will focus on the problem of Natural Language Generation (NLG). Over various blog posts, we will explore key models that have significantly advanced the field, along with an exploration of some important problems that are trying t obe solved in NLG.
+These blog posts will focus on the problem of Natural Language Generation (NLG). Over various blog posts, we will explore key models that have significantly advanced the field, along with an exploration of some important problems that are trying to be solved in NLG.
 
-This blog post will focus on the Natural Language Processing (NLP) and Deep Learning (DL) background required to understand the rest of the blog posts. However, due to the extensive nature of these topics, we will assume some background knowledge in order for us to focus on the NLG-specific aspects of DL. Specifically, we will assume that readers will be familiar with
+This blog post will focus on the Natural Language Processing (NLP) and Deep Learning (DL) background required to understand the rest of the blog posts. However, due to the extensive nature of these topics, we will assume some background knowledge in order for us to focus on the NLG-specific aspects of DL. Specifically, we will assume that readers is familiar with
 - What it means to train a DL model
 - What regularization means
 - Overfitting and underfitting
@@ -23,10 +23,10 @@ This blog post will focus on the Natural Language Processing (NLP) and Deep Lear
 
 Natural Language Processing (NLP for short) is a broad term used to describe Machine Learning/Artificial Intelligence techniques for understanding language. The name of the area is a bit of a misnomer since some people recognize three broad areas that NLP has:
 - **Natural Language Processing (NLP)**: How do we process "human-understandable" language into "machine-understandable" input
-- **Natural Language Generation (NLU)**: How can we use machines to generate sensical speech and text
+- **Natural Language Generation (NLU)**: How can we use machines to generate sensible speech and text
 - **Natural Language Understanding (NLG)**: How can we make machine understand what we mean when we communicate
 
-Note that most problem end up having overlaps between the three areas, with NLP being quite necessary for the other two. For instance, it is hard for a machine to understand language if it is not able to first process it.
+Note that most problems end up having overlaps between the three areas, with NLP being quite necessary for the other two. For instance, it is hard for a machine to understand language if it is not able to first process it.
 
 ## Language Models
 
@@ -117,6 +117,7 @@ The main idea is that we have some "skip-ahead" connections in the neural archit
 *Image from https://miro.medium.com/max/651/0*sGlmENAXIZhSqyFZ*
 
 There are two main ideas that motivate residual connections:
+
 - *"Short-circuit" connections*: A key hyperparameter in neural architectures is the number of layers, with the trend being that more is better. However, for some instances it is not necessary to have that many layers. To alleviate some of the hyperparameter tuning work, residual connections can help give the network the ability to decide to use all layers or to ignore some of them.
 - *"Refresh memory"*: The other big idea is that by having some connections that skip layers, we can give the deeper layers of the network a refresher on what the original input looked like. That way, the network can used the latent features along with the original ones.
 
