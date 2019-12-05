@@ -46,7 +46,7 @@ $$p(w_n | w_1, w_2, ..., w_{n-1}) $$
 
 ### Skip-grams
 
-N-grams are limited by the sequential nature of the n-gram; you are using as context the *n-1* words before the *n*-th word and only those. A more flexible approach has been **skip-grams** (Guthrie et al. 2006) which still will use some *n* number of words as context, but it allows you to *skip* over some words. For instance, when predicting the word following the sentence "The dog happily ate the " and we choose to have *n=2*, we might choose the words ["dog", "ate"] rather than having to focus solely on the words ["ate", "the"].
+N-grams are limited by the sequential nature of the n-gram; you are using as context the *n-1* words before the *n*-th word and only those. A more flexible approach has been **skip-grams** (Guthrie et al. 2006) which still will use some *n* number of words as context, but it allows you to *skip* over some words. Skipgrams will end up choosing the words that are the most significant of the sentence. For instance, when predicting the word following the sentence "The dog happily ate the " and we choose to have *n=2*, we might choose the words ["dog", "ate"] rather than having to focus solely on the words ["ate", "the"] since "dog" and "ate" tell us more useful information.
 
 ### Forward and Backward probabilities
 
@@ -66,7 +66,7 @@ Though not as useful for predicting future words, they are still useful for unde
 
 As an example, suppose we wanted to represent the sentence "The dog is the goodest of boys". One way we could do it is by using bag-of-words representations. Suppose our entire dictionary consisted of the words [the, dog, is, bad, goodest, of, boys, great]. Then, the sentence would look as follows
 
-![goodest boy image]({{site.baseurl}}/assets/images/goodest-boys-example.png){:height="30%" width="30%"}
+![goodest boy image]({{site.baseurl}}/assets/images/goodest-boys-example.png){:height="70%" width="70%"}
 {:.article-img}
 
 {:.image-caption}
@@ -76,7 +76,7 @@ Here, we define a dimension for each word and the vector for a word will have a 
 
 The sentence "The dog is good" would look like
 
-![good boy image]({{site.baseurl}}/assets/images/good-boy-example.png){:height="30%" width="30%"}
+![good boy image]({{site.baseurl}}/assets/images/good-boy-example.png){:height="70%" width="70%"}
 {:.article-img}
 
 {:.image-caption}
@@ -86,13 +86,13 @@ Note that since we did not include "good" in our original dictionary, this does 
 
 ### Distributed Word Representations
 
-There are multiple types of word representations, such as based on clustering, one-hot encodings, and based on co-occurrences. However, as we saw in the previous example, a big problem is the sparsity of the space (meaning that we have too many dimensions for too few data points) and that we might not handle unseen words well (i.e. we are unable to generalize).
+There are multiple types of word representations, such as those based on clustering, one-hot encodings, and based on co-occurrences (the article <a href="https://www.aclweb.org/anthology/P10-1040/" target="_blank">here</a> explains these quite well). However, as we saw in the previous example, a big problem is the sparsity of the space (meaning that we have too many dimensions for too few data points) and that we might not handle unseen words well (i.e. we are unable to generalize).
 
-Among the many different kinds of word representations, the one that has gained the most traction over the past few years is **distributed word representations** (also called **word embeddings**). These use condense feature vectors in latent spaces that are not immediately human-understandable. This means that we can generalize to unseen words and the problem of sparsity is handled better. Deep Learning is often used with these (Turian, Ratinov, and Bengio 2010).
+Among the many different kinds of word representations, the one that has gained the most traction over the past few years is **distributed word representations** (also called **word embeddings**). These use condensed feature vectors in latent spaces that are not immediately human-understandable. This means that we can generalize to unseen words and the problem of sparsity is handled better. Deep Learning is often used with these (Turian, Ratinov, and Bengio 2010).
 
 For instance, we could run a neural network on the sentence "the dog is good" and get a latent space encoding.
 
-![embeddings image]({{site.baseurl}}/assets/images/word-embeddings-example.png){:height="30%" width="30%"}
+![embeddings image]({{site.baseurl}}/assets/images/word-embeddings-example.png){:height="70%" width="70%"}
 {:.article-img}
 
 {:.image-caption}
@@ -117,15 +117,15 @@ The main idea is that we have some "skip-ahead" connections in the neural archit
 *Image from https://miro.medium.com/max/651/0*sGlmENAXIZhSqyFZ*
 
 There are two main ideas that motivate residual connections:
-- "Short-circuit" connections: A key hyperparameter in neural architectures is the number of layers, with the trend being that more is better. However, for some instances it is not necessary to have that many layers. To alleviate some of the hyperparameter tuning work, residual connections can help give the network the ability to decide to use all layers or to ignore some of them.
-- "Refresh memory": The other big idea is that by having some connections that skip layers, we can give the deeper layers of the network a refresher on what the original input looked like. That way, the network can used the latent features along with the original ones.
+- *"Short-circuit" connections*: A key hyperparameter in neural architectures is the number of layers, with the trend being that more is better. However, for some instances it is not necessary to have that many layers. To alleviate some of the hyperparameter tuning work, residual connections can help give the network the ability to decide to use all layers or to ignore some of them.
+- *"Refresh memory"*: The other big idea is that by having some connections that skip layers, we can give the deeper layers of the network a refresher on what the original input looked like. That way, the network can used the latent features along with the original ones.
 
 
 ## Convolutional Neural Networks
 
 Arguably, the first networks that really impressed the world (LeCun and Bengio 1995) are convolutional neural networks (CNN). The distinguishing feature of CNN's are convolutional layers, which take into account an input's neighboring values. In other words, rather than looking at each component of the input vector as "independent", they look at each component's neighborhood.
 
-![convnet image]({{site.baseurl}}/assets/images/conv-layer.png){:height="30%" width="30%"}
+![convnet image]({{site.baseurl}}/assets/images/conv-layer.png){:height="40%" width="40%"}
 {:.article-img}
 
 {:.image-caption}
@@ -139,7 +139,7 @@ Recurrent Neural Networks (RNN's) deal with an important limitation of CNN's: th
 
 RNN's can deal with this by introducing a special layer called the Recurrent layer. These use cells that take as input a part of the sequence and the output of the cell with the previous input
 
-![rnn image]({{site.baseurl}}/assets/images/rnn-fig.png){:height="30%" width="30%"}
+![rnn image]({{site.baseurl}}/assets/images/rnn-fig.png){:height="70%" width="70%"}
 {:.article-img}
 
 {:.image-caption}
@@ -153,7 +153,7 @@ Normal RNN's face various limitations, the most glaring being that it might be d
 
 Rather than using RNN's, what people end up using is often Long Short-Term Memory Cells (LSTM Cells). The details of LSTM cells are quite intricate (Gers, Schmidhuber, and Cummins 1999), yet the intuition behind these is remarkably simple: LSTM's can have longer term memory by choosing what to remember and what to forget.
 
-![lstm image]({{site.baseurl}}/assets/images/lstm-fig.jpeg){:height="30%" width="30%"}
+![lstm image]({{site.baseurl}}/assets/images/lstm-fig.jpeg){:height="70%" width="70%"}
 {:.article-img}
 
 {:.image-caption}
@@ -168,7 +168,7 @@ The rationale behind this seems a bit unintuitive: why would you want to predict
 
 This reasoning motivates Bidirectional RNN's (Schuster and Paliwal 1997), which use both forward and backward Language Models.
 
-![bi-rnn image]({{site.baseurl}}/assets/images/bi-rnn-fig.png){:height="30%" width="30%"}
+![bi-rnn image]({{site.baseurl}}/assets/images/bi-rnn-fig.png){:height="70%" width="70%"}
 {:.article-img}
 
 {:.image-caption}
