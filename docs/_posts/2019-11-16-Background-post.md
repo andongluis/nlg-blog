@@ -18,8 +18,32 @@ This blog post will focus on the Natural Language Processing (NLP) and Deep Lear
 - Overfitting and underfitting
 - Neural network basics: feed-forward neural networks, activation functions, backpropagation basics
 
+## Table of Contents
+- [Natural Language Processing](#nlp)
+	- [Language Models](#language-models)
+		- [N-grams](#n-grams)
+		- [Skip-grams](#skip-grams)
+		- [Forward and Backward Probabilities](#forward-backward-prob)
+	- [Word Representatons](#word-representations)
+		- [Distributed Word Representations](#distributed-word-reps)
+- [Deep Learning](#deep-learning)
+	- [Residual Networks](#res-nets)
+	- [Convolutional Neural Networks](#cnn)
+	- [Recurrent Neural Networks](#rnn)
+	- [LSTM Cells](#lstm)
+		- [Bidirectional Neural Networks](#bidirectional-rnn)
+	- [Encoder-Decoder Networks (seq2seq)](#seq2seq)
+		- [Attention Mechanisms](#attention)
+			- [Example: Bahdanau's Attention Mechanism](#attention-example)
+		- [Transformers](#transformer)
+			- [Architecture](#transformer-arch)
+			- [Self-Attention Mechanism](#self-attention)
+			- [Scaled Dot-Product Attention](#scaled-dot-product)
+			- [Multi-Head Attention](#multi-head)
+			- [Further Reading on Transformers](#more-transformers)
+- [References](#references)
 
-# NLP
+# Natural Language Processing <a name="nlp"></a>
 
 Natural Language Processing (NLP for short) is a broad term used to describe Machine Learning/Artificial Intelligence techniques for understanding language. The name of the area is a bit of a misnomer since some people recognize three broad areas that NLP has:
 - **Natural Language Processing (NLP)**: How do we process "human-understandable" language into "machine-understandable" input
@@ -28,7 +52,7 @@ Natural Language Processing (NLP for short) is a broad term used to describe Mac
 
 Note that most problems end up having overlaps between the three areas, with NLP being quite necessary for the other two. For instance, it is hard for a machine to understand language if it is not able to first process it.
 
-## Language Models
+## Language Models <a name="language-models"></a>
 
 In order for us to understand **NLG**, we often resort to a mathematical understanding of how language can be generated. Specifically, a **language model** is a way of modeling probability of a word or sequence of words. For instance, if we want to model how likely the phrase "did nothing wrong", we would write down the probability as 
 
@@ -38,17 +62,17 @@ Often, we want to model word and sentence probability with added conditions. For
 
 $$p(w_1=did, w_2=nothing, w_3=wrong | w_0=Thanos)$$
 
-### N-grams
+### N-grams <a name="n-grams"></a>
 
 Given that sentences can be quite long (Gabriel García Márquez famously wrote a two-page long sentence in *One Hundred Years of Solitude*), it is often useful to just look at a subset of that sequence. To that end, we use n-grams (Cavnar and Trenkle 1994) which basically ask the question: given the previous *n-1* words, what is the probability of the *n*-th word? In probability terms, this looks like
 
 $$p(w_n | w_1, w_2, ..., w_{n-1}) $$
 
-### Skip-grams
+### Skip-grams <a name="skip-grams"></a>
 
 N-grams are limited by the sequential nature of the n-gram; you are using as context the *n-1* words before the *n*-th word and only those. A more flexible approach has been **skip-grams** (Guthrie et al. 2006) which still will use some *n* number of words as context, but it allows you to *skip* over some words. Skipgrams will end up choosing the words that are the most significant of the sentence. For instance, when predicting the word following the sentence "The dog happily ate the " and we choose to have *n=2*, we might choose the words ["dog", "ate"] rather than having to focus solely on the words ["ate", "the"] since "dog" and "ate" tell us more useful information.
 
-### Forward and Backward probabilities
+### Forward and Backward Probabilities <a name="forward-backward-prob"></a>
 
 So far, we have seen probabilities of the next word given previous words. These types of probabilities are called **forward probabilities**.
 
@@ -60,7 +84,7 @@ $$p(w_1 | w_2, w_3, ..., w_{n}) $$
 
 Though not as useful for predicting future words, they are still useful for understanding sequences and obtaining features for the context surrounding words (Peters et al. 2018).
 
-## Word Representations
+## Word Representations <a name="word-representations"></a>
 
 **Word representations** are ways of representing words in a machine-understandable way; the most common way of doing so is by representing a word as a vector. They are especially useful for ML algorithms since the vector representation allows for statistical methods to be used, especially optimization-based algorithms.
 
@@ -84,7 +108,7 @@ The sentence "The dog is good" would look like
 
 Note that since we did not include "good" in our original dictionary, this does not appear in our vector.
 
-### Distributed Word Representations
+### Distributed Word Representations <a name="distributed-word-reps"></a>
 
 There are multiple types of word representations, such as those based on clustering, one-hot encodings, and based on co-occurrences (the article <a href="https://www.aclweb.org/anthology/P10-1040/" target="_blank">here</a> explains these quite well). However, as we saw in the previous example, a big problem is the sparsity of the space (meaning that we have too many dimensions for too few data points) and that we might not handle unseen words well (i.e. we are unable to generalize).
 
@@ -100,11 +124,11 @@ For instance, we could run a neural network on the sentence "the dog is good" an
 
 Though we might not be able to easily understand what these dimensions mean in terms of human terms, they are often more useful for machine learning algorithms.
 
-# Deep Learning
+# Deep Learning <a name="deep-learning"></a>
 
 Within Machine Learning (ML), the area that has spearheaded a lot of the performance gains has been Deep Learning (DL). DL is the area of ML that deals with neural networks, which allow models to automatically learn latent features from data. In this section, we will cover some of the aspects of deep learning that have been widely used in NLP.
 
-## Residual Networks
+## Residual Networks <a name="res-nets"></a>
 
 Residual networks have been used quite widely for some time now (Szegedy et al. 2017) with a lot of recent architectures (such as ELMo and BERT) using these and with most state-of-the-art using these by default.
 
@@ -122,7 +146,7 @@ There are two main ideas that motivate residual connections:
 - *"Refresh memory"*: The other big idea is that by having some connections that skip layers, we can give the deeper layers of the network a refresher on what the original input looked like. That way, the network can used the latent features along with the original ones.
 
 
-## Convolutional Neural Networks
+## Convolutional Neural Networks <a name="cnn"></a>
 
 Arguably, the first networks that really impressed the world (LeCun and Bengio 1995) are convolutional neural networks (CNN). The distinguishing feature of CNN's are convolutional layers, which take into account an input's neighboring values. In other words, rather than looking at each component of the input vector as "independent", they look at each component's neighborhood.
 
@@ -134,7 +158,7 @@ Arguably, the first networks that really impressed the world (LeCun and Bengio 1
 
 So, a CNN ends up with convolutional layers at the beginning and then some "regular" network connections at the end. Though CNN's are often associated with image inputs, they can also be used in sequential data. For instance, we could look at the window of 2 words before and after our current word.
 
-## Recurrent Neural Networks
+## Recurrent Neural Networks <a name="rnn"></a>
 
 Recurrent Neural Networks (RNN's) deal with an important limitation of CNN's: their fixed-size window. CNN's convolutions have a fixed window that they deal with and they have a fixed sized input that they can deal with. This is problematic for sequences such as sentences since often vary in length.
 
@@ -148,7 +172,7 @@ RNN's can deal with this by introducing a special layer called the Recurrent lay
 
 Given this set up, it is easy to see how these could be used for language modeling since they can (theoretically) take into account as many previous words as possible (Mikolov et al. 2010).
 
-## LSTM Cells
+## LSTM Cells <a name="lstm"></a>
 
 Normal RNN's face various limitations, the most glaring being that it might be difficult to train them due to exploding/vanishing gradients and they can have trouble remembering long sequences.
 
@@ -160,7 +184,7 @@ Rather than using RNN's, what people end up using is often Long Short-Term Memor
 {:.image-caption}
 *Image from https://miro.medium.com/max/1566/1*MwU5yk8f9d6IcLybvGgNxA.jpeg*
 
-### Bidirectional RNNs
+### Bidirectional RNNs <a name="bidirectional-rnn"></a>
 
 
 RNN's are usually used for future prediction, meaning that you follow the "forward" probability Language Model. However, they can also be used to model the backward probabilities.
@@ -176,14 +200,14 @@ This reasoning motivates Bidirectional RNN's (Schuster and Paliwal 1997), which 
 *Image from https://miro.medium.com/max/1146/1*6QnPUSv_t9BY9Fv8_aLb-Q.png*
 
 
-## Encoder-Decoder Networks (seq2seq)
+## Encoder-Decoder Networks (seq2seq) <a name="seq2seq"></a>
 
-These types of networks are composed of two parts: an encoder and a decoder. The **encoder** is a neural network that takes the input (in NLP this might be a sequence of words) and runs it through the network to produce a simpler representation in a new vector space. The **decoder**, also a neural network, then takes a vector from this new space, and translates it into another vector space. 
+This seq2seq architecture was introduced in 2014 by (<a href="https://arxiv.org/pdf/1409.3215.pdf">Sutskever et al., 2014</a>) in an effort to produce better translations between languages.  These types of networks are composed of two parts: an encoder and a decoder. The **encoder** is a neural network that takes the input (in NLP this might be a sequence of words) and runs it through the network to produce a simpler representation in a new vector space. The **decoder**, also a neural network, then takes a vector from this new space, and translates it into another vector space. 
 
 For example, consider the problem of translating between languages such as converting an English sentence to Spanish. The encoder network, once trained, would be able to encode the English sentence in a new, intermediate representation that captures the semantics of the English sentence. Then, the decoder network would take this intermediate representation that contains the meaning of the original sentence, and converts it to an equivalent sentence in Spanish.
 
 
-### Attention Mechanisms
+### Attention Mechanisms <a name="attention"></a>
 
 Intuitively, we know that certain parts of a sentence or sequence are more important than others. As humans, we can do this fairly easily by remembering what we have previously seen. However, this can be difficult for computers that lack the complex memory and reasoning skills that are built into the human brain. This is where **attention mechanisms** come into play. These help identify which parts of a sequence are most important, and keep track of them as the model continues to process new information. 
 
@@ -202,9 +226,9 @@ Each word in an input sequence is assigned a score based on its context, i.e. th
 
 In the above table, <b>s</b><sub>t</sub> is a vector representing the hidden state in the decoder for the word at position t, and <b>h</b><sub>i</sub> is a vector created by concatenating the forward hidden states with the backward hidden states of the recurrent unit for the word at position i. For a more in-depth history of attention mechanisms, we recommend <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">this excellent blog post</a> by Lilian Weng.
 
-#### Example: Bahdanau's Attention Mechanism
+#### Example: Bahdanau's Attention Mechanism <a name="attention-example"></a>
 
-Attention mechanisms were introduced into typical encoder-decoder architectures as a means of keeping track of the important parts of the input sequence. This was first done in the context of natural language processing, more specifically machine translation (Bahdanau et al., 2014). They add an attention mechanism, which they call the alignment model, to the decoder.
+Attention mechanisms were introduced into typical encoder-decoder architectures as a means of keeping track of the important parts of the input sequence. This was first done in the context of natural language processing, more specifically machine translation (<a href="https://arxiv.org/pdf/1409.0473.pdf">Bahdanau et al., 2014</a>). They add an attention mechanism, which they call the alignment model, to the decoder.
 
 The encoder is a bidirectional LSTM that maps the input sequence to a series of annotations. An **annotation** is vector that is the result of concatenating the forward hidden states with the backwards hidden states. Put more simply, it is just a representation of the word along with some of the context surrounding it. Each annotation contains information about the whole input sequence with an emphasis on the words surrounding the $i^{th}$ word as a result of the tendency of LSTMs to better capture information about more recent input.
 
@@ -227,13 +251,13 @@ The alignment is basically the importance of a given annotation in producing the
 These context vectors are fed into later layers of the decoder in order to eventually predict the output sequence that is associated with the input sequence. In this way, we can use attention mechanisms for a variety of natural language processing tasks, including better predicting how to translate sentences between languages, or predicting the next word in a given sequence.
 
 
-### Transformers
+### Transformers <a name="transformer"></a>
 
-One recent major breakthourgh in natural language processing is the **transformer network**. This is a deep neural network model that can be used as a way to understand sequential data without recurrence or convolutions and instead uses only attention mechanisms in its architecture. This was first introduced by a team of researchers at Google in 2017 (Vaswani et al., 2017), and they use what is called the **self-attention mechanism** instead of recurrent units to keep track of associations and correlations in the input.
+One recent major breakthourgh in natural language processing is the **transformer network**. This is a deep neural network model that can be used as a way to understand sequential data without recurrence or convolutions and instead uses only attention mechanisms in its architecture. This was first introduced by a team of researchers at <a href="https://ai.google/research/teams/brain/">Google</a> in 2017 (<a href="https://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf">Vaswani et al., 2017</a>), and they use what is called the **self-attention mechanism** instead of recurrent units to keep track of associations and correlations in the input.
 
 These networks were originally developed to solve the problem of **sequence transduction**, which is transforming one input type to another. Often, this is done for tasks in machine translation or converting text to speech. Overall, this model does a good job at these tasks, so let's dive into some specifics to get a better understanding of why.
 
-#### Architecture
+#### Architecture <a name="transformer-arch"></a>
 
 As described in the original paper, the architecture of a transformer network follows the same encoder-decoder structure, with multiple layers in each.
 
@@ -259,16 +283,16 @@ The decoder layers are very similar. They also have the self-attention layer and
 {:.image-caption}
 *High level architecture of an decoder layer in a transformer. From http://jalammar.github.io/illustrated-transformer/*
 
-The encoder-decoder attention mechanism used here is one that mimics one of the previously discussed attention mechanisms that was used in a regular encoder-decoder network, such as the one from (Bahdanau et al., 2015). This allows the decoder layer to look at all positions of the input sequence.
+The encoder-decoder attention mechanism used here is one that mimics one of the previously discussed attention mechanisms that was used in a regular encoder-decoder network, such as the one from (<a href="https://arxiv.org/pdf/1409.0473.pdf">Bahdanau et al., 2015</a>). This allows the decoder layer to look at all positions of the input sequence.
 
 
-#### Self-Attention Mechanism
+#### Self-Attention Mechanism <a name="self-attention"></a>
 
-Self-attention is a technique that tries to produce a new representation of an input sequence by relating different positions in the sequence with other positions. This provides a way to encode correlations between words in a sentence, and allows the network to incorporate these relations into its processing. For example, as previously discussed, recurrent units in RNNs provide are one way to do this. This has previously been used in conjunction with LSTMs to improve the processing of sequential data in natural language understanding tasks (Jianpeng et al., 2016).
+Self-attention is a technique that tries to produce a new representation of an input sequence by relating different positions in the sequence with other positions. This provides a way to encode correlations between words in a sentence, and allows the network to incorporate these relations into its processing. For example, as previously discussed, recurrent units in RNNs provide are one way to do this. This has previously been used in conjunction with LSTMs to improve the processing of sequential data in natural language understanding tasks (<a href="https://arxiv.org/pdf/1601.06733.pdf">Cheng et al., 2016</a>).
 
-#### Scaled-Dot Product Attention
+#### Scaled Dot-Product Attention <a name="scaled-dot-product"></a>
 
-One of the key features of the transformer network introduced by Vaswani et al. was a new attention mechanism: **Scaled-Dot Product Attention**. This is very similar to dot-product attention (Luong et al., 2015), but they add a scale factor that is the dimension of the source hidden state. This effectively normalizes the value and helps prevent cases where the softmax function is pushed into spaces with small gradients, i.e. alleviating the <a href="https://en.wikipedia.org/wiki/Vanishing_gradient_problem">vanishing gradient problem</a>.
+One of the key features of the transformer network introduced by Vaswani et al. was a new attention mechanism: **Scaled Dot-Product Attention**. This is very similar to dot-product attention (<a href="https://pdfs.semanticscholar.org/969a/289e8f5f6f6a5f2131fd92aedfd3f666c686.pdf">Luong et al., 2015</a>), but they add a scale factor that is the dimension of the source hidden state. This effectively normalizes the value and helps prevent cases where the softmax function is pushed into spaces with small gradients, i.e. alleviating the <a href="https://en.wikipedia.org/wiki/Vanishing_gradient_problem">vanishing gradient problem</a>.
 
 
 ![scaled-dot-product-diagram]({{site.baseurl}}/assets/images/vaswani-scaled-dot-product-diagram.png){:height="30%" width="30%"}
@@ -278,11 +302,11 @@ One of the key features of the transformer network introduced by Vaswani et al. 
 {:.article-img}
 
 {:.image-caption}
-*Scaled Dot-Product Attention from [Vaswani et al., 2017]*
+*Scaled Dot-Product Attention from (<a href="https://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf">Vaswani et al., 2017</a>)*
 
 The inputs here are the query, key, and value vectors *(note: In the paper, multiple queries, keys, and values are processed simulataneously and are thus packed into matrices)*. We start with a word in the input sequence and calculate a word embedding for it in order to get a vector representation of the word. Then, there is a separate transformation matrix that is used to convert these word embeddings to the proper space of queries, keys, and values. These weights/values in these transformation matrices are found during the training process. The intuition here is once again that this attention mechanism will produce a new representation of the input sequence in order to determine how well the words are correlated with each other.
 
-#### Multi-Head Attention
+#### Multi-Head Attention <a name="multi-head"></a>
 
 Additionally, they use **multi-head attention** in order to allow the transformer model to "attend to information from different representation subspaces at different positions." This is also done as an optimization for the model, as it allows for the attention function to be computed mutliple times in parallel.
 
@@ -290,29 +314,30 @@ Additionally, they use **multi-head attention** in order to allow the transforme
 {:.article-img}
 
 {:.image-caption}
-*Multi-Head Attention Mechanism from [Vaswani et al., 2017]*
+*Multi-Head Attention Mechanism from (<a href="https://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf">Vaswani et al., 2017</a>)*
 
 
-#### Further Reading on Transformers
+#### Further Reading on Transformers <a name="more-transformers"></a>
 
 For more a more in-depth discussion of the specifics of how transformers work, we recommend <a href="http://jalammar.github.io/illustrated-transformer/">this blog post</a> by Jay Allamar.
 
 For those who are interested in digging into the details of how to implement one of these transformer networks, <a href="https://nlp.seas.harvard.edu/2018/04/03/attention.html">this excellent article</a> from Harvard's NLP group provides a walkthrough of a fully functioning Python implementation.
 
 
-## References
+## References <a name="references"></a>
 
-- Bahdanau, Dzmitry, Kyunghyun Cho, and Yoshua Bengio. "Neural machine translation by jointly learning to align and translate." arXiv preprint arXiv:1409.0473 (2014).
+- <a href="https://arxiv.org/pdf/1409.0473.pdf">Bahdanau, Dzmitry, Kyunghyun Cho, and Yoshua Bengio. "Neural machine translation by jointly learning to align and translate." arXiv preprint arXiv:1409.0473 (2014).</a>
 - Cavnar, William B., and John M. Trenkle. "N-gram-based text categorization." In *Proceedings of SDAIR-94, 3rd annual symposium on document analysis and information retrieval*, vol. 161175. 1994.
-- Cheng, Jianpeng, Li Dong, and Mirella Lapata. "Long short-term memory-networks for machine reading." arXiv preprint arXiv:1601.06733 (2016).
+- <a href="https://arxiv.org/pdf/1601.06733.pdf">Cheng, Jianpeng, Li Dong, and Mirella Lapata. "Long short-term memory-networks for machine reading." arXiv preprint arXiv:1601.06733 (2016).</a>
 - Gers, Felix A., Jürgen Schmidhuber, and Fred Cummins. "Learning to forget: Continual prediction with LSTM." (1999): 850-855.
 - Graves, Alex, Greg Wayne, and Ivo Danihelka. "Neural turing machines." arXiv preprint arXiv:1410.5401 (2014).
 - Guthrie, David, Ben Allison, Wei Liu, Louise Guthrie, and Yorick Wilks. "A closer look at skip-gram modelling." In LREC, pp. 1222-1225. 2006.
 - LeCun, Yann, and Yoshua Bengio. "Convolutional networks for images, speech, and time series." The handbook of brain theory and neural networks 3361, no. 10 (1995): 1995.
-- Luong, Minh-Thang, Hieu Pham, and Christopher D. Manning. "Effective approaches to attention-based neural machine translation." arXiv preprint arXiv:1508.04025 (2015).
+- <a href="https://pdfs.semanticscholar.org/969a/289e8f5f6f6a5f2131fd92aedfd3f666c686.pdf">Luong, Minh-Thang, Hieu Pham, and Christopher D. Manning. "Effective approaches to attention-based neural machine translation." arXiv preprint arXiv:1508.04025 (2015).</a>
 - Mikolov, Tomáš, Martin Karafiát, Lukáš Burget, Jan Černocký, and Sanjeev Khudanpur. "Recurrent neural network based language model." In *Eleventh annual conference of the international speech communication association*. 2010.
 - Peters, Matthew E., Mark Neumann, Mohit Iyyer, Matt Gardner, Christopher Clark, Kenton Lee, and Luke Zettlemoyer. "Deep contextualized word representations." arXiv preprint arXiv:1802.05365 (2018).
 - Schuster, Mike, and Kuldip K. Paliwal. "Bidirectional recurrent neural networks." *IEEE Transactions on Signal Processing 45*, no. 11 (1997): 2673-2681.
+- <a href="https://arxiv.org/pdf/1409.3215.pdf">Sutskever, I., O. Vinyals, and Q. V. Le. "Sequence to sequence learning with neural networks." Advances in NIPS (2014).</a>
 - Szegedy, Christian, Sergey Ioffe, Vincent Vanhoucke, and Alexander A. Alemi. "Inception-v4, inception-resnet and the impact of residual connections on learning." In T*hirty-First AAAI Conference on Artificial Intelligence*. 2017.
 - Turian, Joseph, Lev Ratinov, and Yoshua Bengio. "Word representations: a simple and general method for semi-supervised learning." In *Proceedings of the 48th annual meeting of the association for computational linguistics*, pp. 384-394. Association for Computational Linguistics, 2010.
-- Vaswani, Ashish, et al. "Attention is all you need." Advances in neural information processing systems. 2017.
+- <a href="https://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf">Vaswani, Ashish, et al. "Attention is all you need." Advances in neural information processing systems. 2017.</a>
