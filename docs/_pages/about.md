@@ -8,7 +8,7 @@ comments: true
 <div class="container">
 
 <div class="row justify-content-between">
-The primary goal of these blog posts is to enable people unfamiliar with research in natural language generation to get an intuitive understanding of popular models and methods in order for them to be able to read and understand current literature in this area. In particular, we are covering topics such as automatic summarization and narrative generation in the deep learning era.
+The primary goal of these blog posts is to enable people unfamiliar with research in natural language generation to get an intuitive understanding of popular models and methods in order for them to be able to read and understand current literature in this area. In particular, we are covering topics such as automatic summarization and narrative generation in the deep learning era. We seek to make the learning process as painless as possible, and include links to blogs and explanations that we have found helpful, as well as code repositories where the reader can start getting some hands-on experience in generating natural language text.
 </div>
 <br>
 
@@ -20,8 +20,8 @@ Description of author. Description of author. Description of author. Description
 </div>
 
 <div class="col-md-6">
-<h5>Marko</h5>
-Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. Description of author. 
+<h5>Marko Sterbentz</h5>
+Marko is a computer scientist with a passion for artificial intelligence and natural language processing. He is currently pursuing a Ph.D. in computer science at <a href="https://www.mccormick.northwestern.edu/computer-science/">Northwestern University</a> where he researches narrative generation, commonsense reasoning, and explainable AI methods. For more information about Marko, please visit <a href="http://www.markosterbentz.com">markosterbentz.com</a>.
 </div>
 </div>
 
