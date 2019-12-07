@@ -200,7 +200,7 @@ Each word in an input sequence is assigned a score based on its context, i.e. th
 {:.image-caption}
 *Table of attention mechanisms from https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html*
 
-For a more in-depth history of attention mechanisms, we recommend <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">this excellent blog post</a> by Lilian Weng.
+In the above table, <b>s</b><sub>t</sub> is a vector representing the hidden state in the decoder for the word at position t, and <b>h</b><sub>i</sub> is a vector created by concatenating the forward hidden states with the backward hidden states of the recurrent unit for the word at position i. For a more in-depth history of attention mechanisms, we recommend <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html">this excellent blog post</a> by Lilian Weng.
 
 #### Example: Bahdanau's Attention Mechanism
 
@@ -280,7 +280,7 @@ One of the key features of the transformer network introduced by Vaswani et al. 
 {:.image-caption}
 *Scaled Dot-Product Attention from [Vaswani et al., 2017]*
 
-The inputs here are the query, key, and value vectors *(note: In the paper, multiple queries, keys, and values are processed simulataneously and are thus packed into matrices)*. We start with a word in the input sequence and calculate a word embedding for it, producing a vector representation of the word. Then, there is a separate transformation matrix that is used to convert these word embeddings to the proper space of queries, keys, and values. These weights/values in these transformation matrices are found during the training process.
+The inputs here are the query, key, and value vectors *(note: In the paper, multiple queries, keys, and values are processed simulataneously and are thus packed into matrices)*. We start with a word in the input sequence and calculate a word embedding for it in order to get a vector representation of the word. Then, there is a separate transformation matrix that is used to convert these word embeddings to the proper space of queries, keys, and values. These weights/values in these transformation matrices are found during the training process. The intuition here is once again that this attention mechanism will produce a new representation of the input sequence in order to determine how well the words are correlated with each other.
 
 #### Multi-Head Attention
 

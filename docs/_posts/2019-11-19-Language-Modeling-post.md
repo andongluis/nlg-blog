@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Language Modeling - Letting the AI Speak for Itself"
-author: andongmarko
+author: marko
 categories: [ language modeling, narrative generation ]
 image: assets/images/robot-therapist.jpg
 featured: false
@@ -14,10 +14,35 @@ This blog post covers the growing use of language modeling for natural language 
 
 This post assumes that the reader has some background knowledge in the area of language modeling and deep learning. For those who do not, or those who would like a quick review, we have also written <a href="https://andongluis.github.io/nlg-blog/Background-post/">this handy blog post</a> describing knowledge and concepts that will help get you up to speed with prominent methods and models in this area.
 
-For an in-depth overview of developments in natural language generation prior to the current deep learning era, we highly recommend <a href="https://arxiv.org/pdf/1703.09902.pdf">this survey</a> of the area [Gatt and Krahmer, 2018]. 
+For an in-depth overview of developments in natural language generation prior to the current deep learning era, we highly recommend <a href="https://pdfs.semanticscholar.org/d13b/b317e87f3f6da10da11059ebf4350b754814.pdf">this survey</a> of the area (<a href="https://pdfs.semanticscholar.org/d13b/b317e87f3f6da10da11059ebf4350b754814.pdf">Gatt and Krahmer, 2018</a>). 
+
+## Table of Contents
+- [Language Modeling and Generation with Deep Learning](#language-modeling-deep-learning)
+	- [GPT-2: A Dangerous AI?](#gpt2)
+		- [Transformer Based Architecture](#gpt2-arch)
+		- [WebText: A New Training Dataset](#gpt2-dataset)
+		- [Try GPT-2 For Yourself](#gpt2-demo)
+		- [GPT-2 as a Creativity Support Tool?](#gpt2-creativity)
+	- [Grover: A Fake News Generator](#grover)
+		- [Building and Training Grover](#grover-building-training)
+		- [Generating Fake News](#grover-make-fake-news)
+		- [Detecting Propaganda](#grover-detect-fake-news)
+		- [The Future of Fake News](#grover-future-fake-news)
+- [Evaluating Language Models](#eval-language-models)
+	- [Perplexity](#perplexity)
+		- [Does Perplexity Work Well?](#perplexity-efficacy)
+	- [BLEU Score](#bleu)
+	- [Human Evaluation](#human-eval)
+- [Applying Language Modeling in Narrative Generation](#narrative-gen)
+	- [Planning Based Generation](#planning-narratives)
+	- [Neural Network Based Generation](#neural-network-narratives)
+	- [The Future of Narrative Generation](#narrative-gen-future)
+- [Concluding Remarks](#conclusion)
+- [Further Reading and Resources](#further-reading)
+- [References](#references)
 
 
-## Language Modeling and Generation with Deep Learning
+## Language Modeling and Generation with Deep Learning <a name="language-modeling-deep-learning"></a>
 
 If you've been following popular tech news websites in the past year, you've likely heard of GPT-2. This is a model created by <a href="https://openai.com/">OpenAI</a> and is the successor to their previous model <a href="https://openai.com/blog/language-unsupervised/">GPT</a>. This development generated a lot of headlines since OpenAI opted for a <a href="https://openai.com/blog/better-language-models/">release strategy</a> where incrementally larger versions of the model were released over time. They claimed that the output of the full model was so good that it could be used to generate believable fake writings with ease, and thus posed a risk to public discourse. Ironically, there have since been papers published that claim such a release strategy is flawed, since these generative models are actually the best at automatically discriminating between fake and real news stories. We will discuss both of these recent developments and more in the coming sections, but first we'll cover a quick recap of language modeling basics.
 
@@ -41,28 +66,28 @@ By doing this repeatedly, it becomes possible to generate brand new sentences. N
 - Automating business/analytics reports
 - Enabling AI to explain their behavior
 
-### GPT-2: A Dangerous AI?
+### GPT-2: A Dangerous AI? <a name="gpt2"></a>
 
 As previously mentioned, there has been a lot of media hype surrounding some recent developments in the area of natural language generation. Widely dubbed "the AI that was too dangerous to release," OpenAI's GPT-2 model was at the center of a media firestorm that launched debates about the ethics of AI research and how to responsibly publish work in this area. The possibility for using this and other models to generate high quality fake news and other propaganda continues to be of major concern. 
 
 Fortunately, this has not yet proven to be the case, since the full model was released to the public in early November 2019 and chaos has not broken out. Nonetheless, the output and inner workings of this model are quite impressive. The primary goal of this paper was to capitalize on the idea that generalized pre-trained architectures can work well on a variety of common natural language processing tasks in a zero-shot setting. <a href="https://medium.com/@cetinsamet/zero-shot-learning-53080995d45f">**Zero-shot learning**</a> means that the model was trained without any explicit knowledge about the application domain, i.e. that there was no labeled set of training data to work with. We will now dive into the specifics of how GPT-2 and other natural language generation techniques work.
 
-#### Transformer Based Architecture
+#### Transformer Based Architecture <a name="gpt2-arch"></a>
 
 They trained a 1.5 billion parameter model, and showed that it achieved state-of-the-art results in variety 
-of language modeling tasks. These include reading comprehension, summarization, question answering and translation. The examination of these other domains is beyond the scope of this blog, but for those that are interested, we recommend reading the <a href="https://www.techbooky.com/wp-content/uploads/2019/02/Better-Language-Models-and-Their-Implications.pdf">original analysis</a> provided in the paper. The architecture is mostly the same **transformer model** used in the original GPT-1 model [Radford et al. 2018], which in turn is very similar to the original transformer model described by this paper [Vaswani et al. 2017]. A few modifications were made, including layer normalization, scaling the weights of the residual layers, and increasing the size of the vocabulary to 50,257.
+of language modeling tasks. These include reading comprehension, summarization, question answering and translation. The examination of these other domains is beyond the scope of this blog, but for those that are interested, we recommend reading the <a href="https://www.techbooky.com/wp-content/uploads/2019/02/Better-Language-Models-and-Their-Implications.pdf">original analysis</a> provided in the paper. The architecture is mostly the same **transformer model** used in the original GPT-1 model (<a href="https://www.cs.ubc.ca/~amuham01/LING530/papers/radford2018improving.pdf">Radford et al., 2018</a>), which in turn is very similar to the original transformer model described by this paper (<a href="https://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf">Vaswani et al., 2017</a>). A few modifications were made, including layer normalization, scaling the weights of the residual layers, and increasing the size of the vocabulary to 50,257.
 
 ![gpt-transformer image]({{site.baseurl}}/assets/images/radford2018-fig1.png){:height="30%" width="30%"}
 {:.article-img}
 
 {:.image-caption}
-*The transformer architecture used in GPT-1 [Radford et al., 2018]*
+*The transformer architecture used in GPT-1 (Radford et al., 2018)*
 
-#### WebText: A New Training Dataset
+#### WebText: A New Training Dataset <a name="gpt2-dataset"></a>
 
 In order to effectively train their model, OpenAI created a new dataset dubbed **WebText**. This dataset was created by scraping web pages that have been filtered or curated by humans. To this end, they gathered all documents linked to on Reddit that had at least 3 karma, i.e. had a net positive of three people that thought the document being linked to was insightful, humorous, or relevant. They ended up with 45 million links, which were then filtered to remove duplicates, remove links to Wikipedia (to avoid overlapping data with other training/test datasets), and a few other heuristics. The end results was 8 million cleaned up documents consisting of 40 GB of text. While this dataset was not released by OpenAI, the research community has worked to create a new version of it using the same methodology, and can be found <a href="https://github.com/jcpeterson/openwebtext">here</a>.
 
-#### Try GPT-2 For Yourself
+#### Try GPT-2 For Yourself <a name="gpt2-demo"></a>
 
 Of course, we are primarily interested in using this model for generating text. Since the language modeling task can be reformulated into a language generation task by outputtting the next token (word) with the highest probability given the previous set of tokens (words), we will now examine the output of GPT-2 in this context.
 
@@ -80,12 +105,12 @@ Given the prompt "Once upon a time", GPT-2 gave the following output:
 
 The output here is of noticeably lower quality than the first passage. Due to the fact that this model uses only statistical co-occurence of words to generate the next word, there is no way for it to explicitly model the world in a logically consistent manner. Without any explicit representation of the world, it is very difficult for the model to produce results that will be consistent over increasingly long text output. With a large enough model, as is the case with GPT-2, the output "sounds" pretty good when examining localized groups of words or phrases, but it starts to go off the rails fairly quickly.
 
-#### GPT-2 as a Creativity Support Tool?
+#### GPT-2 as a Creativity Support Tool? <a name="gpt2-creativity"></a>
 Since GPT-2 generates output from a given sequence of text, incorporating it into one's writing process would be quite straightforward, especially in the unfortunate event when writer's block strikes. This model's abililty to output factual output is limited, since it uses strictly statistical co-occurences when determining what words to produce next. However, for fictional or creative writing, it will always succeed in producing some path forward for your narrative. Whether this is a good path is up to the writer, and since humans are naturally good at discriminating between output they like or not, it would seem to be a natural fit. 
 
-### Grover: A Fake News Generator
+### Grover: A Fake News Generator <a name="grover"></a>
 
-**Grover** is a new model developed by the <a href="https://allenai.org/">Allen Institute for AI</a> and the <a href="https://www.cs.washington.edu/">University of Washington</a> for generating fake news stories from a prompt and some other input [Zellers et al., 2019]. The output is typically convincing, and without a discerning eye, a reader that simply skims the article might be fooled into believing that the article is valid news. The authors also discuss the use of this model is detecting fake news articles, and assert that fake news generators are also the best way to automatically detect if a story is fake news.
+**Grover** is a new model developed by the <a href="https://allenai.org/">Allen Institute for AI</a> and the <a href="https://www.cs.washington.edu/">University of Washington</a> for generating fake news stories from a prompt and some other input (<a href="https://arxiv.org/pdf/1905.12616.pdf">Zellers et al., 2019</a>). The output is typically convincing, and without a discerning eye, a reader that simply skims the article might be fooled into believing that the article is valid news. The authors also discuss the use of this model is detecting fake news articles, and assert that fake news generators are also the best way to automatically detect if a story is fake news.
 
 If you would like to try generating some of your own fake news, the authors have a <a href="https://grover.allenai.org/">website</a> where you can do just that (with some limitations due to potential for misuse in creating online propaganda).
 
@@ -95,16 +120,16 @@ Their model allows for the controllable generation of not just the news article 
 
 $$P(domain, data, authors, headline, body)$$
 
-#### Building and Training Grover
+#### Building and Training Grover <a name="grover-building-training"></a>
 
 With the recent successes of transformer based models, the authors also use these methods for building Grover. The **architecture is the same as is used for GPT-2**, with a variety of model sizes that match three of the same tiers as GPT-2, including one with 1.5 billion parameters.
 
 In order to train Grover to effectively produce fake news, they needed to create a new corpus of data that included real news articles and their associated metadata. To this end, they created the **RealNews** dataset. This was constructed by starting with <a href="https://commoncrawl.org/">Common Crawl</a> data, scraping it for news articles, and then using the <a href="https://newspaper.readthedocs.io/en/latest/">Newspaper Python library</a> to extract their bodies and metadata. The body of articles used were all published between December 2016 and March 2019, with articles from April 2019 being used as the evaluation dataset. In the end, the RealNews dataset is 120 GBs of news article bodies and their associated metadata.
 
-#### Generating Fake News
+#### Generating Fake News <a name="grover-make-fake-news"></a>
 They evaluated their results by comparing human-written articles from reputable news sources, Grover-written articles trained with only reputable news articles, human-written propaganda, and Grover-written propaganda.
 
-They then used <a href="https://www.mturk.com/">Amazon's Mechanical Turk</a> platform to recruit people to evaluate the outputs based on stylistic consistency, content sensibility, and overall trustworthiness. They found that while Grover is not as good at writing propaganda as a human, it can rewrite human-written propaganda and make it seem even more trustworthy. We tried this ourselves using the author's website, and put these input parameters into Grover: 
+They then used <a href="https://www.mturk.com/">Amazon's Mechanical Turk</a> platform to recruit people to evaluate the outputs based on stylistic consistency, content sensibility, and overall trustworthiness. They found that while Grover is not as good at writing propaganda as a human, it can rewrite human-written propaganda and make it seem even more trustworthy. Articles can be rewritten by taking the metadata of the human-written article, generating a new article, and then rewriting the headline. We tried generating a novel fake news article using the author's website, and put these input parameters into Grover: 
 
 - <b>Domain</b>: nytimes.com
 - <b>Date</b>: November 6, 2019
@@ -145,9 +170,9 @@ The resulting fake news article is as follows:
 
 This article is significantly more believable and includes claims that match the headline, fake statistics to support the erroneous claim, quotes from fictional experts, and even appropriately uses acronyms. This took just a few seconds to generate, and when deployed at scale, these types of propaganda generators have to potential to overwhelm peoples' newsfeeds. When coupled with targeted advertising, the results could be disastrous as these articles drown out the actual facts in a sea of fake news noise.
 
-#### Detecting Propaganda
+#### Detecting Propaganda <a name="grover-detect-fake-news"></a>
 
-With the ability to automatically generate relatively believable propaganda articles quickly, it becomes critical that there is a way to automatically determine what is real and what is fake. To this end, the authors of this paper examined how to use Grover as a discriminator and compared its discriminative capabilities against other models including BERT [Devlin et al., 2019], GPT-2, and FastText [Joulin et al., 2017].
+With the ability to automatically generate relatively believable propaganda articles quickly, it becomes critical that there is a way to automatically determine what is real and what is fake. To this end, the authors of this paper examined how to use Grover as a discriminator and compared its discriminative capabilities against other models including BERT (<a href="https://www.aclweb.org/anthology/N19-1423.pdf">Devlin et al., 2019</a>), GPT-2, and FastText (<a href="https://arxiv.org/pdf/1607.01759.pdf">Joulin et al., 2017</a>).
 
 They use two evaluations to determine the best model for discrimination. The first is the **unpaired setting**, in which the discriminator is given a single news article at a time, and must determine if it was written by a human or a machine. The second is the **paired setting**, in which the discriminator is given two news articles with the same metadata, one of which is written by a human and one which was written by a machine. The model must then determine which one has a higher probability of being written by a machine. The results were as follows:
 
@@ -155,7 +180,7 @@ They use two evaluations to determine the best model for discrimination. The fir
 {:.article-img}
 
 {:.image-caption}
-*Figure from [Zellers et al., 2019]*
+*Figure from (<a href="https://arxiv.org/pdf/1905.12616.pdf">Zellers et al., 2019</a>)*
 
 Interestingly, Grover does the best at determining whether its own generations are written by a machine or not, despite being unidirectional (i.e. it only looks at previous words in a sequence when predicting, rather than looking at previous and successive words, as with BERT). Perhaps more intuitively, they found that as more examples from the adversary generator are provided to the discriminator, the better Grover does at determining whether it is fake news or not, as shown in the following diagram:
 
@@ -163,56 +188,56 @@ Interestingly, Grover does the best at determining whether its own generations a
 {:.article-img}
 
 {:.image-caption}
-*Figure from [Zellers et al., 2019]*
+*Figure from (<a href="https://arxiv.org/pdf/1905.12616.pdf">Zellers et al., 2019</a>)*
 
-#### The Future of Fake News
+#### The Future of Fake News <a name="grover-future-fake-news"></a>
 As these language generators become increasingly powerful and more convincing, it seems inevitable that malicious actors will utilize these to rapidly spread misinformation across the globe. The authors argue, and provide evidence, that the best defense against neural fake news is a model that can generate this type of fake news. Consequently, they have released the 1.5 billion parameters version of the model to the public. 
 
 However, even if we have the tools to debunk these stories as fake news automatically, the odds of social media platforms actually deploying these tools is depressingly low, as platforms like Facebook, Google, and YouTube have argued that it is not their job as a platform to filter their users' speech. As these neural fake news generators become more robust and widely available, anybody with a malicious (or simply ignorant) agenda will be able to generate a flood of misinformation. It would seem then that the only way to actually combat the misuse of these tools is with not only responsible research, but through systemic changes to the media platforms, either through internal change or governmental regulation.
 
-## Evaluating Language Models
+## Evaluating Language Models <a name="eval-language-models"></a>
 
 In order to gauge progress in a research area, it is important that there are rigorous evaluation methods that allow for results to be directly compared to each other. In this section, we will cover a few such methods for evaluating language models.
 
-### Perplexity
-One way to determine how well a language model works is with **perplexity**. Perplexity is the inverse probability of the test set, normalized by the number of words [Brown, et al. 1992]. In essence, minimizing perplexity is the same thing as maximizing the probability. In this way, a low perplexity score indicates that the sequence of words being examined is probable based on the current language model from which probabilities are being drawn.
+### Perplexity <a name="perplexity"></a>
+One way to determine how well a language model works is with **perplexity**. Perplexity is the inverse probability of the test set, normalized by the number of words (<a href="https://www.aclweb.org/anthology/J92-1002.pdf">Brown, et al. 1992</a>). In essence, minimizing perplexity is the same thing as maximizing the probability. In this way, a low perplexity score indicates that the sequence of words being examined is probable based on the current language model from which probabilities are being drawn.
 
-#### Is this actually a good way to evaluate generated language?
+#### Does Perplexity Work Well? <a name="perplexity-efficacy"></a>
 Perplexity can be good for automatically measuring plausibility of the prose (i.e. whether it likely that certain words follow each other), but it is not always useful for applications like narrative generation. This is because readers typically want to see a certain level of familiarity mixed with some novelty and surprise. Perplexity assigns higher scores to outputs that are more predictable. As a result, this might decent measure when determining if a sequence of words is grammatically correct or "sounds" good, but not if we use it to evaluate the events in a story where it is desirable to have unexpected events happen.
 
-### BLEU Score
-The Bilingual Evaluation Understudy (BLEU) score [Papineni, et al. 2002] was originally designed as a means of evaluating machine translation systems by determining how well two sentences in different languages matched by using an n-gram comparison between the two. However, this metric can be adapted for use in evaluating generated language. Rather than evaluating two sentences across languages, a machine generated sentence is evaluated based on its similarity to the ground truth reference sentence written by a human. In this way, a higher BLEU score indicates that the machine generated sentence is more likely to have the same features as a sentence produced by a human.
+### BLEU Score <a name="bleu"></a>
+The Bilingual Evaluation Understudy (BLEU) score (<a href="https://www.aclweb.org/anthology/P02-1040.pdf">Papineni, et al. 2002</a>) was originally designed as a means of evaluating machine translation systems by determining how well two sentences in different languages matched by using an n-gram comparison between the two. However, this metric can be adapted for use in evaluating generated language. Rather than evaluating two sentences across languages, a machine generated sentence is evaluated based on its similarity to the ground truth reference sentence written by a human. In this way, a higher BLEU score indicates that the machine generated sentence is more likely to have the same features as a sentence produced by a human.
 
-### Human Evaluation
+### Human Evaluation <a name="human-eval"></a>
 Automated metrics are a nice initial means for testing a model, but seeing as humans are already (ideally) masters of language, the ultimate test is putting it in front of people and letting them evaluate it. These types of evaluations are typically done less frequently due to the associated monetary costs, but they are critical for determining the believability and quality of the generated language.
 
-## Applying Language Modeling in Narrative Generation
+## Applying Language Modeling in Narrative Generation <a name="narrative-gen"></a>
 
 Narrative generation has a long, and storied past that spans multiples eras of artificial intelligence research, and the research in this area often goes hand-in-hand with language generation. Effective natural language generation has many of the same requirements in that the output is plausible and has coherence among the many entities and events involved in the text. In this section, we will examine some recent major work in this area.
 
-### Planning Based Generation
+### Planning Based Generation <a name="planning-narratives"></a>
 
-Prior to much of the current deep learning and statistical models used today, there were significant efforts dedicated to symbolic artificial intelligence that focused on using searching and planning algorithms to produce natural language stories. Work in this area dates back to the 1970s, with Tale-Spin, a system from the Yale AI Group that simulated an artificial world and the agents within in order to create a plausible story [Meehan, 1977]. For those looking for an in-depth survey of this area of research, we recommend <a href="http://nil.cs.uno.edu/publications/papers/young2013plans.pdf">this survey</a> [Young et al., 2013].
+Prior to much of the current deep learning and statistical models used today, there were significant efforts dedicated to symbolic artificial intelligence that focused on using searching and planning algorithms to produce natural language stories. Work in this area dates back to the 1970s, with Tale-Spin, a system from the Yale AI Group that simulated an artificial world and the agents within in order to create a plausible story (<a href="https://www.ijcai.org/Proceedings/77-1/Papers/013.pdf">Meehan, 1977</a>). For those looking for an in-depth survey of this area of research, we recommend <a href="http://nil.cs.uno.edu/publications/papers/young2013plans.pdf">this survey</a> (<a href="http://nil.cs.uno.edu/publications/papers/young2013plans.pdf">Young et al., 2013</a>).
 
-In this area of research, it is common to start by building a **domain model**. This is a description of a fictional world that defines the entities that exist within it, the actions they can take to alter the state of the world, the objects in the world, and the places they exist. From these domain models, traditional **planning** algorithms or **case-based reasoning** can be used to generate new stories. Planning techniques will find a path through the space of possible worlds, keep track of the entities, their actions, and the state of the world. In this way, a logical series of events can be generated that form a coherent narrative. Case-based reasoning techniques will use examples of past stories (or cases) and adapt them to fit the narrative at hand.
+In this area of research, it is common to start by building a **domain model**. This is a description of a fictional world that defines the entities that exist within it, the actions they can take to alter the state of the world, the objects in the world, and the places they exist. From these domain models, traditional **planning** algorithms (<a href="https://arxiv.org/pdf/1401.3841.pdf">Riedl and Young, 2010</a>) or **case-based reasoning** (<a href="https://s3.amazonaws.com/academia.edu.documents/1737078/8wkzetfbr41m7xhb.pdf?response-content-disposition=inline%3B%20filename%3DStory_Plot_Generation_Based_on_CBR.pdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWOWYYGZ2Y53UL3A%2F20191207%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20191207T210218Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=0d936cb1a87fa72cd7d6dd0b9d1e4226c9f85a31f6e9e683694d962699197288">Gervas et al., 2004</a>) can be used to generate new stories. Planning techniques will find a path through the space of possible worlds, keep track of the entities, their actions, and the state of the world. In this way, a logical series of events can be generated that form a coherent narrative. Case-based reasoning techniques will use examples of past stories (or cases) and adapt them to fit the narrative at hand.
 
-In one recent work [Li, et al., 2013], the authors present a method for automatically building a domain model. Rather than engineering it by hand themselves, the authors sought to use crowdsourcing to build up a corpus of narratives for a domain, automatically generate a domain model, then sample from this space of stories based on the possibilities allowed by the model. They use a **plot graph** representation that provides a model of logical flows of events and their precursor events that must occur before a given event. With these graphs in place, traversal can be done to produce a logically coherent sequence of events / narrative. The resulting plot graph for a bank robbery domain would look as follows:
+In one recent work (<a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI13/paper/viewFile/6399/7212">Li et al., 2013</a>), the authors present a method for automatically building a domain model. Rather than engineering it by hand themselves, the authors sought to use crowdsourcing to build up a corpus of narratives for a domain, automatically generate a domain model, then sample from this space of stories based on the possibilities allowed by the model. They use a **plot graph** representation that provides a model of logical flows of events and their precursor events that must occur before a given event. With these graphs in place, traversal can be done to produce a logically coherent sequence of events / narrative. The resulting plot graph for a bank robbery domain would look as follows:
 
 ![plot-graph]({{site.baseurl}}/assets/images/plot-graph.png){:height="70%" width="70%"}
 {:.article-img}
 
 {:.image-caption}
-*Figure from [Li et al., 2013]*
+*Figure from (<a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI13/paper/viewFile/6399/7212">Li et al., 2013</a>)*
 
-### Neural Network Based Generation
+### Neural Network Based Generation <a name="neural-network-narratives"></a>
 
-As previously discussed, language models such as GPT-2 and sequence-to-sequence (seq2seq) [Sutskever et al., 2014] architectures have recently been used for generating text output, but their use in creating coherent narratives has been limited. While traditional planning algorithms have difficulty with generating language that reads nicely, they excel at producing narrative structures with high logical coherence. The reverse is true for these deep learning language models. There is much recent work to rectify this issue by breaking up the natural language generation process into two parts. The first part creates some set of events or representation of the narrative structure, which can be thought of as a sort of planning phase. The second part then translates this into natural language text and a final narrative.
+As previously discussed, language models such as GPT-2 and sequence-to-sequence (seq2seq) (<a href="https://arxiv.org/pdf/1409.3215.pdf">Sutskever et al., 2014</a>) architectures have recently been used for generating text output, but their use in creating coherent narratives has been limited. While traditional planning algorithms have difficulty with generating language that reads nicely, they excel at producing narrative structures with high logical coherence. The reverse is true for these deep learning language models. There is much recent work to rectify this issue by breaking up the natural language generation process into two parts. The first part creates some set of events or representation of the narrative structure, which can be thought of as a sort of planning phase. The second part then translates this into natural language text and a final narrative.
 
-One paper [Martin et al., 2018] uses seq2seq models for open story generation, which is defined as the “problem of automatically generating a story about any domain without a priori manual knowledge engineering." They use this two-phase approach in which they first generate events and then produce sentences based on these events. The first phase utilizes a seq2seq model to generate events. The event representation used in this work is a 5-tuple, consisting of the subject of the verb, the verb, the object of the verb, a wildcard modifier, and a genre cluster number. The set of events with which to train the model were extracted from a corpus of movie plot summaries from Wikipedia [Bamman, et al., 2014].
+One paper (<a href="https://arxiv.org/pdf/1706.01331.pdf">Martin et al., 2018</a>) uses seq2seq models for open story generation, which is defined as the “problem of automatically generating a story about any domain without a priori manual knowledge engineering." They use this two-phase approach in which they first generate events and then produce sentences based on these events. The first phase utilizes a seq2seq model to generate events. The event representation used in this work is a 5-tuple, consisting of the subject of the verb, the verb, the object of the verb, a wildcard modifier, and a genre cluster number. The set of events with which to train the model were extracted from a corpus of movie plot summaries from Wikipedia (<a href="https://www.aclweb.org/anthology/P13-1035.pdf">Bamman et al., 2014</a>).
 
 For the second phase, they create the event2sentence network, another seq2seq network that was trained on a corpus of stories and the events contained within. This network learns to translate these 5-tuple event representations into natural language sentences.
 
-They also experimented with using events containing more general terms for the entities involved by using **WordNet** [Miller, 1995]. WordNet provides a way to find more general terms for a given word. For example, if the word is “hello,” then WordNet representation for it would be hello.n.01, and a more general/abstract term would be greeting.n.01.  
+They also experimented with using events containing more general terms for the entities involved by using **WordNet** (<a href="http://l2r.cs.uiuc.edu/Teaching/CS598-05/Papers/miller95.pdf">Miller, 1995</a>). WordNet provides a way to find more general terms for a given word. For example, if the word is “hello,” then WordNet representation for it would be hello.n.01, and a more general/abstract term would be greeting.n.01.  
 
 In order to evaluate their output, they use perplexity to determine how well this method generates coherent event sequences and natural language text. However, it seems that perplexity would be a poor metric in narrative generation since it measures the predictability of a sequence, with more predictable sequences being rated as better. Using this metric seems counterintuitive since people typically want some element of surprise in their stories. In addition to this metric, they use the BLEU score for evaluating both of the networks. The authors note that the BLEU score make little sense for evaluating the event2event network, and is better suited for evaluating the event2sentence network since this can be viewed as a translation task. 
 
@@ -222,9 +247,9 @@ An example of this paper’s output is shown below:
 {:.article-img}
 
 {:.image-caption}
-*Figure of the results from [Martin et al., 2018]*
+*Figure of the results from (<a href="https://arxiv.org/pdf/1706.01331.pdf">Martin et al., 2018</a>)*
 
-Using a similar two-phase approach, [Xu, et al., 2018] proposes a method for generating a narrative story based on a short description of a scene or event. They use a reinforcement learning method to generate the skeleton (a set of the most critical phrases/words), and then expand the skeleton into fluent sentences. The reinforcement learning process rewards good skeletons in which all key information is contained, while other information is ignored. Bad skeletons, which contain too much detailed information or lack key information, are punished. They uses human evaluation in addition to the BLEU score, and found that their model produced higher (i.e. better) BLEU scores than previously proposed models. 
+Using a similar two-phase approach, (<a href="https://www.aclweb.org/anthology/D18-1462.pdf">Xu et al., 2018</a>) proposes a method for generating a narrative story based on a short description of a scene or event. They use a reinforcement learning method to generate the skeleton (a set of the most critical phrases/words), and then expand the skeleton into fluent sentences. The reinforcement learning process rewards good skeletons in which all key information is contained, while other information is ignored. Bad skeletons, which contain too much detailed information or lack key information, are punished. They uses human evaluation in addition to the BLEU score, and found that their model produced higher (i.e. better) BLEU scores than previously proposed models. 
 
 Some examples of their output is as follows:
 
@@ -234,16 +259,16 @@ Some examples of their output is as follows:
 > <b>Input 2</b>: The bride was driving to the wedding.<br>
 > <b>Ouput 2</b>: The groom and groomsmen watched the bride. They kissed and shared their pictures.
 
-Another paper, this time from Facebook AI Research [Fan et al., 2018], proposes what they call **hierarchical neural story generation**, where first a prompt (i.e. a sentence) is generated, and then a seq2seq model is conditioned on this prompt to generate the rest of the story. They introduce a gated self-attention mechanism that allows for the neural network to be conditioned on previous outputs at different time-scales. The model they use to generate the story is a convolutional seq2seq model, where the decoder is supplemented with this self-attention mechanism to allow the model to attend to any previously seen word it generated. In this way, they are able to capture some long-range coherency within the model itself.
+Another paper, this time from <a href="https://ai.facebook.com/">Facebook AI Research</a> (<a href="https://arxiv.org/pdf/1805.04833.pdf?utm_campaign=Revue%20newsletter&utm_medium=Newsletter&utm_source=Programming%20Innovations">Fan et al., 2018</a>), proposes what they call **hierarchical neural story generation**, where first a prompt (i.e. a sentence) is generated, and then a seq2seq model is conditioned on this prompt to generate the rest of the story. They introduce a gated self-attention mechanism that allows for the neural network to be conditioned on previous outputs at different time-scales. The model they use to generate the story is a convolutional seq2seq model, where the decoder is supplemented with this self-attention mechanism to allow the model to attend to any previously seen word it generated. In this way, they are able to capture some long-range coherency within the model itself.
 
 They created a new training corpus by scraping Reddit’s <a href="https://www.reddit.com/r/WritingPrompts/">/r/WritingPrompts</a> forum where users write short stories based on a short description. They gathered three years worth of prompts and cleaned them for use. The end results are quite good, as shown in the following example taken from their paper: 
 
 > <b>Prompt</b>: Aliens start abducting humans<br><br>
 >“It has been two weeks, and the last of my kind has gone. It is only a matter of time until there will be nothing left. I’m not sure what the hell is going on... I can’t think. I can hear a distant scream. I think of a strange, alien sound. I try to speak, but am interrupted by something, something that feels like a drum, I ca not tell. I mean I’m just a little bit older than an average human. But I can, and I can feel the vibrations . I hear the sound of a ship approaching. The ground quakes at the force of the impact, and a loud explosion shatters the silence.”
 
-Similar to Fan et al’s work, another paper [Yao et al., 2019] proposes a hierarchical generation framework that combines plot planning with text generation to create a story based on a given title. They introduce two methods for planning out the plot: dynamic schema, which alternates between producing a plan for the story and generating the text in the story, and static schema, which does all of the plot planning prior to generating any of the final story text.
+Similar to Fan et al’s work, another paper (<a href="https://www.cs.jhu.edu/~npeng/papers/AAAI19-story-planning.pdf">Yao et al., 2019</a>) proposes a hierarchical generation framework that combines plot planning with text generation to create a story based on a given title. They introduce two methods for planning out the plot: dynamic schema, which alternates between producing a plan for the story and generating the text in the story, and static schema, which does all of the plot planning prior to generating any of the final story text.
 
-The static schema method uses two seq2seq models: one for generating the plot and one for generating the text. The dynamic scheme method uses the method from one of their previous papers [Yao et al., 2017], which used a seq2seq model augmented with bidirectional gated recurrent units. Additionally, they trained their model on the **ROCStories corpus** [Mostafazadeh et al., 2016], which contains 98,161 short, commonsense stories. These stories consist of five sentences that contain causal and temporal relationships in everyday situations. 
+The static schema method uses two seq2seq models: one for generating the plot and one for generating the text. The dynamic scheme method uses the method from one of their previous papers (<a href="https://www.aclweb.org/anthology/D17-1233.pdf">Yao et al., 2017</a>), which used a seq2seq model augmented with bidirectional gated recurrent units. Additionally, they trained their model on the **ROCStories corpus** (<a href="https://www.aclweb.org/anthology/N16-1098.pdf">Mostafazadeh et al., 2016</a>), which contains 98,161 short, commonsense stories. These stories consist of five sentences that contain causal and temporal relationships in everyday situations. 
 
 Additionally, they use both objective and subjective metrics to evaluate their output. A novel objective evaluation metric is introduced that quantifies the diversity of language within and between stories that are generated, where lower scores are better. The subjective analysis tasked Amazon Mechanical Turkers to choose between the output of a baseline model and their new model based on the story fidelity, coherence, interestingness, and overall user preference. They find that the static schema method produces results that are superior to not only prior work, but also their dynamic schema method.
 
@@ -257,39 +282,41 @@ An example of their output is as follows:
 ><u>Storyline</u>: work → fix → called → found → day<br>
 ><u>Story</u>: I had a virus on my computer. I tried to fix it but it wouldn’t work. I called the repair company. They came and found the virus. The next day, my computer was fixed.
 
-### The Future of Narrative Generation
+### The Future of Narrative Generation <a name="narrative-gen-future"></a>
 
 The current state of research in this area seems to be focusing on utilizing multiple stages in the language generation process. This would mirror how most humans tend to write narratives: first with a planning phase (how in-depth this process is depends on the writer and their goals), and then turning this plan into a body of text that achieves their narrative goals. Producing a coherent narrative is just one piece of the puzzle though. In order for a story to have real impact on the reader, it needs to be able to elicit certain emotions in the audience, as well as hold their attention with compelling prose. To this end, it also seems prudent to incorporate research ideas from affective computing and sentiment analysis in the generation or planning process. For now it seems likely that the focus will remain on producing coherent narratives, as this is still a major unsolved challenge despite the progress we have examined in this post.
 
-## Concluding Remarks
+## Concluding Remarks <a name="conclusion"></a>
 
 This area of research remains highly relevant and the ultimate goal of creating high quality natural language text still seems a ways off. Creating such a system would be a major step towards to producing artificial general intelligence since language is most often the medium through which humans reason about the world, and the production of narratives can involve simulating agent behavior in complex environments. The creation of such a language system would have no doubt have massive implications for society at large, both positive and negative, particularly with regards to producing endless amounts of entertainment or propaganda.
 
-## Further Reading and Resources
+## Further Reading and Resources <a name="further-reading"></a>
 
 - <a href="https://web.stanford.edu/class/cs124/lec/languagemodeling.pdf">Stanford Class Notes on Language Modeling</a>
 - <a href="https://github.com/facebookresearch/pytext">Pytext</a>
 
 
-## References
-- Bamman, David, Brendan O’Connor, and Noah A. Smith. "Learning latent personas of film characters." Proceedings of the 51st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers). 2013.
-- Brown, Peter F., et al. "An estimate of an upper bound for the entropy of English." Computational Linguistics 18.1 (1992): 31-40.
-- Devlin, Jacob, et al. "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding." Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers). 2019.
-- Fan, Angela, Mike Lewis, and Yann Dauphin. "Hierarchical neural story generation." arXiv preprint arXiv:1805.04833 (2018).
-- Gatt, Albert, and Emiel Krahmer. "Survey of the state of the art in natural language generation: Core tasks, applications and evaluation." Journal of Artificial Intelligence Research 61 (2018): 65-170.
-- Joulin, Armand, Edouard Grave, and Piotr Bojanowski Tomas Mikolov. "Bag of Tricks for Efficient Text Classification." EACL 2017 (2017): 427.
-- Li, Boyang, et al. "Story generation with crowdsourced plot graphs." Twenty-Seventh AAAI Conference on Artificial Intelligence. 2013.
-- Martin, Lara J., et al. "Event representations for automated story generation with deep neural nets." Thirty-Second AAAI Conference on Artificial Intelligence. 2018.
-- Miller, George A. "WordNet: a lexical database for English." Communications of the ACM 38.11 (1995): 39-41.
-- Meehan, James R. "TALE-SPIN, An Interactive Program that Writes Stories." IJCAI. Vol. 77. 1977.
-- Mostafazadeh, Nasrin, et al. "A Corpus and Cloze Evaluation for Deeper Understanding of Commonsense Stories." Proceedings of NAACL-HLT. 2016.
-- Papineni, Kishore, et al. "BLEU: a method for automatic evaluation of machine translation." Proceedings of the 40th annual meeting on association for computational linguistics. Association for Computational Linguistics, 2002.
-- Radford, Alec, et al. "Improving language understanding by generative pre-training." URL https://s3-us-west-2. amazonaws. com/openai-assets/researchcovers/languageunsupervised/language understanding paper. pdf (2018).
-- Radford, Alec, et al. "Language models are unsupervised multitask learners." OpenAI Blog 1.8 (2019).
-- Sutskever, I., O. Vinyals, and Q. V. Le. "Sequence to sequence learning with neural networks." Advances in NIPS (2014).
-- Vaswani, Ashish, et al. "Attention is all you need." Advances in neural information processing systems. 2017.
-- Xu, Jingjing, et al. "A skeleton-based model for promoting coherence among sentences in narrative story generation." arXiv preprint arXiv:1808.06945 (2018).
-- Yao, Lili, et al. "Towards implicit content-introducing for generative short-text conversation systems." Proceedings of the 2017 Conference on Empirical Methods in Natural Language Processing. 2017.
-- Yao, Lili, et al. "Plan-and-write: Towards better automatic storytelling." Proceedings of the AAAI Conference on Artificial Intelligence. Vol. 33. 2019.
-- Young, R. Michael, et al. "Plans and planning in narrative generation: a review of plan-based approaches to the generation of story, discourse and interactivity in narratives." Sprache und Datenverarbeitung, Special Issue on Formal and Computational Models of Narrative 37.1-2 (2013): 41-64.
-- Zellers, Rowan, et al. "Defending Against Neural Fake News." arXiv preprint arXiv:1905.12616 (2019).
+## References <a name="references"></a>
+- <a href="https://www.aclweb.org/anthology/P13-1035.pdf">Bamman, David, Brendan O’Connor, and Noah A. Smith. "Learning latent personas of film characters." Proceedings of the 51st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers). 2013.</a>
+- <a href="https://www.aclweb.org/anthology/J92-1002.pdf">Brown, Peter F., et al. "An estimate of an upper bound for the entropy of English." Computational Linguistics 18.1 (1992): 31-40.</a>
+- <a href="https://www.aclweb.org/anthology/N19-1423.pdf">Devlin, Jacob, et al. "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding." Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers). 2019.</a>
+- <a href="https://arxiv.org/pdf/1805.04833.pdf?utm_campaign=Revue%20newsletter&utm_medium=Newsletter&utm_source=Programming%20Innovations">Fan, Angela, Mike Lewis, and Yann Dauphin. "Hierarchical neural story generation." arXiv preprint arXiv:1805.04833 (2018).</a>
+- <a href="https://pdfs.semanticscholar.org/d13b/b317e87f3f6da10da11059ebf4350b754814.pdf">Gatt, Albert, and Emiel Krahmer. "Survey of the state of the art in natural language generation: Core tasks, applications and evaluation." Journal of Artificial Intelligence Research 61 (2018): 65-170.</a>
+- <a href="https://s3.amazonaws.com/academia.edu.documents/1737078/8wkzetfbr41m7xhb.pdf?response-content-disposition=inline%3B%20filename%3DStory_Plot_Generation_Based_on_CBR.pdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWOWYYGZ2Y53UL3A%2F20191207%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20191207T210218Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=0d936cb1a87fa72cd7d6dd0b9d1e4226c9f85a31f6e9e683694d962699197288">Gervás, Pablo, et al. "Story plot generation based on CBR." International Conference on Innovative Techniques and Applications of Artificial Intelligence. Springer, London, 2004.</a>
+- <a href="https://arxiv.org/pdf/1607.01759.pdf">Joulin, Armand, Edouard Grave, and Piotr Bojanowski Tomas Mikolov. "Bag of Tricks for Efficient Text Classification." EACL 2017 (2017): 427.</a>
+- <a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI13/paper/viewFile/6399/7212">Li, Boyang, et al. "Story generation with crowdsourced plot graphs." Twenty-Seventh AAAI Conference on Artificial Intelligence. 2013.</a>
+- <a href="https://arxiv.org/pdf/1706.01331.pdf">Martin, Lara J., et al. "Event representations for automated story generation with deep neural nets." Thirty-Second AAAI Conference on Artificial Intelligence. 2018.</a>
+- <a href="http://l2r.cs.uiuc.edu/Teaching/CS598-05/Papers/miller95.pdf">Miller, George A. "WordNet: a lexical database for English." Communications of the ACM 38.11 (1995): 39-41.</a>
+- <a href="https://www.ijcai.org/Proceedings/77-1/Papers/013.pdf">Meehan, James R. "TALE-SPIN, An Interactive Program that Writes Stories." IJCAI. Vol. 77. 1977.</a>
+- <a href="https://www.aclweb.org/anthology/N16-1098.pdf">Mostafazadeh, Nasrin, et al. "A Corpus and Cloze Evaluation for Deeper Understanding of Commonsense Stories." Proceedings of NAACL-HLT. 2016.</a>
+- <a href="https://www.aclweb.org/anthology/P02-1040.pdf">Papineni, Kishore, et al. "BLEU: a method for automatic evaluation of machine translation." Proceedings of the 40th annual meeting on association for computational linguistics. Association for Computational Linguistics, 2002.</a>
+- <a href="https://www.cs.ubc.ca/~amuham01/LING530/papers/radford2018improving.pdf">Radford, Alec, et al. "Improving language understanding by generative pre-training." URL https://s3-us-west-2. amazonaws. com/openai-assets/researchcovers/languageunsupervised/language understanding paper. pdf (2018).</a>
+- <a href="https://www.techbooky.com/wp-content/uploads/2019/02/Better-Language-Models-and-Their-Implications.pdf">Radford, Alec, et al. "Language models are unsupervised multitask learners." OpenAI Blog 1.8 (2019).</a>
+- <a href="https://arxiv.org/pdf/1401.3841.pdf">Riedl, Mark O., and Robert Michael Young. "Narrative planning: Balancing plot and character." Journal of Artificial Intelligence Research 39 (2010): 217-268.</a>
+- <a href="https://arxiv.org/pdf/1409.3215.pdf">Sutskever, I., O. Vinyals, and Q. V. Le. "Sequence to sequence learning with neural networks." Advances in NIPS (2014).</a>
+- <a href="https://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf">Vaswani, Ashish, et al. "Attention is all you need." Advances in neural information processing systems. 2017.</a>
+- <a href="https://www.aclweb.org/anthology/D18-1462.pdf">Xu, Jingjing, et al. "A skeleton-based model for promoting coherence among sentences in narrative story generation." arXiv preprint arXiv:1808.06945 (2018).</a>
+- <a href="https://www.aclweb.org/anthology/D17-1233.pdf">Yao, Lili, et al. "Towards implicit content-introducing for generative short-text conversation systems." Proceedings of the 2017 Conference on Empirical Methods in Natural Language Processing. 2017.</a>
+- <a href="https://www.cs.jhu.edu/~npeng/papers/AAAI19-story-planning.pdf">Yao, Lili, et al. "Plan-and-write: Towards better automatic storytelling." Proceedings of the AAAI Conference on Artificial Intelligence. Vol. 33. 2019.</a>
+- <a href="http://nil.cs.uno.edu/publications/papers/young2013plans.pdf">Young, R. Michael, et al. "Plans and planning in narrative generation: a review of plan-based approaches to the generation of story, discourse and interactivity in narratives." Sprache und Datenverarbeitung, Special Issue on Formal and Computational Models of Narrative 37.1-2 (2013): 41-64.</a>
+- <a href="https://arxiv.org/pdf/1905.12616.pdf">Zellers, Rowan, et al. "Defending Against Neural Fake News." arXiv preprint arXiv:1905.12616 (2019).</a>
