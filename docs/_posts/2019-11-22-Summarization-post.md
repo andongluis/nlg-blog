@@ -7,7 +7,51 @@ image: assets/images/summarization-img.png
 featured: false
 ---
 
-[TOC]
+<div class="toc">
+	<ul>
+		<li><a href="#what-is-summarization">What is summarization</a>
+			<ul>
+			<li></li>><a href="#extractive-summarization">Extractive summarization</a></li>
+			<li><a href="#abstractive-summarization">Abstractive summarization</a></li>
+			</ul>
+		</li>
+<li><a href="#evaluation">Evaluation</a><ul>
+<li><a href="#datasets">Datasets</a><ul>
+<li><a href="#a-note-on-datasets">A note on datasets</a></li>
+</ul>
+</li>
+<li><a href="#metrics">Metrics</a><ul>
+<li><a href="#perplexity">Perplexity</a></li>
+<li><a href="#rogues">ROGUE(s)</a><ul>
+<li><a href="#rogue-n">ROGUE-N</a></li>
+<li><a href="#rogue-l-rogue-w-and-rogue-s">ROGUE-L, ROGUE-W, and ROGUE-S</a></li>
+</ul>
+</li>
+<li><a href="#fact-based-metrics">Fact-based metrics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#methods">Methods</a><ul>
+<li><a href="#background-on-methods">Background on methods</a></li>
+<li><a href="#extractive-methods">Extractive Methods</a><ul>
+<li><a href="#classifierselector-approach">Classifier/Selector Approach</a></li>
+<li><a href="#reinforcement-learning">Reinforcement Learning</a></li>
+</ul>
+</li>
+<li><a href="#abstractive-methods">Abstractive Methods</a><ul>
+<li><a href="#attention-based-methods">Attention-Based methods</a></li>
+<li><a href="#multi-task-multi-reward">Multi-task/ Multi-Reward</a></li>
+</ul>
+</li>
+<li><a href="#extractive-and-abstractive-hybrid">Extractive and Abstractive Hybrid</a></li>
+</ul>
+</li>
+<li><a href="#closing-remarks">Closing remarks</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+
 
 In the past decade, neural networks have spearheaded a renewed interest in AI due to their ability to perform quite well in tasks that involve a lot of implicit knowledge such as computer vision and NLP. Within NLP (specifically generation and understanding), automatic summarization is one of the areas where a lot of advances have been made. The purpose of this post is to provide a brief introduction (one might say, a brief *summary*) to the field of automatic text summarization. Given that the field has a quite extensive history, we will be focusing mostly on deep learning methods.
 
