@@ -7,14 +7,19 @@ image: assets/images/summarization-img.png
 featured: false
 ---
 
+In the past decade, neural networks have spearheaded a renewed interest in AI due to their ability to perform quite well in tasks that involve a lot of implicit knowledge such as computer vision and NLP. Within NLP (specifically generation and understanding), automatic summarization is one of the areas where a lot of advances have been made. The purpose of this post is to provide a brief introduction (one might say, a brief *summary*) to the field of automatic text summarization. Given that the field has a quite extensive history, we will be focusing mostly on deep learning methods.
+
+
+
+## Table of Contents
+
 <div class="toc">
-	<ul>
-		<li><a href="#what-is-summarization">What is summarization</a>
-			<ul>
-			<li></li>><a href="#extractive-summarization">Extractive summarization</a></li>
-			<li><a href="#abstractive-summarization">Abstractive summarization</a></li>
-			</ul>
-		</li>
+<ul>
+<li><a href="#what-is-summarization">What is summarization</a><ul>
+<li><a href="#extractive-summarization">Extractive summarization</a></li>
+<li><a href="#abstractive-summarization">Abstractive summarization</a></li>
+</ul>
+</li>
 <li><a href="#evaluation">Evaluation</a><ul>
 <li><a href="#datasets">Datasets</a><ul>
 <li><a href="#a-note-on-datasets">A note on datasets</a></li>
@@ -52,12 +57,9 @@ featured: false
 </ul>
 </div>
 
-
-In the past decade, neural networks have spearheaded a renewed interest in AI due to their ability to perform quite well in tasks that involve a lot of implicit knowledge such as computer vision and NLP. Within NLP (specifically generation and understanding), automatic summarization is one of the areas where a lot of advances have been made. The purpose of this post is to provide a brief introduction (one might say, a brief *summary*) to the field of automatic text summarization. Given that the field has a quite extensive history, we will be focusing mostly on deep learning methods.
-
 # What is summarization
 
-Automatic summarization is one of the most important tasks that has been explored in the fields of NLU/NLG, with interest in it for almost 20 years (Udo and Mani 2000). The general definition of it is largely agreed upon: **summarization** involves transforming some text into a more condensed version of the original one while remaining faithful to the original text. For instance, we can remove sentences, rephrase sentences, or merge sentences (Jing 2002).
+Automatic summarization is one of the most important tasks that has been explored in the fields of NLU/NLG, with interest in it for almost 20 years <a href="https://ieeexplore.ieee.org/abstract/document/881692" target="_blank">(Hahn and Mani 2000)</a>. The general definition of it is largely agreed upon: **summarization** involves transforming some text into a more condensed version of the original one while remaining faithful to the original text. For instance, we can remove sentences, rephrase sentences, or merge sentences <a href="https://www.mitpressjournals.org/doi/pdf/10.1162/089120102762671972" target="_blank">(Jing 2002)</a>.
 
 There are multiple paradigms in which summarization occurs, such as:
 - *Sentence-to-sentence*: We have one sentence and we try to find a summarization of it; often this involves rephrasing the sentence in a shorter manner.
@@ -65,7 +67,7 @@ There are multiple paradigms in which summarization occurs, such as:
 - *Multiple documents*: This might be the paradigm with largest scope since it involves taking multple documents (often with similar or repeated ideas/facts) and having a more succint summarization.
 
 ## Extractive summarization
-There are two main approaches that exist to summarization: extractive and abstractive. **Extractive summarization** involves selecting the most important parts of the source text. We can think of it as having a machine read a textbook and highlight the most important passages of the book. This approach to automatic summarization is how the problem has been approached historically (Udo and Mani 2000).
+There are two main approaches that exist to summarization: extractive and abstractive. **Extractive summarization** involves selecting the most important parts of the source text. We can think of it as having a machine read a textbook and highlight the most important passages of the book. This approach to automatic summarization is how the problem has been approached historically <a href="https://ieeexplore.ieee.org/abstract/document/881692" target="_blank">(Udo and Mani 2000)</a>.
 
 ![Extractive summarization]({{site.baseurl}}/assets/images/extractive-summary-fig.jpg){:height="80%" width="80%"}
 {:.article-img}
@@ -91,13 +93,13 @@ In some instances, allowing the model to have more control over its generated te
 
 In the field of automatic summarization, some of the most commonly used data sets are the following:
 - **Document Understanding Conferences (DUC)**: These conferences ran from 2001-2007 and had datasets for each of those years, with the most common ones being for 2002 and 2004. Each set of documents contains the documents themselves along with summaries for each. Though the datasets are often not large enough to be used for training, they are used primarily for testing the performance of systems. The link for the datasets is <a href="https://www-nlpir.nist.gov/projects/duc/data.html" target="_blank">here</a>
-- **CNN/DailyMail** (Hermann et al. 2015): The dataset is a collection of scraped news stories from CNN and the Daily Mail. Details of the dataset are in the <a href="http://papers.nips.cc/paper/5945-teaching-machines-to-read-and-comprehend" target="_blank">original paper</a> and in <a href="https://github.com/deepmind/rc-data/" target="_blank">this</a> Github repo.
-- **English Gigaword** (Graff, Kong, and Maeda 2003): This is one of the largest news documents dataset, with over 1 million documents. Often, the annotated version (Napoles, Gormley, and Van Durme 2012) is used since it includes additional data such as tokenized sentences and name-entity recognition.
-- Scraped datasets: A lot of times, datasets are created by the authors of the methods by scraping the web for their desired datasets. This often leads researchers to have datasets that have readily available summaries, such as news sources or encyclopedia-style web pages. For instance, (Liu et al. 2018) utilized Wikipedia articles as a dataset for summarization, with the article references and the web searches as the input text, and the first Wikipedia article as the target summary.
+- **CNN/DailyMail** <a href="http://papers.nips.cc/paper/5945-teaching-machines-to-read-and-comprehend" target="_blank">(Hermann et al. 2015)</a>: The dataset is a collection of scraped news stories from CNN and the Daily Mail. Details of the dataset are in the <a href="http://papers.nips.cc/paper/5945-teaching-machines-to-read-and-comprehend" target="_blank">original paper</a> and in <a href="https://github.com/deepmind/rc-data/" target="_blank">this</a> Github repo.
+- **English Gigaword** (Graff, Kong, and Maeda 2003): This is one of the largest news documents dataset, with over 1 million documents. Often, the annotated version <a href="https://dl.acm.org/citation.cfm?id=2391218" target="_blank">(Napoles, Gormley, and Van Durme 2012)</a> is used since it includes additional data such as tokenized sentences and name-entity recognition.
+- Scraped datasets: A lot of times, datasets are created by the authors of the methods by scraping the web for their desired datasets. This often leads researchers to have datasets that have readily available summaries, such as news sources or encyclopedia-style web pages. For instance, <a href="https://arxiv.org/abs/1801.10198" target="_blank">(Liu et al. 2018)</a> utilized Wikipedia articles as a dataset for summarization, with the article references and the web searches as the input text, and the first Wikipedia article as the target summary.
 
 #### A note on datasets
 
-An important issue that has been noted by researchers (Kryscinski et al. 2019) is that the relience on news articles for summarization stems from the following:
+An important issue that has been noted by researchers <a href="https://arxiv.org/abs/1908.08960" target="_blank">(Kryściński et al. 2019)</a> is that the relience on news articles for summarization stems from the following:
 - These have examples of "good" summaries, namely the titles
 - There are multiple sames of the same news story, allowing for more training data
 - News articles have a structured setup (i.e. the important information precedes the least important one)
@@ -114,13 +116,13 @@ Automatic text summarization suffers from this problem as well. Not only are the
 
 ### Perplexity
 
-Though not frequently used, perplexity (Brown et al. 1992) is still used to evaluate some automatic summaries. **Perplexity** aims to measure how likely a sentence is, with a higher perplexity indicating that the sentence is less likely. This measure is mostly used for abstractive summarization since it also involves having to create new sentences.
+Though not frequently used, perplexity <a href="https://www.aclweb.org/anthology/J92-1002.pdf" target="_blank">(Brown et al. 1992)</a> is still used to evaluate some automatic summaries. **Perplexity** aims to measure how likely a sentence is, with a higher perplexity indicating that the sentence is less likely. This measure is mostly used for abstractive summarization since it also involves having to create new sentences.
 
 ### ROGUE(s)
 
-One of the most widely used metrics is the Recall-Oriented Understudy for gisting Evaluation, commonly known as **ROGUE** (Lin 2004); this metric was elaborated especifically for evaluating summaries. In reality, ROGUE various different sub-metrics that are used, with the original paper introducing four of these: ROUGE-N, ROUGE-L, ROUGE-W, and ROUGE-S. Additionally, a lot of these can be oriented towards recall, precision, or f-score. The specifics of these are quite different, but they all operate under the same basic logic: we compare a proposed summary sentence with a reference summary and calculate how "good" the proposed summary is based on some similarity metric with the reference one. Another similarity between these metrics is that a higher ROGUE score indicates a "better" summary.
+One of the most widely used metrics is the Recall-Oriented Understudy for gisting Evaluation, commonly known as **ROGUE** <a href="https://pdfs.semanticscholar.org/de79/1d19d5abe0b4a419ff039c07f066f781ec9c.pdf" target="_blank">(Lin 2004)</a>; this metric was elaborated especifically for evaluating summaries. In reality, ROGUE various different sub-metrics that are used, with the original paper introducing four of these: ROUGE-N, ROUGE-L, ROUGE-W, and ROUGE-S. Additionally, a lot of these can be oriented towards recall, precision, or f-score. The specifics of these are quite different, but they all operate under the same basic logic: we compare a proposed summary sentence with a reference summary and calculate how "good" the proposed summary is based on some similarity metric with the reference one. Another similarity between these metrics is that a higher ROGUE score indicates a "better" summary.
 
-Note that in addition to the original ROGUE metrics, there has been a lot of subsequent work focusing on having additional ROGUE metrics (ShafieiBavani, 2018).
+Note that in addition to the original ROGUE metrics, there has been a lot of subsequent work focusing on having additional ROGUE metrics <a href="https://www.aclweb.org/anthology/D18-1085.pdf" target="_blank">(ShafieiBavani, 2018)</a>.
 
 #### ROGUE-N
 
@@ -154,9 +156,9 @@ The other three ROGUE metrics measure different aspects of similarity, since ROG
 
 Recall that in our definition of summaries, we said that summarization involves "transforming some text into a more condensed version of the original one while remaining faithful to the original text". While it is easy to see how to create a condensed text (e.g. remove ~~unnecessary~~ words from the text), remaining "faithful" to the original text can be quite hard. ROGUE aims to stay faithful to the text by ensuring that similar words are used. Yet, we often want summaries that use simpler synonyms rather than permeating the generated document with the original's superfluous and indecepherable lexicon. To that end, fact-based metrics of success have been proposed and used by researchers who want to ensure that the summary does not make any inaccurate statements or it omits any important information.
 
-The hardest part of evaluating factual accuracy is that we would need to have an automatic way of comparing factual accuracy between two texts. The simplest way of checking for factual correctness is by manually having humans look at the facts from the original sentence and seeing if the summary reflects the same (Cao et al. 2018). Though effective, this method seems to be hard to scale up.
+The hardest part of evaluating factual accuracy is that we would need to have an automatic way of comparing factual accuracy between two texts. The simplest way of checking for factual correctness is by manually having humans look at the facts from the original sentence and seeing if the summary reflects the same <a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI18/paper/viewPaper/16121" target="_blank">(Cao et al. 2018)</a>. Though effective, this method seems to be hard to scale up.
 
-Recently, there has been some work in trying to automate this process. One of the more recent works has trained a model to be able to extract facts from text (Goodrich et al. 2019). By taking this approach, they are able to extract facts from the original and the summary text, and compare these two with simple precision and recall metrics. The repo for the model and the data should be available in the future <a href="https://github.com/tensorflow/tensor2tensor/tree/master/tensor2tensor/data_generators/wikifact" target="_blank">here</a>.
+Recently, there has been some work in trying to automate this process. One of the more recent works has trained a model to be able to extract facts from text <a href="https://dl.acm.org/citation.cfm?id=3330955" target="_blank">(Goodrich et al. 2019)</a>. By taking this approach, they are able to extract facts from the original and the summary text, and compare these two with simple precision and recall metrics. The repo for the model and the data should be available in the future <a href="https://github.com/tensorflow/tensor2tensor/tree/master/tensor2tensor/data_generators/wikifact" target="_blank">here</a>.
 
 # Methods
 
@@ -174,11 +176,11 @@ The main deep learning techniques that are used in summarization techniques stem
 
 ## Extractive Methods
 
-Extractive summarization has had a long history of being developed, with a lot techniques outside the field of deep learning (Allahyari, et al. 2017). Within deep learning, the problem of extractive summarization is often viewed as either a supervised learning approach in which we try to classify if a sentence should be in the summary, and a reinforcement learning one where we have an agent decide if a sentence should be selected.
+Extractive summarization has had a long history of being developed, with a lot techniques outside the field of deep learning <a href="https://arxiv.org/pdf/1707.02268.pdf" target="_blank">(Allahyari, et al. 2017)</a>. Within deep learning, the problem of extractive summarization is often viewed as either a supervised learning approach in which we try to classify if a sentence should be in the summary, and a reinforcement learning one where we have an agent decide if a sentence should be selected.
 
 ### Classifier/Selector Approach
 
-There have been multiple attempts at using classifying/selecting procedures to decide if a sentence should be selected or not (Nallapati, Zhou, and Ma 2016) to create summaries. One of the most involved examples is (Yin and Pei 2015), where they aim to optimize sentence selection based on informativeness and redundancy.
+There have been multiple attempts at using classifying/selecting procedures to decide if a sentence should be selected or not <a href="https://arxiv.org/abs/1611.04244" target="_blank">(Nallapati, Zhou, and Ma 2016)</a> to create summaries. One of the most involved examples is <a href="https://www.aaai.org/ocs/index.php/IJCAI/IJCAI15/paper/view/11225/10855" target="_blank">(Yin and Pei 2015)</a>, where they aim to optimize sentence selection based on informativeness and redundancy.
 
 The authors of the paper develop a selection algorithm that is proven to be near-optimal in maximizing sentence prestige while ensuring that redundancy is kept low. A prestige vector is calculated for each sentences by using the PageRank algorithm (more information on it <a href="https://lizrush.gitbooks.io/algorithms-for-webdevs-ebook/content/chapters/page-rank.html" target="_blank">here</a>) on a similarity matrix; the similarity matrix is also used to ensure that redundancy between sentences is low. In more mathematical terms, they aim to maximize
 
@@ -204,7 +206,7 @@ Though this paper's approach is quite interesting, having to construct a matrix 
 
 ### Reinforcement Learning
 
-Another approach that has been taken to optimize the selection of sentences is to use a reinforcement learning set up (Narayan, Cohen, and Lapata 2018) (repo <a href="https://github.com/EdinburghNLP/Refresh" target="_blank">here</a>). In this work, they show that a reinforcement learning setup can lead to more informative summaries as opposed to usual classifier settings.
+Another approach that has been taken to optimize the selection of sentences is to use a reinforcement learning set up <a href="https://arxiv.org/abs/1802.08636" target="_blank">(Narayan, Cohen, and Lapata 2018)</a> (repo <a href="https://github.com/EdinburghNLP/Refresh" target="_blank">here</a>). In this work, they show that a reinforcement learning setup can lead to more informative summaries as opposed to usual classifier settings.
 
 The model itself is a mix of a sentence encoder (using CNN's), a document encoder (using LSTM's) and a sentence extractor (again with LSTM's). The sentence extractor chooses which sentence to select based on the sentence encoding, the document encoding, and the sentences selected so far.
 
@@ -232,7 +234,7 @@ As mentioned in the introduction, abstractive methods aim to rephrase the source
 
 ### Attention-Based methods
 
-Attention models have been successfully used for datasets where there are long sequences and we want to capture information from all throughout the sequence (Cohan et al. 2018). One of the methods that has captured the attention (lol) of many is (Rush, Chopra, and Weston 2015) (repo <a href="https://github.com/facebookarchive/NAMAS" target="_blank">here</a>), with it being one of the first instances of effective neural-based summarization. In this paper, they set out to teach a model how to summarize individual sentences, i.e. how to rephrase and condense a sentence. 
+Attention models have been successfully used for datasets where there are long sequences and we want to capture information from all throughout the sequence <a href="https://arxiv.org/abs/1804.05685" target="_blank">(Cohan et al. 2018)</a>. One of the methods that has captured the attention (see what I did there?) of many is <a href="https://arxiv.org/abs/1509.00685" target="_blank">(Rush, Chopra, and Weston 2015)</a> (repo <a href="https://github.com/facebookarchive/NAMAS" target="_blank">here</a>), with it being one of the first instances of effective neural-based summarization. In this paper, they set out to teach a model how to summarize individual sentences, i.e. how to rephrase and condense a sentence. 
 
 The model seeks out to maximize the probability of a word given the original text and the previous word (i.e. it wants to maximize the language model probabilities); consequently, during training they minimize the following negative log-likelihood equation:
 
@@ -256,7 +258,7 @@ Despite the advances of this method, it is important to highlight some limitatio
 
 ### Multi-task/ Multi-Reward
 
-Given the flexibility of abstractive summarization and the multiple aspects that encompass good summarization, some methods employ more complex models that account for the multiplicity of the task. For instance, similar to the reinforcement learning in the extractive methods, (Kryscinski et al. 2018) use a combination of RL and maximum likelihood to improve the ROGUE score directly. A more intricate model uses multiple tasks to achieve its goal of good summarization (Guo, Pasunuru, and Bansal 2018). This paper ensures that relevant information is present through an adaptation of the question answering field, and ensures text cohesion through sentence inference. 
+Given the flexibility of abstractive summarization and the multiple aspects that encompass good summarization, some methods employ more complex models that account for the multiplicity of the task. For instance, similar to the reinforcement learning in the extractive methods, <a href="https://arxiv.org/abs/1808.07913" target="_blank">(Kryściński et al. 2018)</a> use a combination of RL and maximum likelihood to improve the ROGUE score directly. A more intricate model uses multiple tasks to achieve its goal of good summarization <a href="https://arxiv.org/abs/1805.11004" target="_blank">(Guo, Pasunuru, and Bansal 2018)</a>. This paper ensures that relevant information is present through an adaptation of the question answering field, and ensures text cohesion through sentence inference. 
 
 Given that the multi-task model has a larger scope, its model and setup are more intricate. The main idea of their approach is that they have trained a model to deal with three main tasks:
 - a question generation task (to identify what are the main questions the summary ought to answer), 
@@ -286,9 +288,9 @@ It is worth noting that despite the gains that are made through this multi-task 
 
 ## Extractive and Abstractive Hybrid
 
-In addition to purely extractive and abstractive methods, there has also been some work done in the intersection of these (Chen and Bansal 2018). The setup for these often involves using the extraction methods in order to select what sentence or paragraph is pertinent to the summary, and then using abstractive methods to compose a new text.
+In addition to purely extractive and abstractive methods, there has also been some work done in the intersection of these <a href="https://arxiv.org/abs/1805.11080" target="_blank">(Chen and Bansal 2018)</a>. The setup for these often involves using the extraction methods in order to select what sentence or paragraph is pertinent to the summary, and then using abstractive methods to compose a new text.
 
-One paper that has gained traction in recent years is by scientists at Google Brain (Liu et al. 2018) (repo <a href="https://github.com/tensorflow/tensor2tensor/tree/master/tensor2tensor/data_generators/wikisum" target="_blank">here</a>). In this project, they aim to automatically generate Wikipedia summaries at the beginning of each article. The input for the model are the article's reference sources and the Google search results when querying the article's title, and the output is the generated summary of the article. By having an extractive phase followed by an abstractive one, they manage to train a model that is able to create decent Wikipedia summaries. What distinguishes this paper from others is its use of Wikipedia as a dataset as well as its mix of extractive and abstractive methods.
+One paper that has gained traction in recent years is by scientists at Google Brain <a href="https://arxiv.org/abs/1801.10198" target="_blank">(Liu et al. 2018)</a> (repo <a href="https://github.com/tensorflow/tensor2tensor/tree/master/tensor2tensor/data_generators/wikisum" target="_blank">here</a>). In this project, they aim to automatically generate Wikipedia summaries at the beginning of each article. The input for the model are the article's reference sources and the Google search results when querying the article's title, and the output is the generated summary of the article. By having an extractive phase followed by an abstractive one, they manage to train a model that is able to create decent Wikipedia summaries. What distinguishes this paper from others is its use of Wikipedia as a dataset as well as its mix of extractive and abstractive methods.
 
 The first phase of the model is the extractive one, where they look at all paragraphs of all input documents and they rank them to assess how important is each paragraph. The methods that they test for extraction are all count-based, such as using *tf-idf* (more information on it <a href="https://lizrush.gitbooks.io/algorithms-for-webdevs-ebook/content/chapters/tf-idf.html" target="_blank">here</a>), bi-grams, word frequencies, and similarities. 
 
@@ -318,24 +320,24 @@ Despite the advances shown in this summary about summarization, there is still a
 
 # References
 
-- Allahyari, Mehdi, Seyedamin Pouriyeh, Mehdi Assefi, Saeid Safaei, Elizabeth D. Trippe, Juan B. Gutierrez, and Krys Kochut. "Text summarization techniques: a brief survey." arXiv preprint arXiv:1707.02268 (2017).
-- Brown, Peter F., Vincent J. Della Pietra, Robert L. Mercer, Stephen A. Della Pietra, and Jennifer C. Lai. "An estimate of an upper bound for the entropy of English." *Computational Linguistics 18*, no. 1 (1992): 31-40.
-- Cao, Ziqiang, Furu Wei, Wenjie Li, and Sujian Li. "Faithful to the original: Fact aware neural abstractive summarization." In Thirty-Second AAAI Conference on Artificial Intelligence. 2018.
-- Chen, Yen-Chun, and Mohit Bansal. "Fast Abstractive Summarization with Reinforce-Selected Sentence Rewriting." In *Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics* (Volume 1: Long Papers), pp. 675-686. 2018.
-- Cohan, Arman, Franck Dernoncourt, Doo Soon Kim, Trung Bui, Seokhwan Kim, Walter Chang, and Nazli Goharian. "A Discourse-Aware Attention Model for Abstractive Summarization of Long Documents." In *Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies*, Volume 2 (Short Papers), pp. 615-621. 2018.
-- Goodrich, Ben, Vinay Rao, Peter J. Liu, and Mohammad Saleh. "Assessing the factual accuracy of generated text." In *Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining*, pp. 166-175. ACM, 2019.
+- <a href="https://arxiv.org/pdf/1707.02268.pdf" target="_blank">Allahyari, Mehdi, Seyedamin Pouriyeh, Mehdi Assefi, Saeid Safaei, Elizabeth D. Trippe, Juan B. Gutierrez, and Krys Kochut. "Text summarization techniques: a brief survey." arXiv preprint arXiv:1707.02268 (2017)</a>.
+- <a href="https://www.aclweb.org/anthology/J92-1002.pdf" target="_blank">Brown, Peter F., Vincent J. Della Pietra, Robert L. Mercer, Stephen A. Della Pietra, and Jennifer C. Lai. "An estimate of an upper bound for the entropy of English." *Computational Linguistics 18*, no. 1 (1992): 31-40</a>.
+- <a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI18/paper/viewPaper/16121" target="_blank">Cao, Ziqiang, Furu Wei, Wenjie Li, and Sujian Li. "Faithful to the original: Fact aware neural abstractive summarization." In Thirty-Second AAAI Conference on Artificial Intelligence. 2018</a>.
+- <a href="https://arxiv.org/abs/1805.11080" target="_blank">Chen, Yen-Chun, and Mohit Bansal. "Fast Abstractive Summarization with Reinforce-Selected Sentence Rewriting." In *Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics* (Volume 1: Long Papers), pp. 675-686. 2018</a>.
+- <a href="https://arxiv.org/abs/1804.05685" target="_blank">Cohan, Arman, Franck Dernoncourt, Doo Soon Kim, Trung Bui, Seokhwan Kim, Walter Chang, and Nazli Goharian. "A Discourse-Aware Attention Model for Abstractive Summarization of Long Documents." In *Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies*, Volume 2 (Short Papers), pp. 615-621. 2018</a>.
+- <a href="https://dl.acm.org/citation.cfm?id=3330955" target="_blank">Goodrich, Ben, Vinay Rao, Peter J. Liu, and Mohammad Saleh. "Assessing the factual accuracy of generated text." In *Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining*, pp. 166-175. ACM, 2019</a>.
 - Graff, David, Junbo Kong, Ke Chen, and Kazuaki Maeda. "English gigaword." *Linguistic Data Consortium*, Philadelphia 4, no. 1 (2003): 34.
-- Guo, Han, Ramakanth Pasunuru, and Mohit Bansal. "Soft Layer-Specific Multi-Task Summarization with Entailment and Question Generation." In *Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)*, pp. 687-697. 2018.
-- Hahn, Udo, and Inderjeet Mani. "The challenges of automatic summarization." *Computer 33*, no. 11 (2000): 29-36.
-- Hermann, Karl Moritz, Tomas Kocisky, Edward Grefenstette, Lasse Espeholt, Will Kay, Mustafa Suleyman, and Phil Blunsom. "Teaching machines to read and comprehend." In *Advances in neural information processing systems*, pp. 1693-1701. 2015.
-- Jing, Hongyan. "Using hidden Markov modeling to decompose human-written summaries." *Computational linguistics 28*, no. 4 (2002): 527-543.
-- Kryściński, Wojciech, Nitish Shirish Keskar, Bryan McCann, Caiming Xiong, and Richard Socher. "Neural Text Summarization: A Critical Evaluation." In *Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)*, pp. 540-551. 2019.
-- Kryściński, Wojciech, Romain Paulus, Caiming Xiong, and Richard Socher. "Improving Abstraction in Text Summarization." In *Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing*, pp. 1808-1817. 2018.
-- Lin, Chin-Yew. "Rouge: A package for automatic evaluation of summaries." In *Text summarization branches out*, pp. 74-81. 2004.
-- Liu, Peter J., Mohammad Saleh, Etienne Pot, Ben Goodrich, Ryan Sepassi, Lukasz Kaiser, and Noam Shazeer. "Generating wikipedia by summarizing long sequences." arXiv preprint arXiv:1801.10198 (2018).
-- Nallapati, Ramesh, Bowen Zhou, and Mingbo Ma. "Classify or select: Neural architectures for extractive document summarization." arXiv preprint arXiv:1611.04244 (2016).
-- Napoles, Courtney, Matthew Gormley, and Benjamin Van Durme. "Annotated gigaword." In *Proceedings of the Joint Workshop on Automatic Knowledge Base Construction and Web-scale Knowledge Extraction*, pp. 95-100. Association for Computational Linguistics, 2012.
-- Narayan, Shashi, Shay B. Cohen, and Mirella Lapata. "Ranking Sentences for Extractive Summarization with Reinforcement Learning." In *Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies*, Volume 1 (Long Papers), pp. 1747-1759. 2018.
-- Rush, Alexander M., Sumit Chopra, and Jason Weston. "A Neural Attention Model for Abstractive Sentence Summarization." In *Proceedings of the 2015 Conference on Empirical Methods in Natural Language Processing*, pp. 379-389. 2015.
-- ShafieiBavani, Elaheh, Mohammad Ebrahimi, Raymond Wong, and Fang Chen. "A Graph-theoretic Summary Evaluation for ROUGE." In *Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing*, pp. 762-767. 2018.
-- Yin, Wenpeng, and Yulong Pei. "Optimizing sentence modeling and selection for document summarization." In *Twenty-Fourth International Joint Conference on Artificial Intelligence*. 2015.
+- <a href="https://arxiv.org/abs/1805.11004" target="_blank">Guo, Han, Ramakanth Pasunuru, and Mohit Bansal. "Soft Layer-Specific Multi-Task Summarization with Entailment and Question Generation." In *Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)*, pp. 687-697. 2018</a>.
+- <a href="https://ieeexplore.ieee.org/abstract/document/881692" target="_blank">Hahn, Udo, and Inderjeet Mani. "The challenges of automatic summarization." *Computer 33*, no. 11 (2000): 29-36</a>.
+- <a href="http://papers.nips.cc/paper/5945-teaching-machines-to-read-and-comprehend" target="_blank">Hermann, Karl Moritz, Tomas Kocisky, Edward Grefenstette, Lasse Espeholt, Will Kay, Mustafa Suleyman, and Phil Blunsom. "Teaching machines to read and comprehend." In *Advances in neural information processing systems*, pp. 1693-1701. 2015</a>.
+- <a href="https://www.mitpressjournals.org/doi/pdf/10.1162/089120102762671972" target="_blank">Jing, Hongyan. "Using hidden Markov modeling to decompose human-written summaries." *Computational linguistics 28*, no. 4 (2002): 527-543</a>.
+- <a href="https://arxiv.org/abs/1908.08960" target="_blank">Kryściński, Wojciech, Nitish Shirish Keskar, Bryan McCann, Caiming Xiong, and Richard Socher. "Neural Text Summarization: A Critical Evaluation." In *Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)*, pp. 540-551. 2019</a>.
+- <a href="https://arxiv.org/abs/1808.07913" target="_blank">Kryściński, Wojciech, Romain Paulus, Caiming Xiong, and Richard Socher. "Improving Abstraction in Text Summarization." In *Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing*, pp. 1808-1817. 2018</a>.
+- <a href="https://pdfs.semanticscholar.org/de79/1d19d5abe0b4a419ff039c07f066f781ec9c.pdf" target="_blank">Lin, Chin-Yew. "Rouge: A package for automatic evaluation of summaries." In *Text summarization branches out*, pp. 74-81. 2004</a>.
+- <a href="https://arxiv.org/abs/1801.10198" target="_blank">Liu, Peter J., Mohammad Saleh, Etienne Pot, Ben Goodrich, Ryan Sepassi, Lukasz Kaiser, and Noam Shazeer. "Generating wikipedia by summarizing long sequences." arXiv preprint arXiv:1801.10198 (2018)</a>.
+- <a href="https://arxiv.org/abs/1611.04244" target="_blank">Nallapati, Ramesh, Bowen Zhou, and Mingbo Ma. "Classify or select: Neural architectures for extractive document summarization." arXiv preprint arXiv:1611.04244 (2016)</a>.
+- <a href="https://dl.acm.org/citation.cfm?id=2391218" target="_blank">Napoles, Courtney, Matthew Gormley, and Benjamin Van Durme. "Annotated gigaword." In *Proceedings of the Joint Workshop on Automatic Knowledge Base Construction and Web-scale Knowledge Extraction*, pp. 95-100. Association for Computational Linguistics, 2012</a>.
+- <a href="https://arxiv.org/abs/1802.08636" target="_blank">Narayan, Shashi, Shay B. Cohen, and Mirella Lapata. "Ranking Sentences for Extractive Summarization with Reinforcement Learning." In *Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies*, Volume 1 (Long Papers), pp. 1747-1759. 2018</a>.
+- <a href="https://arxiv.org/abs/1509.00685" target="_blank">Rush, Alexander M., Sumit Chopra, and Jason Weston. "A Neural Attention Model for Abstractive Sentence Summarization." In *Proceedings of the 2015 Conference on Empirical Methods in Natural Language Processing*, pp. 379-389. 2015</a>.
+- <a href="https://www.aclweb.org/anthology/D18-1085.pdf" target="_blank">ShafieiBavani, Elaheh, Mohammad Ebrahimi, Raymond Wong, and Fang Chen. "A Graph-theoretic Summary Evaluation for ROUGE." In *Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing*, pp. 762-767. 2018</a>.
+- <a href="https://www.aaai.org/ocs/index.php/IJCAI/IJCAI15/paper/view/11225/10855" target="_blank">Yin, Wenpeng, and Yulong Pei. "Optimizing sentence modeling and selection for document summarization." In *Twenty-Fourth International Joint Conference on Artificial Intelligence*. 2015</a>.
