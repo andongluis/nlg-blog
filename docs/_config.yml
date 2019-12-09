@@ -2,8 +2,8 @@
 name: "Language Generation"
 title: "Language Generation"
 description: "What does it generate? Does it generate things? Let's find out!"
-logo: 'assets/images/logo.png'
-favicon: 'assets/images/logo.png'
+logo: 'assets/images/c3.png'
+favicon: 'assets/images/c3.png'
 baseurl: "/nlg-blog"
 google_analytics: 'UA-46278016-1'
 disqus: 'demowebsite'
@@ -29,7 +29,7 @@ authors:
   andongmarko:
     name: Andong and Marko
     display_name: Andong and Marko
-    avatar: 'assets/images/logo.png'
+    avatar: 'assets/images/c3.png'
     description: "Computer Science PhD Students at Northwestern University"
 
 # Plugins
