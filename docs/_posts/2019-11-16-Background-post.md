@@ -154,9 +154,11 @@ Arguably, the first networks that really impressed the world <a href="https://ww
 {:.article-img}
 
 {:.image-caption}
-*Example of a convolution layer*
+*Image from https://www.kdnuggets.com/2019/07/convolutional-neural-networks-python-tutorial-tensorflow-keras.html*
 
 So, a CNN ends up with convolutional layers at the beginning and then some "regular" network connections at the end. Though CNN's are often associated with image inputs, they can also be used in sequential data. For instance, we could look at the window of 2 words before and after our current word.
+
+For a more in-depth tutorial into CNN's, there are multiple online resources; <a href="https://www.kdnuggets.com/2019/07/convolutional-neural-networks-python-tutorial-tensorflow-keras.html" target="_blank">this</a> tutorial by kdnuggets is quite good.
 
 ## Recurrent Neural Networks <a name="rnn"></a>
 
@@ -172,6 +174,8 @@ RNN's can deal with this by introducing a special layer called the Recurrent lay
 
 Given this set up, it is easy to see how these could be used for language modeling since they can (theoretically) take into account as many previous words as possible <a href="https://www.isca-speech.org/archive/interspeech_2010/i10_1045.html" target="_blank">(Mikolov et al. 2010)</a>.
 
+To learn more about RNN's check out <a href="http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/" target="_blank">this</a> tutorial.
+
 ## LSTM Cells <a name="lstm"></a>
 
 Normal RNN's face various limitations, the most glaring being that it might be difficult to train them due to exploding/vanishing gradients and they can have trouble remembering long sequences.
@@ -183,6 +187,8 @@ Rather than using RNN's, what people end up using is often Long Short-Term Memor
 
 {:.image-caption}
 *Image from https://miro.medium.com/max/1566/1*MwU5yk8f9d6IcLybvGgNxA.jpeg*
+
+To learn more about LSTM's check out <a href="http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/" target="_blank">this</a> tutorial.
 
 ### Bidirectional RNNs <a name="bidirectional-rnn"></a>
 
@@ -199,6 +205,7 @@ This reasoning motivates Bidirectional RNN's <a href="https://maxwell.ict.griffi
 {:.image-caption}
 *Image from https://miro.medium.com/max/1146/1*6QnPUSv_t9BY9Fv8_aLb-Q.png*
 
+To learn more about bi-RNN's check out <a href="http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/" target="_blank">this</a> tutorial.
 
 ## Encoder-Decoder Networks (seq2seq) <a name="seq2seq"></a>
 

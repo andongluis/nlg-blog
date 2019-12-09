@@ -16,7 +16,7 @@ The primary goal of these blog posts is to enable people unfamiliar with researc
 <div class="row justify-content-between">
 <div class="col-md-6 pr-5">
 <h5>Andong Luis Li Zhao</h5>
-Andong is a first year Ph.D. Computer Science student at <a href="https://www.mccormick.northwestern.edu/computer-science/">Northwestern University</a>, . For more information about him, please visit his<a href="http://andongluis.github.io">personal website</a>
+Andong is a first year Ph.D. Computer Science student at <a href="https://www.mccormick.northwestern.edu/computer-science/">Northwestern University</a>. His main interest are in AI/ML for Social Good, with particular interest in its development and application for social sciences, politics, and law. He is also interested in AI interpretability, fairness in AI, and developing collaboration between AI and people. For more information about him, please visit his <a href="http://andongluis.github.io">personal website</a>
 </div>
 
 <div class="col-md-6">
