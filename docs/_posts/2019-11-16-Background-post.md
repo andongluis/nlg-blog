@@ -18,6 +18,8 @@ This blog post will focus on the Natural Language Processing (NLP) and Deep Lear
 - Overfitting and underfitting
 - Neural network basics: feed-forward neural networks, activation functions, backpropagation basics
 
+For those without this background, we recommend the free <a href="http://www.deeplearningbook.org/" target="_blank">Deep Learning book</a> written by pioneers in this field, as well as these deep learning tutorials with popular frameworks like <a href="https://www.tensorflow.org/tutorials" target="_blank">Tensorflow</a>, <a href="https://pytorch.org/tutorials/" target="_blank">PyTorch</a>, and <a href="https://keras.io/" target="_blank">Keras</a>.
+
 ## Table of Contents
 1. [Natural Language Processing](#nlp)
 	- [Language Models](#language-models)
