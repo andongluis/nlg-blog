@@ -1,7 +1,7 @@
 # Site
 name: "Language Generation"
 title: "Language Generation"
-description: "A place to learn about the latest in language generation"
+description: "What does it generate? Does it generate things? Let's find out!"
 logo: 'assets/images/logo.png'
 favicon: 'assets/images/logo.png'
 baseurl: "/nlg-blog"
