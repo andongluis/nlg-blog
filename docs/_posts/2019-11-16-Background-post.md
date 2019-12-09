@@ -146,6 +146,9 @@ There are two main ideas that motivate residual connections:
 - *"Refresh memory"*: The other big idea is that by having some connections that skip layers, we can give the deeper layers of the network a refresher on what the original input looked like. That way, the network can used the latent features along with the original ones.
 
 
+For more information on residual neural networks, check out <a href="https://towardsdatascience.com/introduction-to-resnets-c0a830a288a4" target="_blank">this</a> tutorial.
+
+
 ## Convolutional Neural Networks <a name="cnn"></a>
 
 Arguably, the first networks that really impressed the world <a href="https://www.researchgate.net/profile/Yann_Lecun/publication/2453996_Convolutional_Networks_for_Images_Speech_and_Time-Series/links/0deec519dfa2325502000000.pdf" target="_blank">(LeCun and Bengio 1995)</a> are convolutional neural networks (CNN). The distinguishing feature of CNN's are convolutional layers, which take into account an input's neighboring values. In other words, rather than looking at each component of the input vector as "independent", they look at each component's neighborhood.
