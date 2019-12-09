@@ -31,8 +31,8 @@ In the past decade, neural networks have spearheaded a renewed interest in AI du
 		- [Classifier/Selector Approach](#csa)
 		- [Reinforcement Learning](#rl)
 	- [Abstractive Methods](#am)
-			- [Attention-Based Methods](#abm)
-			- [Multi-Task/Multi-Reward](#multi)
+		- [Attention-Based Methods](#abm)
+		- [Multi-Task/Multi-Reward](#multi)
 	- [Extractive and Abstractive Hybrid](#hybrid)
 4. [Closing Remarks](#close)
 5. [References](#references)
@@ -75,7 +75,7 @@ In some instances, allowing the model to have more control over its generated te
 In the field of automatic summarization, some of the most commonly used data sets are the following:
 - **Document Understanding Conferences (DUC)**: These conferences ran from 2001-2007 and had datasets for each of those years, with the most common ones being for 2002 and 2004. Each set of documents contains the documents themselves along with summaries for each. Though the datasets are often not large enough to be used for training, they are used primarily for testing the performance of systems. The link for the datasets is <a href="https://www-nlpir.nist.gov/projects/duc/data.html" target="_blank">here</a>
 - **CNN/DailyMail** <a href="http://papers.nips.cc/paper/5945-teaching-machines-to-read-and-comprehend" target="_blank">(Hermann et al. 2015)</a>: The dataset is a collection of scraped news stories from CNN and the Daily Mail. Details of the dataset are in the <a href="http://papers.nips.cc/paper/5945-teaching-machines-to-read-and-comprehend" target="_blank">original paper</a> and in <a href="https://github.com/deepmind/rc-data/" target="_blank">this</a> Github repo.
-- **English Gigaword** (Graff, Kong, and Maeda 2003): This is one of the largest news documents dataset, with over 1 million documents. Often, the annotated version <a href="https://dl.acm.org/citation.cfm?id=2391218" target="_blank">(Napoles, Gormley, and Van Durme 2012)</a> is used since it includes additional data such as tokenized sentences and name-entity recognition.
+- **English Gigaword** <a href="https://catalog.ldc.upenn.edu/LDC2011T07" target="_blank">(Graff et al. 2003)</a>: This is one of the largest news documents dataset, with over 1 million documents. Often, the annotated version <a href="https://dl.acm.org/citation.cfm?id=2391218" target="_blank">(Napoles, Gormley, and Van Durme 2012)</a> is used since it includes additional data such as tokenized sentences and name-entity recognition.
 - Scraped datasets: A lot of times, datasets are created by the authors of the methods by scraping the web for their desired datasets. This often leads researchers to have datasets that have readily available summaries, such as news sources or encyclopedia-style web pages. For instance, <a href="https://arxiv.org/abs/1801.10198" target="_blank">(Liu et al. 2018)</a> utilized Wikipedia articles as a dataset for summarization, with the article references and the web searches as the input text, and the first Wikipedia article as the target summary.
 
 #### A note on datasets <a name="note"></a>
@@ -307,7 +307,7 @@ Despite the advances shown in this summary about summarization, there is still a
 - <a href="https://arxiv.org/abs/1805.11080" target="_blank">Chen, Yen-Chun, and Mohit Bansal. "Fast Abstractive Summarization with Reinforce-Selected Sentence Rewriting." In *Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics* (Volume 1: Long Papers), pp. 675-686. 2018</a>.
 - <a href="https://arxiv.org/abs/1804.05685" target="_blank">Cohan, Arman, Franck Dernoncourt, Doo Soon Kim, Trung Bui, Seokhwan Kim, Walter Chang, and Nazli Goharian. "A Discourse-Aware Attention Model for Abstractive Summarization of Long Documents." In *Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies*, Volume 2 (Short Papers), pp. 615-621. 2018</a>.
 - <a href="https://dl.acm.org/citation.cfm?id=3330955" target="_blank">Goodrich, Ben, Vinay Rao, Peter J. Liu, and Mohammad Saleh. "Assessing the factual accuracy of generated text." In *Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining*, pp. 166-175. ACM, 2019</a>.
-- Graff, David, Junbo Kong, Ke Chen, and Kazuaki Maeda. "English gigaword." *Linguistic Data Consortium*, Philadelphia 4, no. 1 (2003): 34.
+- <a href="https://catalog.ldc.upenn.edu/LDC2011T07" target="_blank">Graff, David, Junbo Kong, Ke Chen, and Kazuaki Maeda. "English gigaword." *Linguistic Data Consortium*, Philadelphia 4, no. 1 (2003): 34</a>.
 - <a href="https://arxiv.org/abs/1805.11004" target="_blank">Guo, Han, Ramakanth Pasunuru, and Mohit Bansal. "Soft Layer-Specific Multi-Task Summarization with Entailment and Question Generation." In *Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)*, pp. 687-697. 2018</a>.
 - <a href="https://ieeexplore.ieee.org/abstract/document/881692" target="_blank">Hahn, Udo, and Inderjeet Mani. "The challenges of automatic summarization." *Computer 33*, no. 11 (2000): 29-36</a>.
 - <a href="http://papers.nips.cc/paper/5945-teaching-machines-to-read-and-comprehend" target="_blank">Hermann, Karl Moritz, Tomas Kocisky, Edward Grefenstette, Lasse Espeholt, Will Kay, Mustafa Suleyman, and Phil Blunsom. "Teaching machines to read and comprehend." In *Advances in neural information processing systems*, pp. 1693-1701. 2015</a>.
