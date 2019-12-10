@@ -49,8 +49,8 @@ For those without this background, we recommend the free <a href="http://www.dee
 
 Natural Language Processing (NLP for short) is a broad term used to describe Machine Learning/Artificial Intelligence techniques for understanding language. The name of the area is a bit of a misnomer since some people recognize three broad areas that NLP has:
 - **Natural Language Processing (NLP)**: How do we process "human-understandable" language into "machine-understandable" input
-- **Natural Language Generation (NLU)**: How can we use machines to generate sensible speech and text
-- **Natural Language Understanding (NLG)**: How can we make machine understand what we mean when we communicate
+- **Natural Language Generation (NLG)**: How can we use machines to generate sensible speech and text
+- **Natural Language Understanding (NLU)**: How can we make machine understand what we mean when we communicate
 
 Note that most problems end up having overlaps between the three areas, with NLP being quite necessary for the other two. For instance, it is hard for a machine to understand language if it is not able to first process it.
 
